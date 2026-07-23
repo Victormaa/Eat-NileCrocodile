@@ -1,0 +1,126 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &2602487259987427537
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: -8653719598885068355, guid: 06f0aa59b03c3f64eb03d6d3b89fe4ef, type: 3}
+      propertyPath: m_Name
+      value: wildebeest
+      objectReference: {fileID: 0}
+    - target: {fileID: -7552582706839291426, guid: 06f0aa59b03c3f64eb03d6d3b89fe4ef, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -12.44
+      objectReference: {fileID: 0}
+    - target: {fileID: -7552582706839291426, guid: 06f0aa59b03c3f64eb03d6d3b89fe4ef, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.44
+      objectReference: {fileID: 0}
+    - target: {fileID: -7552582706839291426, guid: 06f0aa59b03c3f64eb03d6d3b89fe4ef, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -7552582706839291426, guid: 06f0aa59b03c3f64eb03d6d3b89fe4ef, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -7552582706839291426, guid: 06f0aa59b03c3f64eb03d6d3b89fe4ef, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -7552582706839291426, guid: 06f0aa59b03c3f64eb03d6d3b89fe4ef, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -7552582706839291426, guid: 06f0aa59b03c3f64eb03d6d3b89fe4ef, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -7552582706839291426, guid: 06f0aa59b03c3f64eb03d6d3b89fe4ef, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -7552582706839291426, guid: 06f0aa59b03c3f64eb03d6d3b89fe4ef, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -7552582706839291426, guid: 06f0aa59b03c3f64eb03d6d3b89fe4ef, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: -8653719598885068355, guid: 06f0aa59b03c3f64eb03d6d3b89fe4ef, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2345254980594791145}
+    - targetCorrespondingSourceObject: {fileID: -8653719598885068355, guid: 06f0aa59b03c3f64eb03d6d3b89fe4ef, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 7537017359290447416}
+  m_SourcePrefab: {fileID: 4843985084834002234, guid: 06f0aa59b03c3f64eb03d6d3b89fe4ef, type: 3}
+--- !u!1 &2592432364572991852 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: -8653719598885068355, guid: 06f0aa59b03c3f64eb03d6d3b89fe4ef, type: 3}
+  m_PrefabInstance: {fileID: 2602487259987427537}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &2345254980594791145
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2592432364572991852}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 338252e322f0ae44bb33c14ef0ddef87, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sheepMoveSpeed: 3
+  UpandDown: 0
+  UporDown: 0
+  jumpHeight: 2.5
+  jumpDistance: 3
+  jumpDuration: 1
+  waveFrequency: 2
+  waveAmplitude: 0.5
+  speedVariation: 0.7
+--- !u!58 &7537017359290447416
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2592432364572991852}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: -0.15, y: 0.6}
+  serializedVersion: 2
+  m_Radius: 0.6
