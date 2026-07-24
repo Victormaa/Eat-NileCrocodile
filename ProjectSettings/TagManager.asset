@@ -49,10 +49,16 @@ TagManager:
   - name: BackGround2
     uniqueID: 775687103
     locked: 0
+  - name: Effect
+    uniqueID: 2102559947
+    locked: 0
+  - name: New Layer 7
+    uniqueID: 564853603
+    locked: 0
   - name: Layer1
     uniqueID: 498773793
     locked: 0
-  - name: Sheep
+  - name: WildeBeest
     uniqueID: 2538268505
     locked: 0
   - name: UI
