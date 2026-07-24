@@ -7,7 +7,7 @@ public class WildeBeestBehavior : MonoBehaviour
     public float UpandDown;
     public float UporDown;
 
-    // 跳跃参数
+    // ???????
     public float jumpCrocodileHeight = 2.5f;
     public float jumpHeight = 2.5f;
     public float jumpDistance = 3.0f;
@@ -19,17 +19,62 @@ public class WildeBeestBehavior : MonoBehaviour
     private Vector3 jumpStartPosition;
     private Vector3 jumpEndPosition;
 
-    [Header("步伐起伏")]
-    public float waveFrequency = 2.0f;   // 上下摆动频率
-    public float waveAmplitude = 0.5f;   // 摆动幅度
-    private float waveOffset;            // 随机相位，让每只角马不同步
+    [Header("???????")]
+    public float waveFrequency = 2.0f;   // ??????????
+    public float waveAmplitude = 0.5f;   // ???????
+    private float waveOffset;            // ??????????????????????
 
-    [Header("快慢变化")]
-    public float speedVariation = 0.5f;   // 速度波动范围
+    [Header("???????")]
+    public float speedVariation = 0.5f;   // ??????????
     private float baseSpeed;
     private float currentSpeed;
     private float speedChangeTimer;
     private float nextSpeedChangeTime;
+
+    [Header("???????")]
+    public float avoidRadius = 3.0f;      // ?????????????
+    public float maxAvoidStrength = 2.0f; // ??????????
+
+    [Header("???????")]
+    [SerializeField] private bool canMove = false;
+    private bool isCaught;
+
+    public bool CanMove => canMove;
+    public bool IsCaught => isCaught;
+    public float CurrentSpeed => currentSpeed;
+
+    public void SetCanMove(bool value)
+    {
+        canMove = value;
+    }
+
+    public void StartMoving()
+    {
+        canMove = true;
+    }
+
+    public void BecomeCaught()
+    {
+        isCaught = true;
+        canMove = false;
+        isJumping = false;
+        jumpTimer = 0f;
+    }
+
+    public void TryEscapeJumpFromCrocodile()
+    {
+        if (isCaught || isJumping || !canMove) return;
+
+        isJumping = true;
+        jumpTimer = 0f;
+        jumpStartPosition = transform.position;
+        jumpEndPosition = new Vector3(
+            jumpStartPosition.x + jumpDistance,
+            jumpStartPosition.y,
+            jumpStartPosition.z
+        );
+        jumpHeight = jumpCrocodileHeight;
+    }
 
     void Start()
     {
@@ -45,10 +90,12 @@ public class WildeBeestBehavior : MonoBehaviour
 
     void Update()
     {
-        // 如果正在跳跃，只执行跳跃代码
+        if (isCaught || !canMove) return;
+
+        // ???????????????????????
         if (isJumping){ Jump();return; }
 
-        // 羊到达右边后，从左边重新出现
+        // ??????????????????
         if (transform.position.x > 12.0f)
         {
             if (transform.position.y > 3.0f)
@@ -78,7 +125,7 @@ public class WildeBeestBehavior : MonoBehaviour
         }
         else
         {
-            // 正常移动
+            // ???????
             float verticalDelta = Mathf.Sin(Time.time * waveFrequency + waveOffset) * waveAmplitude * Time.deltaTime;
 
             speedChangeTimer += Time.deltaTime;
@@ -92,16 +139,21 @@ public class WildeBeestBehavior : MonoBehaviour
             float horizontalDelta = currentSpeed * Time.deltaTime;
 
 
-            // 如果原来有倾斜方向，可以叠加，但建议去掉旧的恒定漂移，完全由正弦波控制
-            Vector3 moveDelta = new Vector3(horizontalDelta, verticalDelta, 0);
-            transform.position += moveDelta;
+            Vector3 moveDelta = CalculateBaseMovement(); // ????????????????????????????
+
+            // ????????????????????????
+            Vector3 avoidDelta = GetAvoidanceVector();
+
+            transform.position += moveDelta * Time.deltaTime;
         }
 
-        if (!isJumping && Random.value < 0.001f)   // 大约每几秒有一次
+        if (!isJumping && Random.value < 0.001f)   // ?????????????
         {
-            // 触发一次小跳跃，方向和距离可以随机
+            // ????????????????????????????
             StartJump(Random.Range(1f, 2f), Random.Range(0.3f, 1.6f));
         }
+
+
     }
 
     private void StartJump(float offset, float heightOffset)
@@ -127,22 +179,22 @@ public class WildeBeestBehavior : MonoBehaviour
     {
         jumpTimer += Time.deltaTime;
 
-        // t从0变化到1
+        // t??0?????1
         float t = jumpTimer / jumpDuration;
 
-        // 水平移动
+        // ?????
         Vector3 currentPosition = Vector3.Lerp(
             jumpStartPosition,
             jumpEndPosition,
             t
         );
 
-        // 使用Sin制作跳跃弧线
+        // ???Sin???????????
         currentPosition.y += Mathf.Sin(t * Mathf.PI) * jumpHeight;
 
         transform.position = currentPosition;
 
-        // 跳跃结束
+        // ???????
         if (t >= 1.0f)
         {
             transform.position = jumpEndPosition;
@@ -151,22 +203,30 @@ public class WildeBeestBehavior : MonoBehaviour
         }
     }
 
-    private void OnTriggerEnter2D(Collider2D other)
+    Vector3 CalculateBaseMovement()
     {
-        if (other.CompareTag("Crocodile") && !isJumping)
+        float vertical = Mathf.Sin(Time.time * waveFrequency + waveOffset) * waveAmplitude;
+        return new Vector3(currentSpeed, vertical, 0);
+    }
+
+    Vector3 GetAvoidanceVector()
+    {
+        Vector3 totalAvoid = Vector3.zero;
+        Crocodile[] crocs = FindObjectsOfType<Crocodile>(); // ???????????????????????
+        foreach (var croc in crocs)
         {
-            isJumping = true;
-            jumpTimer = 0.0f;
-
-            jumpStartPosition = transform.position;
-
-            jumpEndPosition = new Vector3(
-                jumpStartPosition.x + jumpDistance,
-                jumpStartPosition.y,
-                jumpStartPosition.z
-            );
-
-            jumpHeight = jumpCrocodileHeight;
+            Vector3 toCroc = croc.transform.position - transform.position;
+            float dist = toCroc.magnitude;
+            if (dist < avoidRadius && dist > 0.01f)
+            {
+                // ????????? (Y??) ????????
+                float avoidY = -toCroc.normalized.y; // ?????????????normalized.y ???????????????????????
+                float strength = Mathf.Clamp(1.0f / (dist * dist), 0, maxAvoidStrength);
+                totalAvoid.y += avoidY * strength;
+            }
         }
+        // ????????????????
+        totalAvoid.y = Mathf.Clamp(totalAvoid.y, -maxAvoidStrength, maxAvoidStrength);
+        return totalAvoid; // ??? y ?????????
     }
 }
