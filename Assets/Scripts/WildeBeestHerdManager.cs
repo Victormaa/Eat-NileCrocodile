@@ -33,8 +33,9 @@ public class WildeBeestHerdManager : MonoBehaviour
 
     public WildeBeestHerdState curState;
     public WildeBeestBehavior headScaredBeest;
-
     private bool isEnteringScared;
+
+
 
     private void Awake()
     {
@@ -220,7 +221,7 @@ public class WildeBeestHerdManager : MonoBehaviour
             leader = leaderBehavior.gameObject.AddComponent<WildeBeestScaredLeader>();
         }
 
-        leader.Setup(spawnX, OnScaredLeaderArrived);
+        leader.Setup(-9.0f, OnScaredLeaderArrived);
     }
 
     private void OnScaredLeaderArrived()
