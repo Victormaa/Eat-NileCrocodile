@@ -43,6 +43,11 @@ public class FadeMoveEffect : MonoBehaviour
         CacheRenderer();
     }
 
+    private void Start()
+    {
+        SetAlpha(0f);
+    }
+
     /// <summary>
     /// 公开接口：每次调用都让 A 从起始点重新出发移动一次。
     /// </summary>
