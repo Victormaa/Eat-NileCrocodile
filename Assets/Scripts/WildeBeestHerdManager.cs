@@ -3,6 +3,13 @@ using UnityEngine;
 
 public class WildeBeestHerdManager : MonoBehaviour
 {
+    public enum WildeBeestHerdState
+    {
+        Scared,
+        QuitScared,
+        Moving,
+    }
+
     [Header("生成设置")]
     public GameObject wildebeestPrefab;
     public int herdCount = 10;
@@ -15,6 +22,14 @@ public class WildeBeestHerdManager : MonoBehaviour
     public bool spawnOnStart = true;
 
     private readonly List<WildeBeestBehavior> herd = new List<WildeBeestBehavior>();
+
+    public WildeBeestHerdState curState;
+    public WildeBeestBehavior headScaredBeest;
+
+    private void Awake()
+    {
+        curState = WildeBeestHerdState.Scared;
+    }
 
     void Start()
     {
@@ -94,6 +109,11 @@ public class WildeBeestHerdManager : MonoBehaviour
             }
         }
         herd.Clear();
+    }
+
+    private void SetHeadScaredBeest()
+    {
+
     }
 
 }

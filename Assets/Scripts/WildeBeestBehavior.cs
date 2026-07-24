@@ -8,7 +8,6 @@ public class WildeBeestBehavior : MonoBehaviour
     public float UpandDown;
     public float UporDown;
 
-    // ???????
     public float jumpCrocodileHeight = 2.5f;
     public float jumpHeight = 2.5f;
     public float jumpDistance = 3.0f;
@@ -179,8 +178,6 @@ public class WildeBeestBehavior : MonoBehaviour
             // ????????????????????????????
             StartJump(Random.Range(1f, 2f), Random.Range(0.3f, 1.6f));
         }
-
-
     }
 
     private void StartJump(float offset, float heightOffset)
