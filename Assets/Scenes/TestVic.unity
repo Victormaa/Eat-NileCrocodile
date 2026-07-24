@@ -568,6 +568,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   wildebeestPrefab: {fileID: 2685479817272183499, guid: 24da677b1b60f684ca7d20b8cd4dee34, type: 3}
+  scaredLeaderPrefab: {fileID: 4979724798864432048, guid: b89ace33041b6b343b02a3399277b3ef, type: 3}
   herdCount: 20
   spawnX: -13
   xSpacing: 1.5
@@ -576,6 +577,8 @@ MonoBehaviour:
   spawnYMax: 1
   spawnZ: 0
   spawnOnStart: 1
+  scaredEntryExtraOffset: 0.5
+  snapToTargetsOnArrive: 1
   curState: 0
   headScaredBeest: {fileID: 0}
 --- !u!1 &153586320
@@ -12689,63 +12692,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d4253149e34ac8a4b947433cc71a75e1, type: 3}
---- !u!1001 &6937911882973284424
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 17774135876201212, guid: b89ace33041b6b343b02a3399277b3ef, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: -19.23
-      objectReference: {fileID: 0}
-    - target: {fileID: 17774135876201212, guid: b89ace33041b6b343b02a3399277b3ef, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: -11.81
-      objectReference: {fileID: 0}
-    - target: {fileID: 17774135876201212, guid: b89ace33041b6b343b02a3399277b3ef, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 17774135876201212, guid: b89ace33041b6b343b02a3399277b3ef, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 17774135876201212, guid: b89ace33041b6b343b02a3399277b3ef, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 17774135876201212, guid: b89ace33041b6b343b02a3399277b3ef, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 17774135876201212, guid: b89ace33041b6b343b02a3399277b3ef, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 17774135876201212, guid: b89ace33041b6b343b02a3399277b3ef, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 17774135876201212, guid: b89ace33041b6b343b02a3399277b3ef, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 17774135876201212, guid: b89ace33041b6b343b02a3399277b3ef, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4979724798864432048, guid: b89ace33041b6b343b02a3399277b3ef, type: 3}
-      propertyPath: m_Name
-      value: wildeBeest_HeadScared
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: b89ace33041b6b343b02a3399277b3ef, type: 3}
 --- !u!212 &8864823356719666278
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -16930,4 +16876,3 @@ SceneRoots:
   - {fileID: 1148357223}
   - {fileID: 411628680692816621}
   - {fileID: 951809680}
-  - {fileID: 6937911882973284424}

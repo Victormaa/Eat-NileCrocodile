@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 1759999892797411240}
   - component: {fileID: 4846617453183254323}
   - component: {fileID: 6130591619932466845}
+  - component: {fileID: 4777143561036448168}
   m_Layer: 0
   m_Name: wildeBeest_HeadScared
   m_TagString: Untagged
@@ -176,6 +177,18 @@ MonoBehaviour:
   sortingOrderOffset: 0
   precision: 100
   includeChildren: 0
+--- !u!114 &4777143561036448168
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4979724798864432048}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0809cc97d3889224cb6f8fd05952a18d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &6625704875143164805
 GameObject:
   m_ObjectHideFlags: 0
