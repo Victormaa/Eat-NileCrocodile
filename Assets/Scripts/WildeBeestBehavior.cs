@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 public class WildeBeestBehavior : MonoBehaviour
@@ -39,6 +40,11 @@ public class WildeBeestBehavior : MonoBehaviour
     [SerializeField] private bool canMove = false;
     private bool isCaught;
 
+    [Header("Caught Reaction")]
+    public float scaredReactionDuration = 0.5f;
+    public float scaredShakeAmount = 0.15f;
+    public float scaredShakeFrequency = 40f;
+
     public bool CanMove => canMove;
     public bool IsCaught => isCaught;
     public float CurrentSpeed => currentSpeed;
@@ -59,6 +65,27 @@ public class WildeBeestBehavior : MonoBehaviour
         canMove = false;
         isJumping = false;
         jumpTimer = 0f;
+    }
+
+    /// <summary>
+    /// Scared reaction: shake transform. Hook extra animation here later.
+    /// </summary>
+    public IEnumerator PlayScaredReaction()
+    {
+        Vector3 origin = transform.position;
+        float elapsed = 0f;
+
+        while (elapsed < scaredReactionDuration)
+        {
+            elapsed += Time.deltaTime;
+            float damper = 1f - Mathf.Clamp01(elapsed / scaredReactionDuration);
+            float ox = Mathf.Sin(elapsed * scaredShakeFrequency) * scaredShakeAmount * damper;
+            float oy = Mathf.Cos(elapsed * scaredShakeFrequency * 1.3f) * scaredShakeAmount * damper;
+            transform.position = origin + new Vector3(ox, oy, 0f);
+            yield return null;
+        }
+
+        transform.position = origin;
     }
 
     public void TryEscapeJumpFromCrocodile()

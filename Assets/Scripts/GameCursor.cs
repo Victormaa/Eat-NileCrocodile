@@ -131,7 +131,7 @@ public class GameCursor : ManagedBehaviour
         else if (Input.GetMouseButtonDown(0))
         {
             Tween.LocalScale(cursorRenderer.transform, Vector2.one * pressedCursorScale, 0.05f, 0f, Tween.EaseInOut);
-            
+            AudioController.Instance.PlaySound2D("grassClick", 0.8f);
         }
     }
 
