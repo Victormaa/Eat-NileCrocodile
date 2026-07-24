@@ -46,6 +46,9 @@ TagManager:
   - name: BackGround
     uniqueID: 1591153785
     locked: 0
+  - name: BackGround2
+    uniqueID: 775687103
+    locked: 0
   - name: Layer1
     uniqueID: 498773793
     locked: 0
