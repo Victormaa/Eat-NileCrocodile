@@ -23,19 +23,24 @@ public class WildeBeestHerdManager : MonoBehaviour
     public bool spawnOnStart = true;
 
     [Header("Scared 入场")]
-    [Tooltip("整队相对最终站位再往左平移的额外距离")]
-    public float scaredEntryExtraOffset = 2f;
-    [Tooltip("到达后是否把每只 X 收束到各自目标站位")]
-    public bool snapToTargetsOnArrive = true;
+    public Transform scaredTargetGroup1;
+    public Transform scaredTargetGroup2;
+    private int scaredFrontCount = 6;
+    [Tooltip("在 Target 左侧多远生成前排角马")]
+    public float scaredSpawnOffsetX = 12f;
+    public float scaredMoveSpeed = 6f;
+    [Tooltip("true=交替两组阵型；false=每次随机")]
+    public bool alternateScaredGroups = true;
 
     private readonly List<WildeBeestBehavior> herd = new List<WildeBeestBehavior>();
-    private readonly List<float> herdTargetXs = new List<float>();
+    private readonly List<WildeBeestBehavior> scaredFront = new List<WildeBeestBehavior>();
 
     public WildeBeestHerdState curState;
     public WildeBeestBehavior headScaredBeest;
+
     private bool isEnteringScared;
-
-
+    private int scaredArrivedCount;
+    private int nextScaredGroupIndex;
 
     private void Awake()
     {
@@ -51,7 +56,7 @@ public class WildeBeestHerdManager : MonoBehaviour
     }
 
     /// <summary>
-    /// 惊慌入场：头马带队从左侧跑到 spawnX，到位后进入 Stop。
+    /// 惊慌入场：前排 6 只跑向场景 Target，出发后身后追加跟随群；到齐后 Stop。
     /// </summary>
     public void EnterScared()
     {
@@ -63,33 +68,40 @@ public class WildeBeestHerdManager : MonoBehaviour
             return;
         }
 
+        Transform targetGroup = PickScaredTargetGroup();
+        if (targetGroup == null)
+        {
+            Debug.LogWarning("WildeBeestHerdManager: scaredTargetGroup 未设置。");
+            return;
+        }
+
+        List<Transform> targets = CollectTargets(targetGroup);
+        if (targets.Count < scaredFrontCount)
+        {
+            Debug.LogWarning(
+                $"WildeBeestHerdManager: 目标组 {targetGroup.name} 子物体不足 {scaredFrontCount} 个。"
+            );
+            return;
+        }
+
         GameObject leaderPrefab = scaredLeaderPrefab != null ? scaredLeaderPrefab : wildebeestPrefab;
 
         curState = WildeBeestHerdState.Scared;
         isEnteringScared = true;
+        scaredArrivedCount = 0;
         ClearHerd();
         headScaredBeest = null;
+        scaredFront.Clear();
 
-        float yMin = Mathf.Min(spawnYMin, spawnYMax);
-        float yMax = Mathf.Max(spawnYMin, spawnYMax);
-        float entryOffset = herdCount * xSpacing + scaredEntryExtraOffset;
-
-        for (int i = 0; i < herdCount; i++)
+        for (int i = 0; i < scaredFrontCount; i++)
         {
-            float targetX = spawnX - i * xSpacing + Random.Range(-xJitter, xJitter);
-            float y = Random.Range(yMin, yMax);
-            float spawnPosX = targetX - entryOffset;
-            Vector3 position = new Vector3(spawnPosX, y, spawnZ);
+            Transform target = targets[i];
+            Vector3 spawnPos = target.position + Vector3.left * scaredSpawnOffsetX;
 
             GameObject prefab = (i == 0) ? leaderPrefab : wildebeestPrefab;
-            GameObject instance = Instantiate(prefab, position, Quaternion.identity, transform);
+            GameObject instance = Instantiate(prefab, spawnPos, Quaternion.identity, transform);
 
-            WildeBeestBehavior behavior = instance.GetComponent<WildeBeestBehavior>();
-            if (behavior == null)
-            {
-                behavior = instance.GetComponentInChildren<WildeBeestBehavior>();
-            }
-
+            WildeBeestBehavior behavior = GetBehavior(instance);
             if (behavior == null)
             {
                 Debug.LogWarning("WildeBeestHerdManager: 预制体上找不到 WildeBeestBehavior。");
@@ -97,49 +109,81 @@ public class WildeBeestHerdManager : MonoBehaviour
                 continue;
             }
 
+            // 入场由 MoveToTarget 驱动，关闭自主跑动
             behavior.SetCanMove(false);
             herd.Add(behavior);
-            herdTargetXs.Add(targetX);
+            scaredFront.Add(behavior);
+
+            WildeBeestMoveToTarget mover = instance.GetComponent<WildeBeestMoveToTarget>();
+            if (mover == null)
+            {
+                mover = instance.AddComponent<WildeBeestMoveToTarget>();
+            }
+
+            mover.moveSpeed = scaredMoveSpeed;
+            int captureIndex = i;
+            mover.Setup(target, () => OnScaredFrontArrived(captureIndex));
+            mover.StartMoving();
 
             if (i == 0)
             {
-                SetHeadScaredBeest(behavior);
+                headScaredBeest = behavior;
+                if (behavior.GetComponent<WildeBeestScaredLeader>() == null)
+                {
+                    behavior.gameObject.AddComponent<WildeBeestScaredLeader>();
+                }
+            }
+        }
+    }
+
+    /// <summary>
+    /// 在前排身后追加普通角马并立刻向右跑（不清空已有角马）。
+    /// </summary>
+    public void SpawnFollowerHerd()
+    {
+        if (wildebeestPrefab == null) return;
+
+        float baseX = spawnX;
+        if (scaredFront.Count > 0)
+        {
+            float minX = float.MaxValue;
+            for (int i = 0; i < scaredFront.Count; i++)
+            {
+                if (scaredFront[i] == null) continue;
+                minX = Mathf.Min(minX, scaredFront[i].transform.position.x);
+            }
+
+            if (minX < float.MaxValue)
+            {
+                baseX = minX - xSpacing;
             }
         }
 
-        StartHerdMovement();
-    }
+        float yMin = Mathf.Min(spawnYMin, spawnYMax);
+        float yMax = Mathf.Max(spawnYMin, spawnYMax);
 
-    /// <summary>
-    /// 全体开跑（Scared 入场过程中调用无效）。
-    /// </summary>
-    public void StartMovingOn()
-    {
-        if (isEnteringScared)
+        for (int i = 0; i < herdCount; i++)
         {
-            return;
-        }
+            float x = baseX - i * xSpacing + Random.Range(-xJitter, xJitter);
+            float y = Random.Range(yMin, yMax);
+            Vector3 position = new Vector3(x, y, spawnZ);
 
-        curState = WildeBeestHerdState.MovingOn;
-        StartHerdMovement();
+            GameObject instance = Instantiate(wildebeestPrefab, position, Quaternion.identity, transform);
+            WildeBeestBehavior behavior = GetBehavior(instance);
+            if (behavior == null)
+            {
+                Debug.LogWarning("WildeBeestHerdManager: 跟随预制体上找不到 WildeBeestBehavior。");
+                Destroy(instance);
+                continue;
+            }
+
+            herd.Add(behavior);
+            behavior.SetCanMove(true);
+        }
     }
 
     /// <summary>
-    /// 全体停下。
-    /// </summary>
-    public void StopHerd()
-    {
-        if (isEnteringScared)
-        {
-            return;
-        }
-
-        curState = WildeBeestHerdState.Stop;
-        StopHerdMovement();
-    }
-
-    /// <summary>
-    /// 静态生成在 spawnX 站位（不入场动画），生成后为 Stop。
+    /// 静态生成在 spawnX 站位（会清空现有群），生成后为 Stop。
     /// </summary>
     public void SpawnHerd()
     {
@@ -152,6 +196,7 @@ public class WildeBeestHerdManager : MonoBehaviour
         isEnteringScared = false;
         ClearHerd();
         headScaredBeest = null;
+        scaredFront.Clear();
 
         float yMin = Mathf.Min(spawnYMin, spawnYMax);
         float yMax = Mathf.Max(spawnYMin, spawnYMax);
@@ -163,17 +208,11 @@ public class WildeBeestHerdManager : MonoBehaviour
             Vector3 position = new Vector3(x, y, spawnZ);
             GameObject instance = Instantiate(wildebeestPrefab, position, Quaternion.identity, transform);
 
-            WildeBeestBehavior behavior = instance.GetComponent<WildeBeestBehavior>();
-            if (behavior == null)
-            {
-                behavior = instance.GetComponentInChildren<WildeBeestBehavior>();
-            }
-
+            WildeBeestBehavior behavior = GetBehavior(instance);
             if (behavior != null)
             {
                 behavior.SetCanMove(false);
                 herd.Add(behavior);
-                herdTargetXs.Add(x);
             }
             else
             {
@@ -182,6 +221,22 @@ public class WildeBeestHerdManager : MonoBehaviour
         }
 
         curState = WildeBeestHerdState.Stop;
+    }
+
+    public void StartMovingOn()
+    {
+        if (isEnteringScared) return;
+
+        curState = WildeBeestHerdState.MovingOn;
+        StartHerdMovement();
+    }
+
+    public void StopHerd()
+    {
+        if (isEnteringScared) return;
+
+        curState = WildeBeestHerdState.Stop;
+        StopHerdMovement();
     }
 
     public void StartHerdMovement()
@@ -204,47 +259,107 @@ public class WildeBeestHerdManager : MonoBehaviour
                 herd[i].SetCanMove(false);
             }
         }
+
+        for (int i = 0; i < scaredFront.Count; i++)
+        {
+            if (scaredFront[i] == null) continue;
+            WildeBeestMoveToTarget mover = scaredFront[i].GetComponent<WildeBeestMoveToTarget>();
+            if (mover != null)
+            {
+                mover.StopMoving();
+            }
+        }
     }
 
-    private void SetHeadScaredBeest(WildeBeestBehavior leaderBehavior)
-    {
-        headScaredBeest = leaderBehavior;
-
-        WildeBeestScaredLeader leader = leaderBehavior.GetComponent<WildeBeestScaredLeader>();
-        if (leader == null)
-        {
-            leader = leaderBehavior.GetComponentInChildren<WildeBeestScaredLeader>();
-        }
-
-        if (leader == null)
-        {
-            leader = leaderBehavior.gameObject.AddComponent<WildeBeestScaredLeader>();
-        }
-
-        leader.Setup(-9.0f, OnScaredLeaderArrived);
-    }
-
-    private void OnScaredLeaderArrived()
+    private void OnScaredFrontArrived(int index)
     {
         if (!isEnteringScared) return;
 
-        StopHerdMovement();
-
-        if (snapToTargetsOnArrive)
+        scaredArrivedCount++;
+        if (scaredArrivedCount < scaredFront.Count)
         {
-            for (int i = 0; i < herd.Count; i++)
-            {
-                if (herd[i] == null) continue;
-                if (i >= herdTargetXs.Count) break;
-
-                Vector3 pos = herd[i].transform.position;
-                pos.x = herdTargetXs[i];
-                herd[i].transform.position = pos;
-            }
+            return;
         }
 
+        // 六只都到齐：全体停下（含跟随）
+        StopHerdMovement();
         curState = WildeBeestHerdState.Stop;
         isEnteringScared = false;
+    }
+
+    private Transform PickScaredTargetGroup()
+    {
+        bool has1 = scaredTargetGroup1 != null;
+        bool has2 = scaredTargetGroup2 != null;
+
+        if (!has1 && !has2) return null;
+        if (has1 && !has2) return scaredTargetGroup1;
+        if (!has1 && has2) return scaredTargetGroup2;
+
+        if (alternateScaredGroups)
+        {
+            Transform picked = (nextScaredGroupIndex % 2 == 0) ? scaredTargetGroup1 : scaredTargetGroup2;
+            nextScaredGroupIndex++;
+            return picked;
+        }
+
+        return Random.value < 0.5f ? scaredTargetGroup1 : scaredTargetGroup2;
+    }
+
+    private static List<Transform> CollectTargets(Transform group)
+    {
+        var list = new List<Transform>();
+        if (group == null) return list;
+
+        // 优先按 Target1..TargetN 名字排序
+        var named = new List<Transform>();
+        for (int i = 0; i < group.childCount; i++)
+        {
+            named.Add(group.GetChild(i));
+        }
+
+        named.Sort((a, b) =>
+        {
+            int na = ExtractTargetIndex(a.name);
+            int nb = ExtractTargetIndex(b.name);
+            if (na >= 0 && nb >= 0) return na.CompareTo(nb);
+            if (na >= 0) return -1;
+            if (nb >= 0) return 1;
+            return a.GetSiblingIndex().CompareTo(b.GetSiblingIndex());
+        });
+
+        list.AddRange(named);
+        return list;
+    }
+
+    private static int ExtractTargetIndex(string name)
+    {
+        if (string.IsNullOrEmpty(name)) return -1;
+        int digitsStart = -1;
+        for (int i = name.Length - 1; i >= 0; i--)
+        {
+            if (char.IsDigit(name[i])) digitsStart = i;
+            else break;
+        }
+
+        if (digitsStart < 0) return -1;
+        if (int.TryParse(name.Substring(digitsStart), out int index))
+        {
+            return index;
+        }
+
+        return -1;
+    }
+
+    private static WildeBeestBehavior GetBehavior(GameObject instance)
+    {
+        WildeBeestBehavior behavior = instance.GetComponent<WildeBeestBehavior>();
+        if (behavior == null)
+        {
+            behavior = instance.GetComponentInChildren<WildeBeestBehavior>();
+        }
+
+        return behavior;
     }
 
     private void ClearHerd()
@@ -257,6 +372,6 @@ public class WildeBeestHerdManager : MonoBehaviour
             }
         }
         herd.Clear();
-        herdTargetXs.Clear();
+        scaredFront.Clear();
     }
 }

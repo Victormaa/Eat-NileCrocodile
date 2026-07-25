@@ -5,7 +5,7 @@ using UnityEngine;
 /// 子物体 A 从起点淡入并恒速移向 B，接近 B 时淡出；期间循环音效与粒子。
 /// 每次调用 PlayFromStart() 都会从起始点重新出发。
 /// </summary>
-public class FadeMoveEffect : MonoBehaviour
+public class RainProp : MonoBehaviour
 {
     [Header("移动")]
     [Tooltip("要淡入并移动的子物体 A")]

@@ -205,7 +205,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &8147283156081436488
 Transform:
   m_ObjectHideFlags: 0
@@ -289,7 +289,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &3774921039457770812
 Transform:
   m_ObjectHideFlags: 0
@@ -432,13 +432,69 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 7376873049076534033, guid: 5984a5aaaa616254cb8d69f990dfcdf3, type: 3}
       insertIndex: -1
       addedObject: {fileID: 8147283156081436488}
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 4704339026031021721, guid: 5984a5aaaa616254cb8d69f990dfcdf3, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 5563216707515891242}
   m_SourcePrefab: {fileID: 100100000, guid: 5984a5aaaa616254cb8d69f990dfcdf3, type: 3}
 --- !u!4 &732817261301423139 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 585797849409486009, guid: 5984a5aaaa616254cb8d69f990dfcdf3, type: 3}
   m_PrefabInstance: {fileID: 147019414713671834}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &4846851814069251587 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4704339026031021721, guid: 5984a5aaaa616254cb8d69f990dfcdf3, type: 3}
+  m_PrefabInstance: {fileID: 147019414713671834}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &5563216707515891242
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4846851814069251587}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7b1a5c20bf8fa6e4c8e93743017e4a5c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  emotes:
+  - id: GO
+    root: {fileID: 8572026137253835347}
+  - id: Scared
+    root: {fileID: 6625704875143164805}
+  showDuration: 0.25
+  hideDuration: 0.2
+  scaleCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  shakeIntervalMin: 0.6
+  shakeIntervalMax: 1
+  shakeDuration: 0.18
+  shakeAmount: 0.04
+  shakeFrequency: 45
 --- !u!4 &7229891024871762827 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7376873049076534033, guid: 5984a5aaaa616254cb8d69f990dfcdf3, type: 3}
