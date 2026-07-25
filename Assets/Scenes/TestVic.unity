@@ -668,6 +668,8 @@ MonoBehaviour:
   alternateScaredGroups: 1
   scaredEmoteDelay: 0.6
   exitDespawnX: 12
+  movingOnToScaredDelay: 8
+  autoEnterScaredAfterMovingOn: 1
   curState: 0
   headScaredBeest: {fileID: 0}
 --- !u!1 &153586320
@@ -6119,7 +6121,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8729999115242085009, guid: 33d3cd3754dd41b47afe62e70338dd3e, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: StartHerdMovement
+      value: StartMovingOn
       objectReference: {fileID: 0}
     - target: {fileID: 8729999115242085009, guid: 33d3cd3754dd41b47afe62e70338dd3e, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName

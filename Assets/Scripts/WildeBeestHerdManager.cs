@@ -37,6 +37,11 @@ public class WildeBeestHerdManager : MonoBehaviour
     [Tooltip("右边离场角马超过该 X 后销毁（不绕回）")]
     public float exitDespawnX = 12f;
 
+    [Header("MovingOn → Scared")]
+    [Tooltip("MovingOn 开始后，间隔多久自动 EnterScared")]
+    public float movingOnToScaredDelay = 8f;
+    public bool autoEnterScaredAfterMovingOn = true;
+
     private readonly List<WildeBeestBehavior> herd = new List<WildeBeestBehavior>();
     private readonly List<WildeBeestBehavior> scaredFront = new List<WildeBeestBehavior>();
     private readonly List<WildeBeestBehavior> exitingHerd = new List<WildeBeestBehavior>();
@@ -48,6 +53,7 @@ public class WildeBeestHerdManager : MonoBehaviour
     private int scaredArrivedCount;
     private int nextScaredGroupIndex;
     private Coroutine scaredEmoteRoutine;
+    private Coroutine movingOnToScaredRoutine;
 
     private void Awake()
     {
@@ -90,6 +96,8 @@ public class WildeBeestHerdManager : MonoBehaviour
             );
             return;
         }
+
+        CancelAutoEnterScared();
 
         if (scaredEmoteRoutine != null)
         {
@@ -248,6 +256,7 @@ public class WildeBeestHerdManager : MonoBehaviour
 
         curState = WildeBeestHerdState.MovingOn;
         StartHerdMovement();
+        ScheduleAutoEnterScared();
     }
 
     public void StopHerd()
@@ -256,6 +265,32 @@ public class WildeBeestHerdManager : MonoBehaviour
 
         curState = WildeBeestHerdState.Stop;
         StopHerdMovement();
+        CancelAutoEnterScared();
+    }
+
+    private void ScheduleAutoEnterScared()
+    {
+        CancelAutoEnterScared();
+        if (!autoEnterScaredAfterMovingOn) return;
+        movingOnToScaredRoutine = StartCoroutine(AutoEnterScaredAfterDelay());
+    }
+
+    private void CancelAutoEnterScared()
+    {
+        if (movingOnToScaredRoutine == null) return;
+        StopCoroutine(movingOnToScaredRoutine);
+        movingOnToScaredRoutine = null;
+    }
+
+    private IEnumerator AutoEnterScaredAfterDelay()
+    {
+        yield return new WaitForSeconds(movingOnToScaredDelay);
+        movingOnToScaredRoutine = null;
+
+        if (curState != WildeBeestHerdState.MovingOn) yield break;
+        if (isEnteringScared) yield break;
+
+        EnterScared();
     }
 
     public void StartHerdMovement()
