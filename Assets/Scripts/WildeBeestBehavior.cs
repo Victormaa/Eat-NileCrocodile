@@ -47,10 +47,20 @@ public class WildeBeestBehavior : MonoBehaviour
     public bool CanMove => canMove;
     public bool IsCaught => isCaught;
     public float CurrentSpeed => currentSpeed;
+    public bool DespawnOnExit => despawnOnExit;
+
+    private bool despawnOnExit;
+    private float exitBoundaryX = 14f;
 
     public void SetCanMove(bool value)
     {
         canMove = value;
+    }
+
+    public void SetDespawnOnExit(bool value, float boundaryX = 12f)
+    {
+        despawnOnExit = value;
+        exitBoundaryX = boundaryX;
     }
 
     public void StartMoving()
@@ -121,9 +131,15 @@ public class WildeBeestBehavior : MonoBehaviour
         // ???????????????????????
         if (isJumping){ Jump();return; }
 
-        // ??????????????????
-        if (transform.position.x > 12.0f)
+        // 到达右边界：出场销毁，或绕回左边
+        if (transform.position.x > exitBoundaryX)
         {
+            if (despawnOnExit)
+            {
+                Destroy(gameObject);
+                return;
+            }
+
             if (transform.position.y > 3.0f)
             {
                 transform.position = new Vector3(

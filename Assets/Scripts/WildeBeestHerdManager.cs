@@ -34,9 +34,12 @@ public class WildeBeestHerdManager : MonoBehaviour
     public bool alternateScaredGroups = true;
     [Tooltip("六只到齐后，头马等待多久再显示 Scared 表情")]
     public float scaredEmoteDelay = 1f;
+    [Tooltip("右边离场角马超过该 X 后销毁（不绕回）")]
+    public float exitDespawnX = 12f;
 
     private readonly List<WildeBeestBehavior> herd = new List<WildeBeestBehavior>();
     private readonly List<WildeBeestBehavior> scaredFront = new List<WildeBeestBehavior>();
+    private readonly List<WildeBeestBehavior> exitingHerd = new List<WildeBeestBehavior>();
 
     public WildeBeestHerdState curState;
     public WildeBeestBehavior headScaredBeest;
@@ -44,6 +47,7 @@ public class WildeBeestHerdManager : MonoBehaviour
     private bool isEnteringScared;
     private int scaredArrivedCount;
     private int nextScaredGroupIndex;
+    private Coroutine scaredEmoteRoutine;
 
     private void Awake()
     {
@@ -59,7 +63,7 @@ public class WildeBeestHerdManager : MonoBehaviour
     }
 
     /// <summary>
-    /// 惊慌入场：前排 6 只跑向场景 Target，出发后身后追加跟随群；到齐后 Stop。
+    /// 惊慌入场：保留在场角马并左右分流；生成前排 6 只跑向 Target；到齐后只停 Scared。
     /// </summary>
     public void EnterScared()
     {
@@ -87,14 +91,26 @@ public class WildeBeestHerdManager : MonoBehaviour
             return;
         }
 
+        if (scaredEmoteRoutine != null)
+        {
+            StopCoroutine(scaredEmoteRoutine);
+            scaredEmoteRoutine = null;
+        }
+
+        ClearPreviousScaredFront();
+        PruneHerdLists();
+
+        // 快照当前在场角马（不含即将生成的 Scared）
+        var preexisting = new List<WildeBeestBehavior>(herd);
+
         GameObject leaderPrefab = scaredLeaderPrefab != null ? scaredLeaderPrefab : wildebeestPrefab;
 
         curState = WildeBeestHerdState.Scared;
         isEnteringScared = true;
         scaredArrivedCount = 0;
-        ClearHerd();
         headScaredBeest = null;
-        scaredFront.Clear();
+
+        float scaredLineX = GetMinTargetX(targets);
 
         for (int i = 0; i < scaredFrontCount; i++)
         {
@@ -112,7 +128,6 @@ public class WildeBeestHerdManager : MonoBehaviour
                 continue;
             }
 
-            // 入场由 MoveToTarget 驱动，关闭自主跑动
             behavior.SetCanMove(false);
             herd.Add(behavior);
             scaredFront.Add(behavior);
@@ -137,6 +152,8 @@ public class WildeBeestHerdManager : MonoBehaviour
                 }
             }
         }
+
+        SplitPreexistingHerd(preexisting, scaredLineX);
     }
 
     /// <summary>
@@ -199,7 +216,6 @@ public class WildeBeestHerdManager : MonoBehaviour
         isEnteringScared = false;
         ClearHerd();
         headScaredBeest = null;
-        scaredFront.Clear();
 
         float yMin = Mathf.Min(spawnYMin, spawnYMax);
         float yMax = Mathf.Max(spawnYMin, spawnYMax);
@@ -244,6 +260,7 @@ public class WildeBeestHerdManager : MonoBehaviour
 
     public void StartHerdMovement()
     {
+        PruneHerdLists();
         for (int i = 0; i < herd.Count; i++)
         {
             if (herd[i] != null)
@@ -255,17 +272,68 @@ public class WildeBeestHerdManager : MonoBehaviour
 
     public void StopHerdMovement()
     {
+        PruneHerdLists();
         for (int i = 0; i < herd.Count; i++)
         {
-            if (herd[i] != null)
+            if (herd[i] == null) continue;
+            // 正在离场的右边角马继续跑出屏幕
+            if (herd[i].DespawnOnExit) continue;
+            herd[i].SetCanMove(false);
+        }
+
+        StopScaredFrontMovement();
+    }
+
+    private void SplitPreexistingHerd(List<WildeBeestBehavior> preexisting, float scaredLineX)
+    {
+        for (int i = 0; i < preexisting.Count; i++)
+        {
+            WildeBeestBehavior beast = preexisting[i];
+            if (beast == null) continue;
+
+            // 刚生成的 Scared 不在 preexisting 里；双保险跳过
+            if (scaredFront.Contains(beast)) continue;
+
+            if (beast.transform.position.x < scaredLineX)
             {
-                herd[i].SetCanMove(false);
+                herd.Remove(beast);
+                Destroy(beast.gameObject);
+            }
+            else
+            {
+                beast.SetDespawnOnExit(true, exitDespawnX);
+                beast.SetCanMove(true);
+                if (!exitingHerd.Contains(beast))
+                {
+                    exitingHerd.Add(beast);
+                }
             }
         }
 
+        PruneHerdLists();
+    }
+
+    private void ClearPreviousScaredFront()
+    {
+        for (int i = 0; i < scaredFront.Count; i++)
+        {
+            WildeBeestBehavior beast = scaredFront[i];
+            if (beast == null) continue;
+            herd.Remove(beast);
+            Destroy(beast.gameObject);
+        }
+
+        scaredFront.Clear();
+        headScaredBeest = null;
+    }
+
+    private void StopScaredFrontMovement()
+    {
         for (int i = 0; i < scaredFront.Count; i++)
         {
             if (scaredFront[i] == null) continue;
+            scaredFront[i].SetCanMove(false);
+
             WildeBeestMoveToTarget mover = scaredFront[i].GetComponent<WildeBeestMoveToTarget>();
             if (mover != null)
             {
@@ -284,19 +352,20 @@ public class WildeBeestHerdManager : MonoBehaviour
             return;
         }
 
-        // 六只都到齐：全体停下（含跟随），再回调头马表情
-        StopHerdMovement();
+        // 六只都到齐：只停 Scared 前排，离场右边角马继续跑
+        StopScaredFrontMovement();
         curState = WildeBeestHerdState.Stop;
         isEnteringScared = false;
         OnAllScaredBeestsArrived();
     }
 
-    /// <summary>
-    /// 前排六只全部到达后的回调。
-    /// </summary>
     private void OnAllScaredBeestsArrived()
     {
-        StartCoroutine(PlayLeaderScaredEmoteAfterDelay());
+        if (scaredEmoteRoutine != null)
+        {
+            StopCoroutine(scaredEmoteRoutine);
+        }
+        scaredEmoteRoutine = StartCoroutine(PlayLeaderScaredEmoteAfterDelay());
     }
 
     private IEnumerator PlayLeaderScaredEmoteAfterDelay()
@@ -315,6 +384,20 @@ public class WildeBeestHerdManager : MonoBehaviour
         {
             leader.ShowEmote("Scared");
         }
+
+        scaredEmoteRoutine = null;
+    }
+
+    private static float GetMinTargetX(List<Transform> targets)
+    {
+        float minX = float.MaxValue;
+        for (int i = 0; i < targets.Count; i++)
+        {
+            if (targets[i] == null) continue;
+            minX = Mathf.Min(minX, targets[i].position.x);
+        }
+
+        return minX < float.MaxValue ? minX : 0f;
     }
 
     private Transform PickScaredTargetGroup()
@@ -341,7 +424,6 @@ public class WildeBeestHerdManager : MonoBehaviour
         var list = new List<Transform>();
         if (group == null) return list;
 
-        // 优先按 Target1..TargetN 名字排序
         var named = new List<Transform>();
         for (int i = 0; i < group.childCount; i++)
         {
@@ -392,6 +474,13 @@ public class WildeBeestHerdManager : MonoBehaviour
         return behavior;
     }
 
+    private void PruneHerdLists()
+    {
+        herd.RemoveAll(b => b == null);
+        scaredFront.RemoveAll(b => b == null);
+        exitingHerd.RemoveAll(b => b == null);
+    }
+
     private void ClearHerd()
     {
         for (int i = 0; i < herd.Count; i++)
@@ -403,5 +492,6 @@ public class WildeBeestHerdManager : MonoBehaviour
         }
         herd.Clear();
         scaredFront.Clear();
+        exitingHerd.Clear();
     }
 }

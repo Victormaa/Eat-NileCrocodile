@@ -667,6 +667,7 @@ MonoBehaviour:
   scaredMoveSpeed: 3
   alternateScaredGroups: 1
   scaredEmoteDelay: 0.6
+  exitDespawnX: 12
   curState: 0
   headScaredBeest: {fileID: 0}
 --- !u!1 &153586320
@@ -5337,23 +5338,23 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8729999115242085009, guid: 33d3cd3754dd41b47afe62e70338dd3e, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
-      value: 5
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8729999115242085009, guid: 33d3cd3754dd41b47afe62e70338dd3e, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 139006080}
     - target: {fileID: 8729999115242085009, guid: 33d3cd3754dd41b47afe62e70338dd3e, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 8729999115242085009, guid: 33d3cd3754dd41b47afe62e70338dd3e, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: Show
+      value: EnterScared
       objectReference: {fileID: 0}
     - target: {fileID: 8729999115242085009, guid: 33d3cd3754dd41b47afe62e70338dd3e, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: EmoteBubble, Assembly-CSharp
+      value: WildeBeestHerdManager, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 8729999115242085009, guid: 33d3cd3754dd41b47afe62e70338dd3e, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
