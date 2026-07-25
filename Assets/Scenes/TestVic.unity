@@ -2642,6 +2642,38 @@ PrefabInstance:
       propertyPath: m_Name
       value: CrocoUpgradeButton1 (2)
       objectReference: {fileID: 0}
+    - target: {fileID: 1422784365932388757, guid: c23092a01b346a647b90513a02a266c2, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1422784365932388757, guid: c23092a01b346a647b90513a02a266c2, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1422784365932388757, guid: c23092a01b346a647b90513a02a266c2, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1422784365932388757, guid: c23092a01b346a647b90513a02a266c2, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4790166287953358265, guid: c23092a01b346a647b90513a02a266c2, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4790166287953358265, guid: c23092a01b346a647b90513a02a266c2, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4790166287953358265, guid: c23092a01b346a647b90513a02a266c2, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4790166287953358265, guid: c23092a01b346a647b90513a02a266c2, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5594744471920494608, guid: c23092a01b346a647b90513a02a266c2, type: 3}
       propertyPath: hintDuration
       value: 0.6
@@ -4415,6 +4447,38 @@ PrefabInstance:
     - target: {fileID: 398382625778064501, guid: c23092a01b346a647b90513a02a266c2, type: 3}
       propertyPath: m_Name
       value: CrocoUpgradeButton1 (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 1422784365932388757, guid: c23092a01b346a647b90513a02a266c2, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1422784365932388757, guid: c23092a01b346a647b90513a02a266c2, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1422784365932388757, guid: c23092a01b346a647b90513a02a266c2, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1422784365932388757, guid: c23092a01b346a647b90513a02a266c2, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4790166287953358265, guid: c23092a01b346a647b90513a02a266c2, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4790166287953358265, guid: c23092a01b346a647b90513a02a266c2, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4790166287953358265, guid: c23092a01b346a647b90513a02a266c2, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4790166287953358265, guid: c23092a01b346a647b90513a02a266c2, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5594744471920494608, guid: c23092a01b346a647b90513a02a266c2, type: 3}
       propertyPath: hintDuration
@@ -11699,6 +11763,38 @@ PrefabInstance:
     - target: {fileID: 398382625778064501, guid: c23092a01b346a647b90513a02a266c2, type: 3}
       propertyPath: m_Name
       value: CrocoUpgradeButton1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1422784365932388757, guid: c23092a01b346a647b90513a02a266c2, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1422784365932388757, guid: c23092a01b346a647b90513a02a266c2, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1422784365932388757, guid: c23092a01b346a647b90513a02a266c2, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1422784365932388757, guid: c23092a01b346a647b90513a02a266c2, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4790166287953358265, guid: c23092a01b346a647b90513a02a266c2, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4790166287953358265, guid: c23092a01b346a647b90513a02a266c2, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4790166287953358265, guid: c23092a01b346a647b90513a02a266c2, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4790166287953358265, guid: c23092a01b346a647b90513a02a266c2, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5594744471920494608, guid: c23092a01b346a647b90513a02a266c2, type: 3}
       propertyPath: hintDuration
