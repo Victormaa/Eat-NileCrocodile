@@ -666,6 +666,7 @@ MonoBehaviour:
   scaredSpawnOffsetX: 4
   scaredMoveSpeed: 3
   alternateScaredGroups: 1
+  scaredEmoteDelay: 0.6
   curState: 0
   headScaredBeest: {fileID: 0}
 --- !u!1 &153586320
@@ -2055,7 +2056,7 @@ Transform:
   m_GameObject: {fileID: 424769741}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 1.5799999, y: 0.09, z: 0}
+  m_LocalPosition: {x: 1.62, y: 0.68, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2419,7 +2420,7 @@ Transform:
   m_GameObject: {fileID: 586882773}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 1.5, y: 1.18, z: 0}
+  m_LocalPosition: {x: 0.88, y: 1.22, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -4166,74 +4167,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_HorizontalFit: 2
   m_VerticalFit: 0
---- !u!1001 &1467269774
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 17774135876201212, guid: b89ace33041b6b343b02a3399277b3ef, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: -3.5539818
-      objectReference: {fileID: 0}
-    - target: {fileID: 17774135876201212, guid: b89ace33041b6b343b02a3399277b3ef, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: -2.026405
-      objectReference: {fileID: 0}
-    - target: {fileID: 17774135876201212, guid: b89ace33041b6b343b02a3399277b3ef, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 17774135876201212, guid: b89ace33041b6b343b02a3399277b3ef, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 17774135876201212, guid: b89ace33041b6b343b02a3399277b3ef, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 17774135876201212, guid: b89ace33041b6b343b02a3399277b3ef, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 17774135876201212, guid: b89ace33041b6b343b02a3399277b3ef, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 17774135876201212, guid: b89ace33041b6b343b02a3399277b3ef, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 17774135876201212, guid: b89ace33041b6b343b02a3399277b3ef, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 17774135876201212, guid: b89ace33041b6b343b02a3399277b3ef, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4979724798864432048, guid: b89ace33041b6b343b02a3399277b3ef, type: 3}
-      propertyPath: m_Name
-      value: wildeBeest_HeadScared
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: b89ace33041b6b343b02a3399277b3ef, type: 3}
---- !u!114 &1467269776 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 5563216707515891242, guid: b89ace33041b6b343b02a3399277b3ef, type: 3}
-  m_PrefabInstance: {fileID: 1467269774}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7b1a5c20bf8fa6e4c8e93743017e4a5c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &1470082188
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5409,7 +5342,7 @@ PrefabInstance:
     - target: {fileID: 8729999115242085009, guid: 33d3cd3754dd41b47afe62e70338dd3e, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 1467269776}
+      objectReference: {fileID: 0}
     - target: {fileID: 8729999115242085009, guid: 33d3cd3754dd41b47afe62e70338dd3e, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
       value: 2
@@ -6374,7 +6307,7 @@ PrefabInstance:
     - target: {fileID: 8729999115242085009, guid: 33d3cd3754dd41b47afe62e70338dd3e, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 1467269776}
+      objectReference: {fileID: 0}
     - target: {fileID: 8729999115242085009, guid: 33d3cd3754dd41b47afe62e70338dd3e, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
       value: Hide
@@ -6840,7 +6773,7 @@ Transform:
   m_GameObject: {fileID: 2127871964}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.9899998, y: 1.08, z: 0}
+  m_LocalPosition: {x: 0.74, y: 1.08, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -13845,4 +13778,3 @@ SceneRoots:
   - {fileID: 411628680692816621}
   - {fileID: 951809680}
   - {fileID: 105878120}
-  - {fileID: 1467269774}

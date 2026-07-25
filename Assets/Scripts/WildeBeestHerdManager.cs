@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -31,6 +32,8 @@ public class WildeBeestHerdManager : MonoBehaviour
     public float scaredMoveSpeed = 6f;
     [Tooltip("true=交替两组阵型；false=每次随机")]
     public bool alternateScaredGroups = true;
+    [Tooltip("六只到齐后，头马等待多久再显示 Scared 表情")]
+    public float scaredEmoteDelay = 1f;
 
     private readonly List<WildeBeestBehavior> herd = new List<WildeBeestBehavior>();
     private readonly List<WildeBeestBehavior> scaredFront = new List<WildeBeestBehavior>();
@@ -281,10 +284,37 @@ public class WildeBeestHerdManager : MonoBehaviour
             return;
         }
 
-        // 六只都到齐：全体停下（含跟随）
+        // 六只都到齐：全体停下（含跟随），再回调头马表情
         StopHerdMovement();
         curState = WildeBeestHerdState.Stop;
         isEnteringScared = false;
+        OnAllScaredBeestsArrived();
+    }
+
+    /// <summary>
+    /// 前排六只全部到达后的回调。
+    /// </summary>
+    private void OnAllScaredBeestsArrived()
+    {
+        StartCoroutine(PlayLeaderScaredEmoteAfterDelay());
+    }
+
+    private IEnumerator PlayLeaderScaredEmoteAfterDelay()
+    {
+        yield return new WaitForSeconds(scaredEmoteDelay);
+
+        if (headScaredBeest == null) yield break;
+
+        WildeBeestScaredLeader leader = headScaredBeest.GetComponent<WildeBeestScaredLeader>();
+        if (leader == null)
+        {
+            leader = headScaredBeest.GetComponentInChildren<WildeBeestScaredLeader>();
+        }
+
+        if (leader != null)
+        {
+            leader.ShowEmote("Scared");
+        }
     }
 
     private Transform PickScaredTargetGroup()
