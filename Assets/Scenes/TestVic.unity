@@ -3978,23 +3978,21 @@ MonoBehaviour:
   m_GameObject: {fileID: 845999587}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 59f8146938fff824cb5fd77236b75775, type: 3}
+  m_Script: {fileID: 11500000, guid: 8a8695521f0d02e499659fee002a26c2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_Padding:
-    m_Left: 10
+    m_Left: 0
     m_Right: 0
     m_Top: 0
     m_Bottom: 0
   m_ChildAlignment: 0
-  m_Spacing: 0
-  m_ChildForceExpandWidth: 0
-  m_ChildForceExpandHeight: 1
-  m_ChildControlWidth: 0
-  m_ChildControlHeight: 0
-  m_ChildScaleWidth: 0
-  m_ChildScaleHeight: 0
-  m_ReverseArrangement: 0
+  m_StartCorner: 0
+  m_StartAxis: 0
+  m_CellSize: {x: 50, y: 25}
+  m_Spacing: {x: 0, y: 0}
+  m_Constraint: 2
+  m_ConstraintCount: 2
 --- !u!1 &854788275
 GameObject:
   m_ObjectHideFlags: 0
@@ -4779,8 +4777,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -63.54, y: -94.7}
-  m_SizeDelta: {x: 71.46, y: 51.99}
+  m_AnchoredPosition: {x: -64.92, y: -94.7}
+  m_SizeDelta: {x: 94.92, y: 51.99}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1048600563
 MonoBehaviour:
@@ -4891,8 +4889,8 @@ MonoBehaviour:
   upgradeCostRoot: {fileID: 845999588}
   costIconPrefab: {fileID: 394568134987290529, guid: 5a4ff86ddb6734645af5467c9397fe71, type: 3}
   moneyIcon: {fileID: 21300000, guid: 8fdb1acd17e317c4292c7c03b2fa1c5d, type: 3}
-  crocodileFatIcon: {fileID: 21300000, guid: 8fdb1acd17e317c4292c7c03b2fa1c5d, type: 3}
-  crocoFurIcon: {fileID: 21300000, guid: 8fdb1acd17e317c4292c7c03b2fa1c5d, type: 3}
+  crocodileFatIcon: {fileID: 21300000, guid: 4288215f2831c624a9a90b7e1178c4ab, type: 3}
+  crocoFurIcon: {fileID: 21300000, guid: 54482b01f8d56b9499dbc497b8e2a757, type: 3}
   maxLevelCostText: {fileID: 0}
   amountFormat: x{0}
   maxLevelLabel: MaxLevel!
