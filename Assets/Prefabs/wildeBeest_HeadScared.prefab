@@ -105,8 +105,10 @@ MonoBehaviour:
   UpandDown: 0
   UporDown: 0
   jumpCrocodileHeight: 1.5
-  jumpHeight: 2.5
   jumpDistance: 3
+  jumpObstacle: 0.5
+  jumpObstacleDistance: 3
+  jumpHeight: 2.5
   jumpDuration: 1
   waveFrequency: 2
   waveAmplitude: 0.5
@@ -190,6 +192,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   emote: {fileID: 5563216707515891242}
+  hideEmoteX: 12
 --- !u!1 &6625704875143164805
 GameObject:
   m_ObjectHideFlags: 0

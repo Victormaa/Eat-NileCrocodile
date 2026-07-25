@@ -8,9 +8,16 @@ public class WildeBeestBehavior : MonoBehaviour
     public float UpandDown;
     public float UporDown;
 
+    [Header("Jump - Crocodile Escape")]
     public float jumpCrocodileHeight = 2.5f;
-    public float jumpHeight = 2.5f;
     public float jumpDistance = 3.0f;
+
+    [Header("Jump - Obstacle")]
+    public float jumpObstacle = 2.5f;
+    public float jumpObstacleDistance = 3.0f;
+
+    [Header("Jump Shared")]
+    public float jumpHeight = 2.5f;
     public float jumpDuration = 1.0f;
 
     private bool isJumping = false;
@@ -97,6 +104,9 @@ public class WildeBeestBehavior : MonoBehaviour
         transform.position = origin;
     }
 
+    /// <summary>
+    /// Escape jump when too fast for a crocodile to catch.
+    /// </summary>
     public void TryEscapeJumpFromCrocodile()
     {
         if (isCaught || isJumping || !canMove) return;
@@ -110,6 +120,24 @@ public class WildeBeestBehavior : MonoBehaviour
             jumpStartPosition.z
         );
         jumpHeight = jumpCrocodileHeight;
+    }
+
+    /// <summary>
+    /// Jump over a JumpObstacle trigger.
+    /// </summary>
+    public void JumpObstacle()
+    {
+        if (isCaught || isJumping || !canMove) return;
+
+        isJumping = true;
+        jumpTimer = 0f;
+        jumpStartPosition = transform.position;
+        jumpEndPosition = new Vector3(
+            jumpStartPosition.x + jumpObstacleDistance,
+            jumpStartPosition.y,
+            jumpStartPosition.z
+        );
+        jumpHeight = jumpObstacle;
     }
 
     void Start()
@@ -189,7 +217,7 @@ public class WildeBeestBehavior : MonoBehaviour
             transform.position += moveDelta * Time.deltaTime;
         }
 
-        if (!isJumping && Random.value < 0.001f)   // Rare idle hop
+        if (!isJumping && Random.value < 0.0003f)   // Rare idle hop
         {
             // Random short hop while roaming
             StartJump(Random.Range(1f, 2f), Random.Range(0.3f, 1.6f));
