@@ -63,9 +63,12 @@ public class StatUpgradeButton : MonoBehaviour
     {
         if (string.IsNullOrEmpty(notEnoughMessage))
         {
-            notEnoughMessage = costType == UpgradeCostType.Money
-                ? "钱不够"
-                : "鳄鱼膘不足";
+            notEnoughMessage = costType switch
+            {
+                UpgradeCostType.Money => "钱不够",
+                UpgradeCostType.CrocoFur => "鳄鱼皮不足",
+                _ => "鳄鱼膘不足",
+            };
         }
     }
 
