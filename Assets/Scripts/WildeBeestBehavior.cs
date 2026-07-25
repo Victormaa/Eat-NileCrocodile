@@ -19,23 +19,23 @@ public class WildeBeestBehavior : MonoBehaviour
     private Vector3 jumpStartPosition;
     private Vector3 jumpEndPosition;
 
-    [Header("???????")]
-    public float waveFrequency = 2.0f;   // ??????????
-    public float waveAmplitude = 0.5f;   // ???????
-    private float waveOffset;            // ??????????????????????
+    [Header("Wave Motion")]
+    public float waveFrequency = 2.0f;   // How fast the vertical sine wave oscillates
+    public float waveAmplitude = 0.5f;   // Vertical wave strength
+    private float waveOffset;            // Per-instance phase so herd members don't sync
 
-    [Header("???????")]
-    public float speedVariation = 0.5f;   // ??????????
+    [Header("Speed Variation")]
+    public float speedVariation = 0.5f;   // Random +/- offset applied to base speed
     private float baseSpeed;
     private float currentSpeed;
     private float speedChangeTimer;
     private float nextSpeedChangeTime;
 
-    [Header("???????")]
-    public float avoidRadius = 3.0f;      // ?????????????
-    public float maxAvoidStrength = 2.0f; // ??????????
+    [Header("Crocodile Avoidance")]
+    public float avoidRadius = 3.0f;      // Start steering away when a croc is within this range
+    public float maxAvoidStrength = 2.0f; // Cap on vertical avoidance force
 
-    [Header("???????")]
+    [Header("Movement State")]
     [SerializeField] private bool canMove = false;
     private bool isCaught;
 
@@ -128,10 +128,10 @@ public class WildeBeestBehavior : MonoBehaviour
     {
         if (isCaught || !canMove) return;
 
-        // ???????????????????????
+        // Jump takes priority over normal movement
         if (isJumping){ Jump();return; }
 
-        // 到达右边界：出场销毁，或绕回左边
+        // Past right edge: despawn on exit, or wrap back to the left
         if (transform.position.x > exitBoundaryX)
         {
             if (despawnOnExit)
@@ -167,7 +167,7 @@ public class WildeBeestBehavior : MonoBehaviour
         }
         else
         {
-            // ???????
+            // Periodic speed jitter
             float verticalDelta = Mathf.Sin(Time.time * waveFrequency + waveOffset) * waveAmplitude * Time.deltaTime;
 
             speedChangeTimer += Time.deltaTime;
@@ -181,17 +181,17 @@ public class WildeBeestBehavior : MonoBehaviour
             float horizontalDelta = currentSpeed * Time.deltaTime;
 
 
-            Vector3 moveDelta = CalculateBaseMovement(); // ????????????????????????????
+            Vector3 moveDelta = CalculateBaseMovement(); // Forward + vertical wave
 
-            // ????????????????????????
+            // Steer away from nearby crocodiles
             Vector3 avoidDelta = GetAvoidanceVector();
 
             transform.position += moveDelta * Time.deltaTime;
         }
 
-        if (!isJumping && Random.value < 0.001f)   // ?????????????
+        if (!isJumping && Random.value < 0.001f)   // Rare idle hop
         {
-            // ????????????????????????????
+            // Random short hop while roaming
             StartJump(Random.Range(1f, 2f), Random.Range(0.3f, 1.6f));
         }
     }
@@ -219,22 +219,22 @@ public class WildeBeestBehavior : MonoBehaviour
     {
         jumpTimer += Time.deltaTime;
 
-        // t??0?????1
+        // t goes from 0 to 1 over the jump
         float t = jumpTimer / jumpDuration;
 
-        // ?????
+        // Horizontal lerp toward landing point
         Vector3 currentPosition = Vector3.Lerp(
             jumpStartPosition,
             jumpEndPosition,
             t
         );
 
-        // ???Sin???????????
+        // Arc height via sine
         currentPosition.y += Mathf.Sin(t * Mathf.PI) * jumpHeight;
 
         transform.position = currentPosition;
 
-        // ???????
+        // Land and end jump
         if (t >= 1.0f)
         {
             transform.position = jumpEndPosition;
@@ -252,21 +252,21 @@ public class WildeBeestBehavior : MonoBehaviour
     Vector3 GetAvoidanceVector()
     {
         Vector3 totalAvoid = Vector3.zero;
-        Crocodile[] crocs = FindObjectsOfType<Crocodile>(); // ???????????????????????
+        Crocodile[] crocs = FindObjectsOfType<Crocodile>(); // Find all crocs in scene
         foreach (var croc in crocs)
         {
             Vector3 toCroc = croc.transform.position - transform.position;
             float dist = toCroc.magnitude;
             if (dist < avoidRadius && dist > 0.01f)
             {
-                // ????????? (Y??) ????????
-                float avoidY = -toCroc.normalized.y; // ?????????????normalized.y ???????????????????????
+                // Push away on Y so we don't overlap crocs vertically
+                float avoidY = -toCroc.normalized.y; // Opposite of crocs relative Y
                 float strength = Mathf.Clamp(1.0f / (dist * dist), 0, maxAvoidStrength);
                 totalAvoid.y += avoidY * strength;
             }
         }
-        // ????????????????
+        // Clamp avoidance so it doesn't overpower movement
         totalAvoid.y = Mathf.Clamp(totalAvoid.y, -maxAvoidStrength, maxAvoidStrength);
-        return totalAvoid; // ??? y ?????????
+        return totalAvoid; // Y-only avoidance vector
     }
 }
