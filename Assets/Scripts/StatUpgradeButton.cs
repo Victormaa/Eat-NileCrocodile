@@ -20,7 +20,7 @@ public class StatUpgradeButton : MonoBehaviour
     [EnumToggleButtons]
     public UpgradeTarget upgradeTarget = UpgradeTarget.Stealth;
     [EnumToggleButtons]
-    public UpgradeCostType costType = UpgradeCostType.Satiety;
+    public UpgradeCostType costType = UpgradeCostType.CrocodileFat;
 
     [Header("提示 Text")]
     public TMP_Text hintText;
@@ -65,7 +65,7 @@ public class StatUpgradeButton : MonoBehaviour
         {
             notEnoughMessage = costType == UpgradeCostType.Money
                 ? "钱不够"
-                : "饱腹感不足";
+                : "鳄鱼膘不足";
         }
     }
 

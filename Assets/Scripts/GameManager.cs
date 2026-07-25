@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Serialization;
 using TMPro;
 
 public enum UpgradeResult
@@ -11,7 +12,7 @@ public enum UpgradeResult
 public enum UpgradeCostType
 {
     Money,
-    Satiety,
+    CrocodileFat,
 }
 
 public class GameManager : MonoBehaviour
@@ -21,7 +22,8 @@ public class GameManager : MonoBehaviour
     public TMP_Text wildeBeestCount_Text;
     public TMP_Text moneyValue_Text;
     public TMP_Text crocodileCount_Text;
-    public TMP_Text satiety_Text;
+    [FormerlySerializedAs("satiety_Text")]
+    public TMP_Text crocodileFat_Text;
     public TMP_Text stealthLevel_Text;
 
     // ---------- 数值字段 ----------
@@ -30,12 +32,12 @@ public class GameManager : MonoBehaviour
     public float moneyValue;
     public float crocodileCount;
 
-    [Header("饱腹感 / 隐蔽升级")]
-    [Tooltip("饱腹感：升级隐蔽时消耗；吃角马时增加")]
-    public float satiety;
-    [Tooltip("全局隐蔽等级，所有鳄鱼共用升级进度")]
+    [Header("鳄鱼膘 / 隐蔽升级")]
+    [Tooltip("鳄鱼膘：吃角马时获得，可用于升级")]
+    public float crocodileFat;
+    [Tooltip("全局隐蔽等级，所有鳄鱼共享，用于外观")]
     public int stealthLevel;
-    [Tooltip("每次升级消耗的资源量（Money 或 Satiety 由按钮选择）")]
+    [Tooltip("每次隐蔽升级消耗的资源（Money 或 CrocodileFat 由按钮选择）")]
     public float stealthUpgradeCost = 3f;
     [Tooltip("隐蔽等级上限；<=0 表示不限制")]
     public int maxStealthLevel = 10;
@@ -50,7 +52,7 @@ public class GameManager : MonoBehaviour
             {
                 instance = FindObjectOfType<GameManager>();
                 if (instance == null)
-                    Debug.LogError("场景中没有 GameManager 实例！");
+                    Debug.LogError("场景里没有 GameManager 实例。");
             }
             return instance;
         }
@@ -58,7 +60,7 @@ public class GameManager : MonoBehaviour
     }
 
     public int StealthLevel => stealthLevel;
-    public float Satiety => satiety;
+    public float CrocodileFat => crocodileFat;
 
     private void Awake()
     {
@@ -73,50 +75,43 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
-        // 初始化时刷新一次 UI
         UpdateAllUI();
         RefreshAllCrocodileStealth();
     }
 
     private void Update()
     {
-        // 计时器累加（如果游戏需要）
         timer += Time.deltaTime;
-
-        // 如果你希望每帧都刷新 UI（比如计时器一直在变），可以调用 UpdateAllUI()
-        // 但为了性能，计时器可以单独每帧更新，其他数值只有变化时更新。
-        // 这里示例：每帧更新时间，其他数值只有变化时才刷新（通过外部调用）。
         UpdateTimerUI();
     }
 
     // ---------- UI 更新方法 ----------
-    /// <summary> 刷新所有 UI 文本（耗时操作，建议只在数值变化时调用） </summary>
     public void UpdateAllUI()
     {
         UpdateTimerUI();
         UpdateWildebeestUI();
         UpdateMoneyUI();
         UpdateCrocodileUI();
-        UpdateSatietyUI();
+        UpdateCrocodileFatUI();
         UpdateStealthLevelUI();
     }
 
     private void UpdateTimerUI()
     {
         if (debugTimer != null)
-            debugTimer.text = "Time: " + timer.ToString("F2"); // 显示两位小数
+            debugTimer.text = "Time: " + timer.ToString("F2");
     }
 
     private void UpdateWildebeestUI()
     {
         if (wildeBeestCount_Text != null)
-            wildeBeestCount_Text.text = "Wildebeest: " + wildeBeestCount.ToString("F0"); // 整数显示（无小数）
+            wildeBeestCount_Text.text = "Wildebeest: " + wildeBeestCount.ToString("F0");
     }
 
     private void UpdateMoneyUI()
     {
         if (moneyValue_Text != null)
-            moneyValue_Text.text = "$ " + moneyValue.ToString("F2"); // 货币显示两位小数，带 $ 符号
+            moneyValue_Text.text = "$ " + moneyValue.ToString("F2");
     }
 
     private void UpdateCrocodileUI()
@@ -125,10 +120,10 @@ public class GameManager : MonoBehaviour
             crocodileCount_Text.text = "Crocodiles: " + crocodileCount.ToString("F0");
     }
 
-    private void UpdateSatietyUI()
+    private void UpdateCrocodileFatUI()
     {
-        if (satiety_Text != null)
-            satiety_Text.text = "Satiety: " + satiety.ToString("F0");
+        if (crocodileFat_Text != null)
+            crocodileFat_Text.text = "Fat: " + crocodileFat.ToString("F0");
     }
 
     private void UpdateStealthLevelUI()
@@ -137,7 +132,7 @@ public class GameManager : MonoBehaviour
             stealthLevel_Text.text = "Stealth Lv: " + stealthLevel.ToString();
     }
 
-    // ---------- 便捷方法：修改数值并自动刷新对应 UI ----------
+    // ---------- 改数值并刷新 UI ----------
     public void AddWildebeest(float amount)
     {
         wildeBeestCount += amount;
@@ -156,15 +151,15 @@ public class GameManager : MonoBehaviour
         UpdateCrocodileUI();
     }
 
-    public void AddSatiety(float amount)
+    public void AddCrocodileFat(float amount)
     {
-        satiety += amount;
-        if (satiety < 0f) satiety = 0f;
-        UpdateSatietyUI();
+        crocodileFat += amount;
+        if (crocodileFat < 0f) crocodileFat = 0f;
+        UpdateCrocodileFatUI();
     }
 
     /// <summary>
-    /// 统一隐蔽升级入口：按 costType 扣 Money 或 Satiety，成功则提升 StealthLevel 并刷新鳄鱼。
+    /// 隐蔽升级：按 costType 扣 Money 或 CrocodileFat；成功则提升 StealthLevel 并刷新鳄鱼。
     /// </summary>
     public UpgradeResult TryUpgradeStealth(UpgradeCostType costType)
     {
@@ -173,26 +168,9 @@ public class GameManager : MonoBehaviour
             return UpgradeResult.MaxLevel;
         }
 
-        float cost = stealthUpgradeCost;
-        if (costType == UpgradeCostType.Money)
+        if (!TrySpendUpgradeCost(stealthUpgradeCost, costType))
         {
-            if (moneyValue < cost)
-            {
-                return UpgradeResult.NotEnoughResource;
-            }
-
-            moneyValue -= cost;
-            UpdateMoneyUI();
-        }
-        else
-        {
-            if (satiety < cost)
-            {
-                return UpgradeResult.NotEnoughResource;
-            }
-
-            satiety -= cost;
-            UpdateSatietyUI();
+            return UpgradeResult.NotEnoughResource;
         }
 
         stealthLevel++;
@@ -201,7 +179,23 @@ public class GameManager : MonoBehaviour
         return UpgradeResult.Success;
     }
 
-    /// <summary>按当前 stealthLevel 刷新场景中所有鳄鱼。</summary>
+    private bool TrySpendUpgradeCost(float cost, UpgradeCostType costType)
+    {
+        if (costType == UpgradeCostType.Money)
+        {
+            if (moneyValue < cost) return false;
+            moneyValue -= cost;
+            UpdateMoneyUI();
+            return true;
+        }
+
+        if (crocodileFat < cost) return false;
+        crocodileFat -= cost;
+        UpdateCrocodileFatUI();
+        return true;
+    }
+
+    /// <summary>按当前 stealthLevel 刷新场景里所有鳄鱼。</summary>
     public void RefreshAllCrocodileStealth()
     {
         Crocodile[] crocs = FindObjectsOfType<Crocodile>();

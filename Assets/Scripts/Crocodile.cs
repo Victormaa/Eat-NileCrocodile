@@ -43,8 +43,9 @@ public class Crocodile : MonoBehaviour
     [Tooltip("压缩音效名，需与 Resources/Audios/SFXs 中 clip 名一致")]
     public string shrinkSoundId;
     public float shrinkSoundVolume = 1f;
-    [Tooltip("吃掉一只角马增加的饱腹感；<=0 则不加")]
-    public float satietyGainOnEat = 1f;
+    [Tooltip("吃掉一只角马增加的鳄鱼膘；<=0 则不加")]
+    [UnityEngine.Serialization.FormerlySerializedAs("satietyGainOnEat")]
+    public float crocodileFatGainOnEat = 1f;
 
     private bool isBusy;
     private WildeBeestBehavior currentPrey;
@@ -177,9 +178,9 @@ public class Crocodile : MonoBehaviour
         }
         currentPrey = null;
 
-        if (satietyGainOnEat > 0f && GameManager.Instance != null)
+        if (crocodileFatGainOnEat > 0f && GameManager.Instance != null)
         {
-            GameManager.Instance.AddSatiety(satietyGainOnEat);
+            GameManager.Instance.AddCrocodileFat(crocodileFatGainOnEat);
         }
 
         // 6. 还原鳄鱼外观（Y 轴插值回弹）
