@@ -8,12 +8,24 @@ public class GameManager : MonoBehaviour
     public TMP_Text wildeBeestCount_Text;
     public TMP_Text moneyValue_Text;
     public TMP_Text crocodileCount_Text;
+    public TMP_Text satiety_Text;
+    public TMP_Text stealthLevel_Text;
 
     // ---------- 数值字段 ----------
     public float wildeBeestCount;
     public float timer;
     public float moneyValue;
     public float crocodileCount;
+
+    [Header("饱腹感 / 隐蔽升级")]
+    [Tooltip("饱腹感：升级隐蔽时消耗；吃角马时增加")]
+    public float satiety;
+    [Tooltip("全局隐蔽等级，所有鳄鱼共用升级进度")]
+    public int stealthLevel;
+    [Tooltip("每次升级消耗的饱腹感")]
+    public float stealthUpgradeCost = 3f;
+    [Tooltip("隐蔽等级上限；<=0 表示不限制")]
+    public int maxStealthLevel = 10;
 
     // ---------- 单例 ----------
     private static GameManager instance;
@@ -32,6 +44,9 @@ public class GameManager : MonoBehaviour
         private set { }
     }
 
+    public int StealthLevel => stealthLevel;
+    public float Satiety => satiety;
+
     private void Awake()
     {
         if (instance != null && instance != this)
@@ -47,6 +62,7 @@ public class GameManager : MonoBehaviour
     {
         // 初始化时刷新一次 UI
         UpdateAllUI();
+        RefreshAllCrocodileStealth();
     }
 
     private void Update()
@@ -55,7 +71,7 @@ public class GameManager : MonoBehaviour
         timer += Time.deltaTime;
 
         // 如果你希望每帧都刷新 UI（比如计时器一直在变），可以调用 UpdateAllUI()
-        // 但为了性能，计时器可以单独每帧更新，其他数值只在变化时更新。
+        // 但为了性能，计时器可以单独每帧更新，其他数值只有变化时更新。
         // 这里示例：每帧更新时间，其他数值只有变化时才刷新（通过外部调用）。
         UpdateTimerUI();
     }
@@ -68,30 +84,44 @@ public class GameManager : MonoBehaviour
         UpdateWildebeestUI();
         UpdateMoneyUI();
         UpdateCrocodileUI();
+        UpdateSatietyUI();
+        UpdateStealthLevelUI();
     }
 
-    public void UpdateTimerUI()
+    private void UpdateTimerUI()
     {
         if (debugTimer != null)
             debugTimer.text = "Time: " + timer.ToString("F2"); // 显示两位小数
     }
 
-    public void UpdateWildebeestUI()
+    private void UpdateWildebeestUI()
     {
         if (wildeBeestCount_Text != null)
             wildeBeestCount_Text.text = "Wildebeest: " + wildeBeestCount.ToString("F0"); // 整数显示（无小数）
     }
 
-    public void UpdateMoneyUI()
+    private void UpdateMoneyUI()
     {
         if (moneyValue_Text != null)
             moneyValue_Text.text = "$ " + moneyValue.ToString("F2"); // 货币显示两位小数，带 $ 符号
     }
 
-    public void UpdateCrocodileUI()
+    private void UpdateCrocodileUI()
     {
         if (crocodileCount_Text != null)
             crocodileCount_Text.text = "Crocodiles: " + crocodileCount.ToString("F0");
+    }
+
+    private void UpdateSatietyUI()
+    {
+        if (satiety_Text != null)
+            satiety_Text.text = "Satiety: " + satiety.ToString("F0");
+    }
+
+    private void UpdateStealthLevelUI()
+    {
+        if (stealthLevel_Text != null)
+            stealthLevel_Text.text = "Stealth Lv: " + stealthLevel.ToString();
     }
 
     // ---------- 便捷方法：修改数值并自动刷新对应 UI ----------
@@ -113,5 +143,52 @@ public class GameManager : MonoBehaviour
         UpdateCrocodileUI();
     }
 
-    // 你也可以增加设置方法，比如 SetCrocodileCount(float value)
+    public void AddSatiety(float amount)
+    {
+        satiety += amount;
+        if (satiety < 0f) satiety = 0f;
+        UpdateSatietyUI();
+    }
+
+    /// <summary>
+    /// 按钮入口：消耗饱腹感，提升全局 StealthLevel，并刷新所有鳄鱼 stealthValue / 外观。
+    /// </summary>
+    public bool UpgradeStealth()
+    {
+        if (maxStealthLevel > 0 && stealthLevel >= maxStealthLevel)
+        {
+            Debug.Log("GameManager: StealthLevel 已达上限。");
+            return false;
+        }
+
+        if (satiety < stealthUpgradeCost)
+        {
+            Debug.Log("GameManager: 饱腹感不足，无法升级隐蔽。");
+            return false;
+        }
+
+        satiety -= stealthUpgradeCost;
+        stealthLevel++;
+        UpdateSatietyUI();
+        UpdateStealthLevelUI();
+        RefreshAllCrocodileStealth();
+        return true;
+    }
+    public void UpgradeStealthLevel()
+    {
+        UpgradeStealth();
+    }
+
+    /// <summary>按当前 stealthLevel 刷新场景中所有鳄鱼。</summary>
+    public void RefreshAllCrocodileStealth()
+    {
+        Crocodile[] crocs = FindObjectsOfType<Crocodile>();
+        for (int i = 0; i < crocs.Length; i++)
+        {
+            if (crocs[i] != null)
+            {
+                crocs[i].RefreshFromGlobalStealth(stealthLevel);
+            }
+        }
+    }
 }

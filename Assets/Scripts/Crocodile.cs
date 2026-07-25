@@ -1,8 +1,19 @@
 using System.Collections;
 using UnityEngine;
 
+public enum CrocoVisualState
+{
+    Normal = 0,
+    HalfHide = 1,
+    WholeHide = 2,
+}
+
 public class Crocodile : MonoBehaviour
 {
+    public static readonly string AnimNormal = "NormalCroco";
+    public static readonly string AnimHalfHide = "HalfHideCroco";
+    public static readonly string AnimWholeHide = "WholeHideCroco";
+
     [Header("抓取")]
     public float maxCatchableSpeed = 3.0f;
     public float approachSpeed = 12f;
@@ -12,6 +23,18 @@ public class Crocodile : MonoBehaviour
     public float returnDelay = 1f;
     public float returnSpeed = 8f;
 
+    [Header("隐蔽 / Stealth")]
+    [Tooltip("每只鳄鱼不同的初始隐蔽值，用于打散外观同步")]
+    public float baseStealthValue;
+    [Tooltip("运行时隐蔽值，后续可用于捕获概率")]
+    public float stealthValue;
+    [Tooltip("每升一级全局 StealthLevel，加到 stealthValue 上的量")]
+    public float stealthPerLevel = 1f;
+    [Tooltip("stealthValue >= 该值 → HalfHide")]
+    public float halfHideThreshold = 2f;
+    [Tooltip("stealthValue >= 该值 → WholeHide")]
+    public float wholeHideThreshold = 4f;
+
     [Header("压缩效果")]
     public float shrinkShakeAmount = 0.12f;
     public float shrinkShakeFrequency = 35f;
@@ -20,16 +43,78 @@ public class Crocodile : MonoBehaviour
     [Tooltip("压缩音效名，需与 Resources/Audios/SFXs 中 clip 名一致")]
     public string shrinkSoundId;
     public float shrinkSoundVolume = 1f;
+    [Tooltip("吃掉一只角马增加的饱腹感；<=0 则不加")]
+    public float satietyGainOnEat = 1f;
 
     private bool isBusy;
     private WildeBeestBehavior currentPrey;
     private Vector3 homePosition;
     private Vector3 homeScale;
+    private Animator animator;
+    private Collider2D catchCollider;
+    private CrocoVisualState currentVisualState;
+
+    public CrocoVisualState CurrentVisualState => currentVisualState;
+    public float StealthValue => stealthValue;
 
     void Awake()
     {
         homePosition = transform.position;
         homeScale = transform.localScale;
+        animator = GetComponent<Animator>();
+        catchCollider = GetComponent<Collider2D>();
+
+        int level = GameManager.Instance != null ? GameManager.Instance.StealthLevel : 0;
+        RefreshFromGlobalStealth(level);
+    }
+
+    /// <summary>
+    /// 按全局 StealthLevel 刷新本只的 stealthValue，并更新外观。
+    /// stealthValue = baseStealthValue + stealthLevel * stealthPerLevel
+    /// </summary>
+    public void RefreshFromGlobalStealth(int stealthLevel)
+    {
+        stealthValue = baseStealthValue + stealthLevel * stealthPerLevel;
+        ApplyVisualFromStealthValue();
+    }
+
+    /// <summary>根据当前 stealthValue 切换 Normal / HalfHide / WholeHide。</summary>
+    public void ApplyVisualFromStealthValue()
+    {
+        CrocoVisualState state = ResolveVisualState(stealthValue);
+        SetVisualState(state);
+    }
+
+    public CrocoVisualState ResolveVisualState(float value)
+    {
+        if (value >= wholeHideThreshold) return CrocoVisualState.WholeHide;
+        if (value >= halfHideThreshold) return CrocoVisualState.HalfHide;
+        return CrocoVisualState.Normal;
+    }
+
+    public void SetVisualState(CrocoVisualState state)
+    {
+        currentVisualState = state;
+
+        if (animator != null)
+        {
+            string animName = state switch
+            {
+                CrocoVisualState.HalfHide => AnimHalfHide,
+                CrocoVisualState.WholeHide => AnimWholeHide,
+                _ => AnimNormal,
+            };
+            animator.Play(animName, 0, 0f);
+        }
+
+        if (catchCollider != null)
+        {
+            // 忙碌抓取中不关 collider，避免中断；结束后 ClearBusy 再同步
+            if (!isBusy)
+            {
+                catchCollider.enabled = state != CrocoVisualState.WholeHide;
+            }
+        }
     }
 
     private void OnTriggerEnter2D(Collider2D other)
@@ -91,6 +176,11 @@ public class Crocodile : MonoBehaviour
             Destroy(preyTransform.gameObject);
         }
         currentPrey = null;
+
+        if (satietyGainOnEat > 0f && GameManager.Instance != null)
+        {
+            GameManager.Instance.AddSatiety(satietyGainOnEat);
+        }
 
         // 6. 还原鳄鱼外观（Y 轴插值回弹）
         Vector3 restoreStartScale = transform.localScale;
@@ -255,5 +345,11 @@ public class Crocodile : MonoBehaviour
     {
         isBusy = false;
         currentPrey = null;
+
+        // 抓取结束后按当前视觉状态同步 collider
+        if (catchCollider != null)
+        {
+            catchCollider.enabled = currentVisualState != CrocoVisualState.WholeHide;
+        }
     }
 }

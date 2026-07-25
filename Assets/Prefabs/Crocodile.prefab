@@ -181,11 +181,18 @@ MonoBehaviour:
   happyAnimationDuration: 0.8
   returnDelay: 1.5
   returnSpeed: 1.2
+  baseStealthValue: 0.2
+  stealthValue: 0
+  stealthPerLevel: 1
+  halfHideThreshold: 2
+  wholeHideThreshold: 4
+  disableCatchWhenWholeHide: 0
   shrinkShakeAmount: 0.12
   shrinkShakeFrequency: 35
   shrinkParticles: {fileID: 0}
   shrinkSoundId: WildeBeestEaten
   shrinkSoundVolume: 1
+  satietyGainOnEat: 1
 --- !u!95 &4604100082430596936
 Animator:
   serializedVersion: 5

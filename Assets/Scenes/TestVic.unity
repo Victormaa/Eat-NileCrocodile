@@ -139,7 +139,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &35123059
 RectTransform:
   m_ObjectHideFlags: 0
@@ -735,7 +735,7 @@ Transform:
   m_GameObject: {fileID: 105878118}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1.2674658, y: 2.0837014, z: 0}
+  m_LocalPosition: {x: 2.6, y: 9.9, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1661,10 +1661,10 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: WildeBeestCount
+  m_text: "\u9971\u8179\u503C\uFF1A"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 0a57a62a534565645ba4d0511b64c648, type: 2}
-  m_sharedMaterial: {fileID: 2033745107910324455, guid: 0a57a62a534565645ba4d0511b64c648, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 47be8134f599aa448abbcfb07f3c290d, type: 2}
+  m_sharedMaterial: {fileID: 7166232491771130453, guid: 47be8134f599aa448abbcfb07f3c290d, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -6218,13 +6218,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   debugTimer: {fileID: 336460426}
-  wildeBeestCount_Text: {fileID: 265249256}
+  wildeBeestCount_Text: {fileID: 0}
   moneyValue_Text: {fileID: 344743902}
   crocodileCount_Text: {fileID: 854788277}
+  satiety_Text: {fileID: 265249256}
+  stealthLevel_Text: {fileID: 854788277}
   wildeBeestCount: 0
   timer: 0
   moneyValue: 0
   crocodileCount: 0
+  satiety: 9999
+  stealthLevel: 0
+  stealthUpgradeCost: 3
+  maxStealthLevel: 10
 --- !u!114 &1848118436
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6239,7 +6245,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bgmList:
   - RiverBGM
-  - BGM1
+  - RiverBGM
   ambientName: BGM_Vice
   ambientVolume: 0.15
   mainBGMVolume: 0.1
@@ -10419,6 +10425,18 @@ PrefabInstance:
     - target: {fileID: 398382625778064501, guid: c23092a01b346a647b90513a02a266c2, type: 3}
       propertyPath: m_Name
       value: CrocoUpgradeButton1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4692857152664909753, guid: c23092a01b346a647b90513a02a266c2, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1848118435}
+    - target: {fileID: 4692857152664909753, guid: c23092a01b346a647b90513a02a266c2, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: UpgradeStealthLevel
+      objectReference: {fileID: 0}
+    - target: {fileID: 4692857152664909753, guid: c23092a01b346a647b90513a02a266c2, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: GameManager, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 8646038792114208793, guid: c23092a01b346a647b90513a02a266c2, type: 3}
       propertyPath: m_Pivot.x
