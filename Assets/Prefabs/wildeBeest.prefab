@@ -104,10 +104,11 @@ MonoBehaviour:
   UporDown: 0
   jumpCrocodileHeight: 1.5
   jumpDistance: 3
-  jumpObstacle: 0.5
-  jumpObstacleDistance: 1
+  jumpCrocodileDuration: 1.3
+  jumpObstacle: 0.8
+  jumpObstacleDistance: 1.8
+  jumpObstacleDuration: 1.25
   jumpHeight: 2.5
-  jumpDuration: 1
   waveFrequency: 2
   waveAmplitude: 0.5
   speedVariation: 0.7

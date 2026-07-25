@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class WildeBeestBehavior : MonoBehaviour
 {
@@ -11,14 +12,17 @@ public class WildeBeestBehavior : MonoBehaviour
     [Header("Jump - Crocodile Escape")]
     public float jumpCrocodileHeight = 2.5f;
     public float jumpDistance = 3.0f;
+    [FormerlySerializedAs("jumpDuration")]
+    public float jumpCrocodileDuration = 1.0f;
 
     [Header("Jump - Obstacle")]
     public float jumpObstacle = 2.5f;
     public float jumpObstacleDistance = 3.0f;
+    public float jumpObstacleDuration = 1.0f;
 
     [Header("Jump Shared")]
     public float jumpHeight = 2.5f;
-    public float jumpDuration = 1.0f;
+    private float jumpDuration = 1.0f;
 
     private bool isJumping = false;
     private float jumpTimer = 0.0f;
@@ -120,6 +124,7 @@ public class WildeBeestBehavior : MonoBehaviour
             jumpStartPosition.z
         );
         jumpHeight = jumpCrocodileHeight;
+        jumpDuration = jumpCrocodileDuration;
     }
 
     /// <summary>
@@ -138,6 +143,7 @@ public class WildeBeestBehavior : MonoBehaviour
             jumpStartPosition.z
         );
         jumpHeight = jumpObstacle;
+        jumpDuration = jumpObstacleDuration;
     }
 
     void Start()
@@ -240,6 +246,7 @@ public class WildeBeestBehavior : MonoBehaviour
             );
 
             jumpHeight = heightOffset;
+            jumpDuration = jumpCrocodileDuration;
         }
     }
 
@@ -248,7 +255,8 @@ public class WildeBeestBehavior : MonoBehaviour
         jumpTimer += Time.deltaTime;
 
         // t goes from 0 to 1 over the jump
-        float t = jumpTimer / jumpDuration;
+        float duration = jumpDuration > 0f ? jumpDuration : 0.0001f;
+        float t = jumpTimer / duration;
 
         // Horizontal lerp toward landing point
         Vector3 currentPosition = Vector3.Lerp(
