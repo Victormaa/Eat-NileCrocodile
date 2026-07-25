@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using TMPro;
 using UnityEngine;
@@ -10,8 +11,17 @@ public enum UpgradeTarget
     CatchCoolDown,
 }
 
+[Serializable]
+public class StatUpgradeStep
+{
+    [Tooltip("本级消耗；可填多项 = 同时扣多种资源")]
+    public MultiClickCostEntry[] costs;
+    [Tooltip("本级升级后，目标属性增加多少")]
+    public int valueIncrease = 1;
+}
+
 /// <summary>
-/// 升级按钮反馈：可配置升级属性与消耗类型；不够资源 / 满级 / 成功 三类文案与音效。
+/// 升级按钮反馈：按 upgradeSteps 配置每级消耗与加值；不够资源 / 满级 / 成功 三类文案与音效。
 /// Button OnClick 绑 TryUpgrade()。
 /// </summary>
 public class StatUpgradeButton : MonoBehaviour
@@ -19,8 +29,8 @@ public class StatUpgradeButton : MonoBehaviour
     [Header("升级配置")]
     [EnumToggleButtons]
     public UpgradeTarget upgradeTarget = UpgradeTarget.Stealth;
-    [EnumToggleButtons]
-    public UpgradeCostType costType = UpgradeCostType.CrocodileFat;
+    [Tooltip("表有几项就能升几级；每级可配多种消耗与增加数值")]
+    public StatUpgradeStep[] upgradeSteps;
 
     [Header("提示 Text")]
     public TMP_Text hintText;
@@ -63,12 +73,7 @@ public class StatUpgradeButton : MonoBehaviour
     {
         if (string.IsNullOrEmpty(notEnoughMessage))
         {
-            notEnoughMessage = costType switch
-            {
-                UpgradeCostType.Money => "钱不够",
-                UpgradeCostType.CrocoFur => "鳄鱼皮不足",
-                _ => "鳄鱼膘不足",
-            };
+            notEnoughMessage = "资源不足";
         }
     }
 
@@ -81,11 +86,7 @@ public class StatUpgradeButton : MonoBehaviour
             return;
         }
 
-        UpgradeResult result = upgradeTarget switch
-        {
-            UpgradeTarget.Stealth => GameManager.Instance.TryUpgradeStealth(costType),
-            _ => UpgradeResult.NotEnoughResource,
-        };
+        UpgradeResult result = AttemptUpgrade();
 
         switch (result)
         {
@@ -99,6 +100,45 @@ public class StatUpgradeButton : MonoBehaviour
                 ShowFeedback(notEnoughMessage, notEnoughSoundId, notEnoughSoundVolume);
                 break;
         }
+    }
+
+    private UpgradeResult AttemptUpgrade()
+    {
+        if (IsMaxUpgrade())
+        {
+            return UpgradeResult.MaxLevel;
+        }
+
+        StatUpgradeStep step = upgradeSteps[GetCurrentLevelIndex()];
+        MultiClickCostEntry[] costs = step != null ? step.costs : null;
+        int valueIncrease = step != null ? step.valueIncrease : 0;
+
+        return upgradeTarget switch
+        {
+            UpgradeTarget.Stealth => GameManager.Instance.TryUpgradeStealth(costs, valueIncrease),
+            _ => UpgradeResult.NotEnoughResource,
+        };
+    }
+
+    private bool IsMaxUpgrade()
+    {
+        if (upgradeSteps == null || upgradeSteps.Length == 0)
+        {
+            return true;
+        }
+
+        return GetCurrentLevelIndex() >= upgradeSteps.Length;
+    }
+
+    private int GetCurrentLevelIndex()
+    {
+        return upgradeTarget switch
+        {
+            UpgradeTarget.Stealth => GameManager.Instance != null
+                ? GameManager.Instance.StealthUpgradeCount
+                : 0,
+            _ => 0,
+        };
     }
 
     private void ShowFeedback(string message, string soundId, float volume)

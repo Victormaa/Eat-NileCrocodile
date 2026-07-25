@@ -18,7 +18,7 @@ public enum UpgradeCostType
 
 public class GameManager : MonoBehaviour
 {
-    // ---------- UI ???? ----------
+    // ---------- UI 引用 ----------
     public TMP_Text debugTimer;
     public TMP_Text wildeBeestCount_Text;
     public TMP_Text moneyValue_Text;
@@ -27,24 +27,24 @@ public class GameManager : MonoBehaviour
     public TMP_Text crocoFur_Text;
     public TMP_Text stealthLevel_Text;
 
-    // ---------- ?????? ----------
+    // ---------- 数值字段 ----------
     public float wildeBeestCount;
     public float timer;
     public float moneyValue;
 
-    [Header("????? / ????? / ????????")]
-    [Tooltip("?????????????????????????")]
+    [Header("鳄鱼膘 / 鳄鱼皮 / 隐蔽升级")]
+    [Tooltip("鳄鱼膘：吃角马时获得，可用于升级")]
     public float crocodileFat;
-    [Tooltip("??????????????????????????")]
+    [Tooltip("鳄鱼皮：可用于升级的消耗资源")]
     public float crocoFur;
-    [Tooltip("??????ε???????????????????????")]
+    [Tooltip("全局隐蔽数值，所有鳄鱼共享，用于外观")]
     public int stealthLevel;
-    [Tooltip("?????????????????????Money / CrocodileFat / CrocoFur ???????")]
-    public float stealthUpgradeCost = 3f;
-    [Tooltip("???ε???????<=0 ?????????")]
+    [Tooltip("隐蔽已成功升级次数（用作 StatUpgradeButton 步骤下标）")]
+    public int stealthUpgradeCount;
+    [Tooltip("隐蔽数值上限；<=0 表示不限制")]
     public int maxStealthLevel = 10;
 
-    // ---------- ???? ----------
+    // ---------- 单例 ----------
     private static GameManager instance;
     public static GameManager Instance
     {
@@ -54,7 +54,7 @@ public class GameManager : MonoBehaviour
             {
                 instance = FindObjectOfType<GameManager>();
                 if (instance == null)
-                    Debug.LogError("????????? GameManager ?????");
+                    Debug.LogError("场景里没有 GameManager 实例。");
             }
             return instance;
         }
@@ -62,6 +62,7 @@ public class GameManager : MonoBehaviour
     }
 
     public int StealthLevel => stealthLevel;
+    public int StealthUpgradeCount => stealthUpgradeCount;
     public float CrocodileFat => crocodileFat;
     public float CrocoFur => crocoFur;
 
@@ -88,7 +89,7 @@ public class GameManager : MonoBehaviour
         UpdateTimerUI();
     }
 
-    // ---------- UI ???·??? ----------
+    // ---------- UI 更新方法 ----------
     public void UpdateAllUI()
     {
         UpdateTimerUI();
@@ -135,7 +136,7 @@ public class GameManager : MonoBehaviour
             stealthLevel_Text.text = "Stealth Lv: " + stealthLevel.ToString();
     }
 
-    // ---------- ?????????? UI ----------
+    // ---------- 改数值并刷新 UI ----------
     public void AddWildebeest(float amount)
     {
         wildeBeestCount += amount;
@@ -163,21 +164,33 @@ public class GameManager : MonoBehaviour
     }
 
     /// <summary>
-    /// ???????????? costType ?? Money / CrocodileFat / CrocoFur??????????? StealthLevel ?????????
+    /// 隐蔽升级：按 costs 扣多种资源，成功则 stealthLevel += valueIncrease，并增加 stealthUpgradeCount。
     /// </summary>
-    public UpgradeResult TryUpgradeStealth(UpgradeCostType costType)
+    public UpgradeResult TryUpgradeStealth(MultiClickCostEntry[] costs, int valueIncrease)
     {
         if (maxStealthLevel > 0 && stealthLevel >= maxStealthLevel)
         {
             return UpgradeResult.MaxLevel;
         }
 
-        if (!TrySpendUpgradeCost(stealthUpgradeCost, costType))
+        if (valueIncrease <= 0)
+        {
+            Debug.LogWarning("TryUpgradeStealth: valueIncrease <= 0，忽略本次升级。");
+            return UpgradeResult.NotEnoughResource;
+        }
+
+        if (maxStealthLevel > 0 && stealthLevel + valueIncrease > maxStealthLevel)
+        {
+            return UpgradeResult.MaxLevel;
+        }
+
+        if (!TrySpendUpgradeCosts(costs))
         {
             return UpgradeResult.NotEnoughResource;
         }
 
-        stealthLevel++;
+        stealthLevel += valueIncrease;
+        stealthUpgradeCount++;
         UpdateStealthLevelUI();
         RefreshAllCrocodileStealth();
         return UpgradeResult.Success;
@@ -256,7 +269,6 @@ public class GameManager : MonoBehaviour
 
             if (!TrySpendUpgradeCost(entry.amount, entry.costType))
             {
-                // 理论上不应发生：前面已全部 CanAfford
                 Debug.LogError("TrySpendUpgradeCosts: 扣费中途失败，资源状态可能不一致。");
                 return false;
             }
@@ -265,7 +277,7 @@ public class GameManager : MonoBehaviour
         return true;
     }
 
-    /// <summary>????? stealthLevel ????????????????</summary>
+    /// <summary>按当前 stealthLevel 刷新场景里所有鳄鱼。</summary>
     public void RefreshAllCrocodileStealth()
     {
         Crocodile[] crocs = FindObjectsOfType<Crocodile>();
