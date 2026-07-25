@@ -3922,7 +3922,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1048600564}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1956616089}
+        m_TargetAssemblyTypeName: MultiClickTrigger, Assembly-CSharp
+        m_MethodName: TryUpgrade
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1048600564
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5939,7 +5951,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 11.060001, y: -0}
+  m_AnchoredPosition: {x: 11.060001, y: 0}
   m_SizeDelta: {x: -42.47, y: -27.32}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1697135063
@@ -6930,14 +6942,14 @@ MonoBehaviour:
   debugTimer: {fileID: 336460426}
   wildeBeestCount_Text: {fileID: 0}
   moneyValue_Text: {fileID: 344743902}
-  crocodileCount_Text: {fileID: 854788277}
   crocodileFat_Text: {fileID: 265249256}
+  crocoFur_Text: {fileID: 0}
   stealthLevel_Text: {fileID: 854788277}
   wildeBeestCount: 0
   timer: 0
   moneyValue: 0
-  crocodileCount: 0
-  crocodileFat: 5
+  crocodileFat: 100
+  crocoFur: 8
   stealthLevel: 0
   stealthUpgradeCost: 3
   maxStealthLevel: 10
@@ -7434,6 +7446,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   baseTriggerCount: 6
   minTriggerCount: 1
+  upgradeSteps:
+  - costs:
+    - costType: 1
+      amount: 5
+    triggerCountAfterUpgrade: 5
+  - costs:
+    - costType: 1
+      amount: 10
+    triggerCountAfterUpgrade: 4
+  - costs:
+    - costType: 1
+      amount: 13
+    - costType: 2
+      amount: 3
+    triggerCountAfterUpgrade: 3
   progressText: {fileID: 1308265203}
   progressFormat: '{0}/{1}'
   onTriggered:
@@ -7451,6 +7478,15 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  onUpgradeSuccess:
+    m_PersistentCalls:
+      m_Calls: []
+  onUpgradeNotEnough:
+    m_PersistentCalls:
+      m_Calls: []
+  onUpgradeMaxLevel:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &1958858580
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10010,7 +10046,6 @@ GameObject:
   - component: {fileID: 3154757601944406103}
   - component: {fileID: 1956616089}
   - component: {fileID: 635423792494121952}
-  - component: {fileID: 8729999116658347269}
   m_Layer: 5
   m_Name: UpgradeButton
   m_TagString: Untagged
@@ -11539,62 +11574,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 242.93, y: 136}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &8729999116658347269
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2907259122164313558}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Navigation:
-    m_Mode: 3
-    m_WrapAround: 0
-    m_SelectOnUp: {fileID: 0}
-    m_SelectOnDown: {fileID: 0}
-    m_SelectOnLeft: {fileID: 0}
-    m_SelectOnRight: {fileID: 0}
-  m_Transition: 1
-  m_Colors:
-    m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
-    m_HighlightedColor: {r: 0.45911938, g: 0.45911938, b: 0.45911938, a: 1}
-    m_PressedColor: {r: 0.19496846, g: 0.19496846, b: 0.19496846, a: 1}
-    m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
-    m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
-    m_ColorMultiplier: 1
-    m_FadeDuration: 0.1
-  m_SpriteState:
-    m_HighlightedSprite: {fileID: 0}
-    m_PressedSprite: {fileID: 0}
-    m_SelectedSprite: {fileID: 0}
-    m_DisabledSprite: {fileID: 0}
-  m_AnimationTriggers:
-    m_NormalTrigger: Normal
-    m_HighlightedTrigger: Highlighted
-    m_PressedTrigger: Pressed
-    m_SelectedTrigger: Selected
-    m_DisabledTrigger: Disabled
-  m_Interactable: 1
-  m_TargetGraphic: {fileID: 635423792494121952}
-  m_OnClick:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1956616089}
-        m_TargetAssemblyTypeName: MultiClickTrigger, Assembly-CSharp
-        m_MethodName: OnPress
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
 --- !u!212 &8864823356719666278
 SpriteRenderer:
   m_ObjectHideFlags: 0
