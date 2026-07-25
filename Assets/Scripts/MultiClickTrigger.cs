@@ -42,18 +42,8 @@ public class MultiClickTrigger : MonoBehaviour
     [Tooltip("例如 {0}/{1} → 3/6")]
     public string progressFormat = "{0}/{1}";
 
-    [Header("升级消耗显示（图标 x 数量）")]
-    [Tooltip("横向排布父节点，建议挂 Horizontal Layout Group")]
-    public Transform upgradeCostRoot;
-    [Tooltip("单条预制体：含 Image + TMP")]
-    public MultiClickCostIconEntry costIconPrefab;
-    public Sprite moneyIcon;
-    public Sprite crocodileFatIcon;
-    public Sprite crocoFurIcon;
-    [Tooltip("满级时显示；未赋值则跳过")]
-    public TMP_Text maxLevelCostText;
-    [Tooltip("例如 x{0} → x3")]
-    public string amountFormat = "x{0}";
+    [Header("升级消耗显示（可选）")]
+    public UpgradeCostDisplay costDisplay;
 
     [Header("触发时调用")]
     public UnityEvent onTriggered;
@@ -75,7 +65,7 @@ public class MultiClickTrigger : MonoBehaviour
     void Start()
     {
         RefreshProgressUI();
-        RefreshUpgradeCostUI();
+        RefreshCostDisplay();
     }
 
     /// <summary>绑到 Button OnClick：每按一次累加，够次数就触发并归零。</summary>
@@ -109,7 +99,7 @@ public class MultiClickTrigger : MonoBehaviour
                 break;
         }
 
-        RefreshUpgradeCostUI();
+        RefreshCostDisplay();
     }
 
     /// <summary>尝试升级并返回结果（不播回调）。</summary>
@@ -180,69 +170,18 @@ public class MultiClickTrigger : MonoBehaviour
         progressText.text = string.Format(progressFormat, pressCount, TriggerCount);
     }
 
-    /// <summary>按当前升级级刷新「图标 x 数量」列表。</summary>
-    public void RefreshUpgradeCostUI()
+    private void RefreshCostDisplay()
     {
-        ClearCostEntries();
+        if (costDisplay == null) return;
 
         bool maxed = IsMaxUpgrade();
-        if (maxLevelCostText != null)
+        MultiClickCostEntry[] costs = null;
+        if (!maxed && upgradeSteps != null && upgradeLevel < upgradeSteps.Length)
         {
-            maxLevelCostText.gameObject.SetActive(maxed);
-            if (maxed)
-            {
-                maxLevelCostText.text = "已满级";
-            }
+            MultiClickUpgradeStep step = upgradeSteps[upgradeLevel];
+            costs = step != null ? step.costs : null;
         }
 
-        if (upgradeCostRoot != null)
-        {
-            upgradeCostRoot.gameObject.SetActive(!maxed);
-        }
-
-        if (maxed || upgradeCostRoot == null || costIconPrefab == null)
-        {
-            return;
-        }
-
-        MultiClickUpgradeStep step = upgradeSteps[upgradeLevel];
-        if (step == null || step.costs == null)
-        {
-            return;
-        }
-
-        for (int i = 0; i < step.costs.Length; i++)
-        {
-            MultiClickCostEntry cost = step.costs[i];
-            if (cost == null) continue;
-
-            MultiClickCostIconEntry entry = Instantiate(costIconPrefab, upgradeCostRoot);
-            entry.Setup(GetIcon(cost.costType), string.Format(amountFormat, cost.amount));
-        }
-    }
-
-    private void ClearCostEntries()
-    {
-        if (upgradeCostRoot == null) return;
-
-        for (int i = upgradeCostRoot.childCount - 1; i >= 0; i--)
-        {
-            Destroy(upgradeCostRoot.GetChild(i).gameObject);
-        }
-    }
-
-    private Sprite GetIcon(UpgradeCostType costType)
-    {
-        switch (costType)
-        {
-            case UpgradeCostType.Money:
-                return moneyIcon;
-            case UpgradeCostType.CrocodileFat:
-                return crocodileFatIcon;
-            case UpgradeCostType.CrocoFur:
-                return crocoFurIcon;
-            default:
-                return null;
-        }
+        costDisplay.Refresh(costs, maxed);
     }
 }

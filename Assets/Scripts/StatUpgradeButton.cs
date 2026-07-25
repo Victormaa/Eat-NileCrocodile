@@ -32,6 +32,9 @@ public class StatUpgradeButton : MonoBehaviour
     [Tooltip("表有几项就能升几级；每级可配多种消耗与增加数值")]
     public StatUpgradeStep[] upgradeSteps;
 
+    [Header("升级消耗显示（可选）")]
+    public UpgradeCostDisplay costDisplay;
+
     [Header("提示 Text")]
     public TMP_Text hintText;
     [Tooltip("完全可见后停留多久")]
@@ -77,6 +80,11 @@ public class StatUpgradeButton : MonoBehaviour
         }
     }
 
+    void Start()
+    {
+        RefreshCostDisplay();
+    }
+
     /// <summary>按钮入口：尝试升级并播放对应反馈。</summary>
     public void TryUpgrade()
     {
@@ -100,6 +108,8 @@ public class StatUpgradeButton : MonoBehaviour
                 ShowFeedback(notEnoughMessage, notEnoughSoundId, notEnoughSoundVolume);
                 break;
         }
+
+        RefreshCostDisplay();
     }
 
     private UpgradeResult AttemptUpgrade()
@@ -143,6 +153,25 @@ public class StatUpgradeButton : MonoBehaviour
             UpgradeTarget.CatchCoolDown => GameManager.Instance.CatchCoolDownUpgradeCount,
             _ => 0,
         };
+    }
+
+    private void RefreshCostDisplay()
+    {
+        if (costDisplay == null) return;
+
+        bool maxed = IsMaxUpgrade();
+        MultiClickCostEntry[] costs = null;
+        if (!maxed && upgradeSteps != null)
+        {
+            int index = GetCurrentLevelIndex();
+            if (index >= 0 && index < upgradeSteps.Length)
+            {
+                StatUpgradeStep step = upgradeSteps[index];
+                costs = step != null ? step.costs : null;
+            }
+        }
+
+        costDisplay.Refresh(costs, maxed);
     }
 
     private void ShowFeedback(string message, string soundId, float volume)
