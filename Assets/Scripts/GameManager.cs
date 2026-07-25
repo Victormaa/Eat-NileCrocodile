@@ -1,6 +1,19 @@
 using UnityEngine;
 using TMPro;
 
+public enum UpgradeResult
+{
+    Success,
+    NotEnoughResource,
+    MaxLevel,
+}
+
+public enum UpgradeCostType
+{
+    Money,
+    Satiety,
+}
+
 public class GameManager : MonoBehaviour
 {
     // ---------- UI 引用 ----------
@@ -22,7 +35,7 @@ public class GameManager : MonoBehaviour
     public float satiety;
     [Tooltip("全局隐蔽等级，所有鳄鱼共用升级进度")]
     public int stealthLevel;
-    [Tooltip("每次升级消耗的饱腹感")]
+    [Tooltip("每次升级消耗的资源量（Money 或 Satiety 由按钮选择）")]
     public float stealthUpgradeCost = 3f;
     [Tooltip("隐蔽等级上限；<=0 表示不限制")]
     public int maxStealthLevel = 10;
@@ -151,32 +164,41 @@ public class GameManager : MonoBehaviour
     }
 
     /// <summary>
-    /// 按钮入口：消耗饱腹感，提升全局 StealthLevel，并刷新所有鳄鱼 stealthValue / 外观。
+    /// 统一隐蔽升级入口：按 costType 扣 Money 或 Satiety，成功则提升 StealthLevel 并刷新鳄鱼。
     /// </summary>
-    public bool UpgradeStealth()
+    public UpgradeResult TryUpgradeStealth(UpgradeCostType costType)
     {
         if (maxStealthLevel > 0 && stealthLevel >= maxStealthLevel)
         {
-            Debug.Log("GameManager: StealthLevel 已达上限。");
-            return false;
+            return UpgradeResult.MaxLevel;
         }
 
-        if (satiety < stealthUpgradeCost)
+        float cost = stealthUpgradeCost;
+        if (costType == UpgradeCostType.Money)
         {
-            Debug.Log("GameManager: 饱腹感不足，无法升级隐蔽。");
-            return false;
+            if (moneyValue < cost)
+            {
+                return UpgradeResult.NotEnoughResource;
+            }
+
+            moneyValue -= cost;
+            UpdateMoneyUI();
+        }
+        else
+        {
+            if (satiety < cost)
+            {
+                return UpgradeResult.NotEnoughResource;
+            }
+
+            satiety -= cost;
+            UpdateSatietyUI();
         }
 
-        satiety -= stealthUpgradeCost;
         stealthLevel++;
-        UpdateSatietyUI();
         UpdateStealthLevelUI();
         RefreshAllCrocodileStealth();
-        return true;
-    }
-    public void UpgradeStealthLevel()
-    {
-        UpgradeStealth();
+        return UpgradeResult.Success;
     }
 
     /// <summary>按当前 stealthLevel 刷新场景中所有鳄鱼。</summary>
