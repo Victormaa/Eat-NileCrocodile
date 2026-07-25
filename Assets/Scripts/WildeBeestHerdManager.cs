@@ -49,6 +49,14 @@ public class WildeBeestHerdManager : MonoBehaviour
     public WildeBeestHerdState curState;
     public WildeBeestBehavior headScaredBeest;
 
+    /// <summary>
+    /// 六只 Scared 前排已到齐站稳，可以开始雨 → GO → 出发序列。
+    /// </summary>
+    public bool IsScaredLineReady =>
+        !isEnteringScared
+        && curState == WildeBeestHerdState.Stop
+        && headScaredBeest != null;
+
     private bool isEnteringScared;
     private int scaredArrivedCount;
     private int nextScaredGroupIndex;
