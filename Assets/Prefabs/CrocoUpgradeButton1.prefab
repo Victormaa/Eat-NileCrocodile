@@ -690,8 +690,8 @@ MonoBehaviour:
   upgradeCostRoot: {fileID: 1422784365932388757}
   costIconPrefab: {fileID: 394568134987290529, guid: 5a4ff86ddb6734645af5467c9397fe71, type: 3}
   moneyIcon: {fileID: 21300000, guid: 8fdb1acd17e317c4292c7c03b2fa1c5d, type: 3}
-  crocodileFatIcon: {fileID: 21300000, guid: 8fdb1acd17e317c4292c7c03b2fa1c5d, type: 3}
-  crocoFurIcon: {fileID: 21300000, guid: 8fdb1acd17e317c4292c7c03b2fa1c5d, type: 3}
+  crocodileFatIcon: {fileID: 21300000, guid: 4288215f2831c624a9a90b7e1178c4ab, type: 3}
+  crocoFurIcon: {fileID: 21300000, guid: 54482b01f8d56b9499dbc497b8e2a757, type: 3}
   maxLevelCostText: {fileID: 0}
   amountFormat: x{0}
   maxLevelLabel: MaxLevel!

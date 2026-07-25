@@ -20,7 +20,6 @@ public class GameManager : MonoBehaviour
 {
     // ---------- UI 引用 ----------
     public TMP_Text debugTimer;
-    public TMP_Text wildeBeestCount_Text;
     public TMP_Text moneyValue_Text;
     [FormerlySerializedAs("satiety_Text")]
     public TMP_Text crocodileFat_Text;
@@ -112,7 +111,6 @@ public class GameManager : MonoBehaviour
     public void UpdateAllUI()
     {
         UpdateTimerUI();
-        UpdateWildebeestUI();
         UpdateMoneyUI();
         UpdateCrocodileFatUI();
         UpdateCrocoFurUI();
@@ -125,41 +123,28 @@ public class GameManager : MonoBehaviour
             debugTimer.text = "Time: " + timer.ToString("F2");
     }
 
-    private void UpdateWildebeestUI()
-    {
-        if (wildeBeestCount_Text != null)
-            wildeBeestCount_Text.text = "Wildebeest: " + wildeBeestCount.ToString("F0");
-    }
-
     private void UpdateMoneyUI()
     {
         if (moneyValue_Text != null)
-            moneyValue_Text.text = "$ " + moneyValue.ToString("F2");
+            moneyValue_Text.text = "金钱: " + moneyValue.ToString("F2");
     }
 
     private void UpdateCrocodileFatUI()
     {
         if (crocodileFat_Text != null)
-            crocodileFat_Text.text = "Fat: " + crocodileFat.ToString("F0");
+            crocodileFat_Text.text = "鳄鱼膘: " + crocodileFat.ToString("F0");
     }
 
     private void UpdateCrocoFurUI()
     {
         if (crocoFur_Text != null)
-            crocoFur_Text.text = "Fur: " + crocoFur.ToString("F0");
+            crocoFur_Text.text = "鳄鱼皮: " + crocoFur.ToString("F0");
     }
 
     private void UpdateStealthLevelUI()
     {
         if (stealthLevel_Text != null)
             stealthLevel_Text.text = "Stealth Lv: " + stealthLevel.ToString();
-    }
-
-    // ---------- 改数值并刷新 UI ----------
-    public void AddWildebeest(float amount)
-    {
-        wildeBeestCount += amount;
-        UpdateWildebeestUI();
     }
 
     public void AddMoney(float amount)
