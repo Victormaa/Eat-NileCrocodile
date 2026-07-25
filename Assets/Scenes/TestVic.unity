@@ -4438,43 +4438,43 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5594744471920494608, guid: c23092a01b346a647b90513a02a266c2, type: 3}
       propertyPath: upgradeSteps.Array.data[0].valueIncrease
-      value: 0.1
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5594744471920494608, guid: c23092a01b346a647b90513a02a266c2, type: 3}
       propertyPath: upgradeSteps.Array.data[1].valueIncrease
-      value: 0.1
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5594744471920494608, guid: c23092a01b346a647b90513a02a266c2, type: 3}
       propertyPath: upgradeSteps.Array.data[2].valueIncrease
-      value: 0.1
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5594744471920494608, guid: c23092a01b346a647b90513a02a266c2, type: 3}
       propertyPath: upgradeSteps.Array.data[3].valueIncrease
-      value: 0.1
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5594744471920494608, guid: c23092a01b346a647b90513a02a266c2, type: 3}
       propertyPath: upgradeSteps.Array.data[4].valueIncrease
-      value: 0.1
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5594744471920494608, guid: c23092a01b346a647b90513a02a266c2, type: 3}
       propertyPath: upgradeSteps.Array.data[5].valueIncrease
-      value: 0.1
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5594744471920494608, guid: c23092a01b346a647b90513a02a266c2, type: 3}
       propertyPath: upgradeSteps.Array.data[6].valueIncrease
-      value: 0.1
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5594744471920494608, guid: c23092a01b346a647b90513a02a266c2, type: 3}
       propertyPath: upgradeSteps.Array.data[7].valueIncrease
-      value: 0.1
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5594744471920494608, guid: c23092a01b346a647b90513a02a266c2, type: 3}
       propertyPath: upgradeSteps.Array.data[8].valueIncrease
-      value: 0.1
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5594744471920494608, guid: c23092a01b346a647b90513a02a266c2, type: 3}
       propertyPath: upgradeSteps.Array.data[9].valueIncrease
-      value: 0.1
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5594744471920494608, guid: c23092a01b346a647b90513a02a266c2, type: 3}
       propertyPath: upgradeSteps.Array.data[0].costs.Array.size
@@ -7295,9 +7295,9 @@ MonoBehaviour:
   catchApproachSpeed: 12
   catchSpeedUpgradeCount: 0
   maxCatchApproachSpeed: 30
-  catchReturnDelay: 1
+  catchReturnDelay: 1.5
   catchCoolDownUpgradeCount: 0
-  minCatchReturnDelay: 0
+  minCatchReturnDelay: 0.1
 --- !u!114 &1848118436
 MonoBehaviour:
   m_ObjectHideFlags: 0
