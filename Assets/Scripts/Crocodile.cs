@@ -67,6 +67,14 @@ public class Crocodile : MonoBehaviour
 
         int level = GameManager.Instance != null ? GameManager.Instance.StealthLevel : 0;
         RefreshFromGlobalStealth(level);
+
+        if (GameManager.Instance != null)
+        {
+            RefreshFromGlobalCatchStats(
+                GameManager.Instance.CatchApproachSpeed,
+                GameManager.Instance.CatchReturnDelay
+            );
+        }
     }
 
     /// <summary>
@@ -77,6 +85,13 @@ public class Crocodile : MonoBehaviour
     {
         stealthValue = baseStealthValue + stealthLevel * stealthPerLevel;
         ApplyVisualFromStealthValue();
+    }
+
+    /// <summary>按全局抓取速度 / 回位等待同步本只鳄鱼。</summary>
+    public void RefreshFromGlobalCatchStats(float globalApproachSpeed, float globalReturnDelay)
+    {
+        approachSpeed = globalApproachSpeed;
+        returnDelay = globalReturnDelay;
     }
 
     /// <summary>根据当前 stealthValue 切换 Normal / HalfHide / WholeHide。</summary>

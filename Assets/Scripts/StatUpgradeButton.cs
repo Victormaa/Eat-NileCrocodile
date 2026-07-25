@@ -16,8 +16,8 @@ public class StatUpgradeStep
 {
     [Tooltip("本级消耗；可填多项 = 同时扣多种资源")]
     public MultiClickCostEntry[] costs;
-    [Tooltip("本级升级后，目标属性增加多少")]
-    public int valueIncrease = 1;
+    [Tooltip("本级升级后，目标属性变化量（Stealth 取整；CatchSpeed 增加速度；CatchCoolDown 减少冷却秒数）")]
+    public float valueIncrease = 1f;
 }
 
 /// <summary>
@@ -111,11 +111,13 @@ public class StatUpgradeButton : MonoBehaviour
 
         StatUpgradeStep step = upgradeSteps[GetCurrentLevelIndex()];
         MultiClickCostEntry[] costs = step != null ? step.costs : null;
-        int valueIncrease = step != null ? step.valueIncrease : 0;
+        float valueIncrease = step != null ? step.valueIncrease : 0f;
 
         return upgradeTarget switch
         {
             UpgradeTarget.Stealth => GameManager.Instance.TryUpgradeStealth(costs, valueIncrease),
+            UpgradeTarget.CatchSpeed => GameManager.Instance.TryUpgradeCatchSpeed(costs, valueIncrease),
+            UpgradeTarget.CatchCoolDown => GameManager.Instance.TryUpgradeCatchCoolDown(costs, valueIncrease),
             _ => UpgradeResult.NotEnoughResource,
         };
     }
@@ -132,11 +134,13 @@ public class StatUpgradeButton : MonoBehaviour
 
     private int GetCurrentLevelIndex()
     {
+        if (GameManager.Instance == null) return 0;
+
         return upgradeTarget switch
         {
-            UpgradeTarget.Stealth => GameManager.Instance != null
-                ? GameManager.Instance.StealthUpgradeCount
-                : 0,
+            UpgradeTarget.Stealth => GameManager.Instance.StealthUpgradeCount,
+            UpgradeTarget.CatchSpeed => GameManager.Instance.CatchSpeedUpgradeCount,
+            UpgradeTarget.CatchCoolDown => GameManager.Instance.CatchCoolDownUpgradeCount,
             _ => 0,
         };
     }

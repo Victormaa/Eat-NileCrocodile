@@ -44,6 +44,20 @@ public class GameManager : MonoBehaviour
     [Tooltip("隐蔽数值上限；<=0 表示不限制")]
     public int maxStealthLevel = 10;
 
+    [Header("抓取速度 / 冷却")]
+    [Tooltip("全局鳄鱼扑向猎物的速度")]
+    public float catchApproachSpeed = 12f;
+    [Tooltip("抓取速度已升级次数")]
+    public int catchSpeedUpgradeCount;
+    [Tooltip("扑速上限；<=0 表示不限制")]
+    public float maxCatchApproachSpeed = 30f;
+    [Tooltip("全局吃完后回位前等待（秒）")]
+    public float catchReturnDelay = 1f;
+    [Tooltip("抓取冷却已升级次数")]
+    public int catchCoolDownUpgradeCount;
+    [Tooltip("回位等待下限（秒）")]
+    public float minCatchReturnDelay = 0f;
+
     // ---------- 单例 ----------
     private static GameManager instance;
     public static GameManager Instance
@@ -65,6 +79,10 @@ public class GameManager : MonoBehaviour
     public int StealthUpgradeCount => stealthUpgradeCount;
     public float CrocodileFat => crocodileFat;
     public float CrocoFur => crocoFur;
+    public float CatchApproachSpeed => catchApproachSpeed;
+    public int CatchSpeedUpgradeCount => catchSpeedUpgradeCount;
+    public float CatchReturnDelay => catchReturnDelay;
+    public int CatchCoolDownUpgradeCount => catchCoolDownUpgradeCount;
 
     private void Awake()
     {
@@ -81,6 +99,7 @@ public class GameManager : MonoBehaviour
     {
         UpdateAllUI();
         RefreshAllCrocodileStealth();
+        RefreshAllCrocodilesCatchStats();
     }
 
     private void Update()
@@ -164,22 +183,23 @@ public class GameManager : MonoBehaviour
     }
 
     /// <summary>
-    /// 隐蔽升级：按 costs 扣多种资源，成功则 stealthLevel += valueIncrease，并增加 stealthUpgradeCount。
+    /// 隐蔽升级：按 costs 扣多种资源，成功则 stealthLevel += RoundToInt(valueIncrease)。
     /// </summary>
-    public UpgradeResult TryUpgradeStealth(MultiClickCostEntry[] costs, int valueIncrease)
+    public UpgradeResult TryUpgradeStealth(MultiClickCostEntry[] costs, float valueIncrease)
     {
+        int add = Mathf.RoundToInt(valueIncrease);
+        if (add <= 0)
+        {
+            Debug.LogWarning("TryUpgradeStealth: valueIncrease 取整后 <= 0，忽略本次升级。");
+            return UpgradeResult.NotEnoughResource;
+        }
+
         if (maxStealthLevel > 0 && stealthLevel >= maxStealthLevel)
         {
             return UpgradeResult.MaxLevel;
         }
 
-        if (valueIncrease <= 0)
-        {
-            Debug.LogWarning("TryUpgradeStealth: valueIncrease <= 0，忽略本次升级。");
-            return UpgradeResult.NotEnoughResource;
-        }
-
-        if (maxStealthLevel > 0 && stealthLevel + valueIncrease > maxStealthLevel)
+        if (maxStealthLevel > 0 && stealthLevel + add > maxStealthLevel)
         {
             return UpgradeResult.MaxLevel;
         }
@@ -189,10 +209,69 @@ public class GameManager : MonoBehaviour
             return UpgradeResult.NotEnoughResource;
         }
 
-        stealthLevel += valueIncrease;
+        stealthLevel += add;
         stealthUpgradeCount++;
         UpdateStealthLevelUI();
         RefreshAllCrocodileStealth();
+        return UpgradeResult.Success;
+    }
+
+    /// <summary>
+    /// 抓取速度升级：增加全局 catchApproachSpeed，并同步所有鳄鱼。
+    /// </summary>
+    public UpgradeResult TryUpgradeCatchSpeed(MultiClickCostEntry[] costs, float valueIncrease)
+    {
+        if (valueIncrease <= 0f)
+        {
+            Debug.LogWarning("TryUpgradeCatchSpeed: valueIncrease <= 0，忽略本次升级。");
+            return UpgradeResult.NotEnoughResource;
+        }
+
+        if (maxCatchApproachSpeed > 0f && catchApproachSpeed >= maxCatchApproachSpeed)
+        {
+            return UpgradeResult.MaxLevel;
+        }
+
+        if (maxCatchApproachSpeed > 0f && catchApproachSpeed + valueIncrease > maxCatchApproachSpeed)
+        {
+            return UpgradeResult.MaxLevel;
+        }
+
+        if (!TrySpendUpgradeCosts(costs))
+        {
+            return UpgradeResult.NotEnoughResource;
+        }
+
+        catchApproachSpeed += valueIncrease;
+        catchSpeedUpgradeCount++;
+        RefreshAllCrocodilesCatchStats();
+        return UpgradeResult.Success;
+    }
+
+    /// <summary>
+    /// 抓取冷却升级：减少全局 catchReturnDelay（不低于 minCatchReturnDelay），并同步所有鳄鱼。
+    /// </summary>
+    public UpgradeResult TryUpgradeCatchCoolDown(MultiClickCostEntry[] costs, float valueIncrease)
+    {
+        if (valueIncrease <= 0f)
+        {
+            Debug.LogWarning("TryUpgradeCatchCoolDown: valueIncrease <= 0，忽略本次升级。");
+            return UpgradeResult.NotEnoughResource;
+        }
+
+        if (catchReturnDelay <= minCatchReturnDelay)
+        {
+            return UpgradeResult.MaxLevel;
+        }
+
+        if (!TrySpendUpgradeCosts(costs))
+        {
+            return UpgradeResult.NotEnoughResource;
+        }
+
+        catchReturnDelay = Mathf.Max(minCatchReturnDelay, catchReturnDelay - valueIncrease);
+        catchCoolDownUpgradeCount++;
+        RefreshAllCrocodilesCatchStats();
         return UpgradeResult.Success;
     }
 
@@ -286,6 +365,19 @@ public class GameManager : MonoBehaviour
             if (crocs[i] != null)
             {
                 crocs[i].RefreshFromGlobalStealth(stealthLevel);
+            }
+        }
+    }
+
+    /// <summary>按全局抓取速度/冷却刷新场景里所有鳄鱼。</summary>
+    public void RefreshAllCrocodilesCatchStats()
+    {
+        Crocodile[] crocs = FindObjectsOfType<Crocodile>();
+        for (int i = 0; i < crocs.Length; i++)
+        {
+            if (crocs[i] != null)
+            {
+                crocs[i].RefreshFromGlobalCatchStats(catchApproachSpeed, catchReturnDelay);
             }
         }
     }
