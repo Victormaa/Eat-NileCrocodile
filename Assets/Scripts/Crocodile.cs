@@ -56,7 +56,6 @@ public class Crocodile : MonoBehaviour
     private Vector3 homePosition;
     private Vector3 homeScale;
     private Animator animator;
-    private Collider2D catchCollider;
     private CrocoVisualState currentVisualState;
 
     public CrocoVisualState CurrentVisualState => currentVisualState;
@@ -67,7 +66,6 @@ public class Crocodile : MonoBehaviour
         homePosition = transform.position;
         homeScale = transform.localScale;
         animator = GetComponent<Animator>();
-        catchCollider = GetComponent<Collider2D>();
 
         int level = GameManager.Instance != null ? GameManager.Instance.StealthLevel : 0;
         RefreshFromGlobalStealth(level);
@@ -130,15 +128,6 @@ public class Crocodile : MonoBehaviour
                 _ => AnimNormal,
             };
             animator.Play(animName, 0, 0f);
-        }
-
-        if (catchCollider != null)
-        {
-            // 忙碌抓取中不关 collider，避免中断；结束后 ClearBusy 再同步
-            if (!isBusy)
-            {
-                catchCollider.enabled = state != CrocoVisualState.WholeHide;
-            }
         }
     }
 
@@ -378,11 +367,5 @@ public class Crocodile : MonoBehaviour
     {
         isBusy = false;
         currentPrey = null;
-
-        // 抓取结束后按当前视觉状态同步 collider
-        if (catchCollider != null)
-        {
-            catchCollider.enabled = currentVisualState != CrocoVisualState.WholeHide;
-        }
     }
 }
