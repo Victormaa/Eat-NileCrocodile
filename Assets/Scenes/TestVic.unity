@@ -3539,12 +3539,44 @@ PrefabInstance:
       value: 0.3882353
       objectReference: {fileID: 0}
     - target: {fileID: 100005, guid: 8d4f0a2b3c5e4f7a9b1c2d3e4f5a6b7c, type: 3}
+      propertyPath: upgradeSteps.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 100005, guid: 8d4f0a2b3c5e4f7a9b1c2d3e4f5a6b7c, type: 3}
+      propertyPath: upgradeSteps.Array.data[2].costs.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 100005, guid: 8d4f0a2b3c5e4f7a9b1c2d3e4f5a6b7c, type: 3}
+      propertyPath: upgradeSteps.Array.data[2].triggerCountAfterUpgrade
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 100005, guid: 8d4f0a2b3c5e4f7a9b1c2d3e4f5a6b7c, type: 3}
+      propertyPath: upgradeSteps.Array.data[2].costs.Array.data[0].amount
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 100005, guid: 8d4f0a2b3c5e4f7a9b1c2d3e4f5a6b7c, type: 3}
+      propertyPath: upgradeSteps.Array.data[2].costs.Array.data[1].amount
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 100005, guid: 8d4f0a2b3c5e4f7a9b1c2d3e4f5a6b7c, type: 3}
       propertyPath: upgradeSteps.Array.data[0].costs.Array.data[0].costType
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 100005, guid: 8d4f0a2b3c5e4f7a9b1c2d3e4f5a6b7c, type: 3}
       propertyPath: upgradeSteps.Array.data[1].costs.Array.data[0].costType
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 100005, guid: 8d4f0a2b3c5e4f7a9b1c2d3e4f5a6b7c, type: 3}
+      propertyPath: upgradeSteps.Array.data[2].costs.Array.data[0].costType
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 100005, guid: 8d4f0a2b3c5e4f7a9b1c2d3e4f5a6b7c, type: 3}
+      propertyPath: upgradeSteps.Array.data[2].costs.Array.data[1].costType
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 100006, guid: 8d4f0a2b3c5e4f7a9b1c2d3e4f5a6b7c, type: 3}
+      propertyPath: inputCosts.Array.data[0].amount
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1935111663545848816, guid: 8d4f0a2b3c5e4f7a9b1c2d3e4f5a6b7c, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
