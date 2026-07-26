@@ -6780,9 +6780,9 @@ MonoBehaviour:
   flavorText: {fileID: 930001073}
   restartHintText: {fileID: 930001083}
   titleMessage: "\u5B63\u8282\u7ED3\u675F"
-  eatenFormat: "\u6355\u83B7\u89D2\u9A6C\uFF1A{0}"
-  moneyFormat: "\u91D1\u94B1\uFF1A{0:F0}"
-  furFormat: "\u9CC4\u9C7C\u76AE\uFF1A{0:F0}"
+  eatenFormat: "\u6355\u83B7\u89D2\u9A6C:{0}"
+  moneyFormat: "\u91D1\u94B1:{0:F0}"
+  furFormat: "\u9CC4\u9C7C\u76AE:{0:F0}"
   restartHintMessage: "\u6309\u4EFB\u610F\u952E\u518D\u6765\u4E00\u6B21"
   flavorTiers:
   - minEaten: 66
@@ -11534,7 +11534,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d4e5f6a7b8c90d1e2f3a4b5c6d7e8f90, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  realDurationMinutes: 8
+  realDurationMinutes: 10
   totalDays: 60
   dayText: {fileID: 1931430370}
   dayFormat: ' {0}'
