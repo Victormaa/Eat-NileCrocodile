@@ -430,6 +430,10 @@ PrefabInstance:
       propertyPath: maxCatchableSpeed
       value: 2.8
       objectReference: {fileID: 0}
+    - target: {fileID: 8500158509843933468, guid: d4253149e34ac8a4b947433cc71a75e1, type: 3}
+      propertyPath: shrinkSoundVolume
+      value: 0.4
+      objectReference: {fileID: 0}
     - target: {fileID: 9145836705296859486, guid: d4253149e34ac8a4b947433cc71a75e1, type: 3}
       propertyPath: m_LocalPosition.x
       value: -1.89
@@ -2213,7 +2217,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   normalSpeed: 1
-  fastSpeed: 4
+  fastSpeed: 10
   holdKey: 32
 --- !u!1001 &384480814
 PrefabInstance:
@@ -2911,7 +2915,7 @@ MonoBehaviour:
     m_Bits: 1
   m_VolumeTrigger: {fileID: 0}
   m_VolumeFrameworkUpdateModeOption: 2
-  m_RenderPostProcessing: 0
+  m_RenderPostProcessing: 1
   m_Antialiasing: 0
   m_AntialiasingQuality: 2
   m_StopNaN: 0
@@ -6786,11 +6790,11 @@ MonoBehaviour:
   restartHintMessage: "\u6309\u4EFB\u610F\u952E\u518D\u6765\u4E00\u6B21"
   flavorTiers:
   - minEaten: 66
-    message: "\u76AE\u5305\u5DE5\u5382\u5F00\u8D77\u6765\u4E86\uFF0C\u8FD9\u4E00\u5B63\u5F88\u5706\u6EE1\uFF01"
+    message: "\u76AE\u5305\u5DE5\u5382\u5F00\u8D77\u6765\u4E86,\u8FD9\u4E00\u5B63\u5F88\u5706\u6EE1!"
   - minEaten: 20
-    message: "Nile \u5403\u5F97\u4E0D\u9519\uFF0C\u6CB3\u5CB8\u4E0A\u70ED\u95F9\u4E86\u4E00\u9635\u3002"
+    message: "\u5C3C\u7F57\u9CC4\u4EEC\u5403\u5F97\u4E0D\u9519,\u6CB3\u5CB8\u4E0A\u70ED\u95F9\u4E86\u4E00\u9635"
   - minEaten: 0
-    message: "\u8FD9\u4E00\u5B63\u6709\u70B9\u8F9B\u82E6\uFF0CNile \u8FD8\u8981\u518D\u7EC3\u7EC3\u3002"
+    message: "\u8FD9\u4E00\u5B63\u6709\u70B9\u8F9B\u82E6.\u5C3C\u7F57\u9CC4\u4EEC\u8FD8\u8981\u518D\u7EC3\u7EC3"
   dimFadeDuration: 0.35
   lineFadeDuration: 0.3
   delayBetweenLines: 0.15
@@ -7004,6 +7008,74 @@ MonoBehaviour:
   sortingOrderOffset: 0
   precision: 100
   includeChildren: 0
+--- !u!1 &971450544
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 971450546}
+  - component: {fileID: 971450545}
+  - component: {fileID: 971450547}
+  m_Layer: 0
+  m_Name: Global Volume
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &971450545
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 971450544}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 172515602e62fb746b5d573b38a5fe58, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_IsGlobal: 1
+  priority: 0
+  blendDistance: 0
+  weight: 0
+  sharedProfile: {fileID: 11400000, guid: 5953b2091812beb48ac498dfa83a626c, type: 2}
+--- !u!4 &971450546
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 971450544}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -6.732993, y: 75.98954, z: 530.6169}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &971450547
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 971450544}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e7f8a9b0c1d2e3f4a5b6c7d8e9f0a1b2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  volume: {fileID: 971450545}
+  dayCountdown: {fileID: 1939644068}
+  fadeIn: 0.25
+  hold: 0.05
+  fadeOut: 0.35
+  peakWeight: 1
 --- !u!114 &999870000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15718,6 +15790,10 @@ PrefabInstance:
       propertyPath: maxCatchableSpeed
       value: 2.8
       objectReference: {fileID: 0}
+    - target: {fileID: 8500158509843933468, guid: d4253149e34ac8a4b947433cc71a75e1, type: 3}
+      propertyPath: shrinkSoundVolume
+      value: 0.4
+      objectReference: {fileID: 0}
     - target: {fileID: 9145836705296859486, guid: d4253149e34ac8a4b947433cc71a75e1, type: 3}
       propertyPath: m_LocalPosition.x
       value: 2.98
@@ -20400,3 +20476,4 @@ SceneRoots:
   - {fileID: 2114129398}
   - {fileID: 1748484027}
   - {fileID: 1558617847}
+  - {fileID: 971450546}
