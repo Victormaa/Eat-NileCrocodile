@@ -4722,7 +4722,7 @@ MonoBehaviour:
   count: 0
   countText: {fileID: 344743902}
   countFormat: '{0}'
-  bounceScale: 1.2
+  bounceScale: 1.5
   bounceUpPixels: 10
   bounceDuration: 0.22
 --- !u!114 &910001004
