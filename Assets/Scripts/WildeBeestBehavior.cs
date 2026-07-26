@@ -79,7 +79,6 @@ public class WildeBeestBehavior : MonoBehaviour
     private bool despawnOnExit;
     private float exitBoundaryX = 14f;
 
-    private bool clickStunEnabled;
     private bool isClickStunned;
     private bool isClickSlowing;
     private bool clickEffectRunning;
@@ -89,11 +88,6 @@ public class WildeBeestBehavior : MonoBehaviour
     public void SetCanMove(bool value)
     {
         canMove = value;
-    }
-
-    public void SetClickStunEnabled(bool enabled)
-    {
-        clickStunEnabled = enabled;
     }
 
     public void SetDespawnOnExit(bool value, float boundaryX = 12f)
@@ -118,8 +112,7 @@ public class WildeBeestBehavior : MonoBehaviour
 
     public void TryStunFromClick()
     {
-        if (!clickStunEnabled) return;
-        if (!canMove || isCaught || isJumping) return;
+        if (isCaught || isJumping) return;
         if (clickEffectRunning || isClickStunned || isClickSlowing) return;
         if (clickCooldownRemaining > 0f) return;
 
@@ -131,6 +124,7 @@ public class WildeBeestBehavior : MonoBehaviour
         clickEffectRunning = true;
         isClickStunned = true;
         isClickSlowing = false;
+        bool resumeAfterStun = canMove;
         canMove = false;
 
         Vector3 origin = transform.position;
@@ -152,13 +146,10 @@ public class WildeBeestBehavior : MonoBehaviour
 
         if (isCaught) yield break;
 
-        // 慢行：仍可被抓
+        // 慢行：仍可被抓（停着的角马点完也会短暂可跑）
         isClickSlowing = true;
         currentSpeed = clickSlowSpeed;
-        if (clickStunEnabled)
-        {
-            canMove = true;
-        }
+        canMove = true;
 
         elapsed = 0f;
         while (elapsed < clickSlowDuration)
@@ -171,6 +162,11 @@ public class WildeBeestBehavior : MonoBehaviour
 
         isClickSlowing = false;
         currentSpeed = baseSpeed;
+        if (!resumeAfterStun)
+        {
+            canMove = false;
+        }
+
         clickCooldownRemaining = clickCooldown;
         clickEffectRunning = false;
         clickStunRoutine = null;

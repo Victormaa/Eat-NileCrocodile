@@ -198,3 +198,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   baseSortOrder: 0
+  sortPrecision: 100
