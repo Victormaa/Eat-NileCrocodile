@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -56,6 +57,9 @@ public class WildeBeestHerdManager : MonoBehaviour
         !isEnteringScared
         && curState == WildeBeestHerdState.Stop
         && headScaredBeest != null;
+
+    /// <summary>前排全部到位、IsScaredLineReady 变为 true 时触发。</summary>
+    public event Action ScaredLineReady;
 
     private bool isEnteringScared;
     private int scaredArrivedCount;
@@ -200,8 +204,8 @@ public class WildeBeestHerdManager : MonoBehaviour
 
         for (int i = 0; i < herdCount; i++)
         {
-            float x = baseX - i * xSpacing + Random.Range(-xJitter, xJitter);
-            float y = Random.Range(yMin, yMax);
+            float x = baseX - i * xSpacing + UnityEngine.Random.Range(-xJitter, xJitter);
+            float y = UnityEngine.Random.Range(yMin, yMax);
             Vector3 position = new Vector3(x, y, spawnZ);
 
             GameObject instance = Instantiate(wildebeestPrefab, position, Quaternion.identity, transform);
@@ -238,8 +242,8 @@ public class WildeBeestHerdManager : MonoBehaviour
 
         for (int i = 0; i < herdCount; i++)
         {
-            float x = spawnX - i * xSpacing + Random.Range(-xJitter, xJitter);
-            float y = Random.Range(yMin, yMax);
+            float x = spawnX - i * xSpacing + UnityEngine.Random.Range(-xJitter, xJitter);
+            float y = UnityEngine.Random.Range(yMin, yMax);
             Vector3 position = new Vector3(x, y, spawnZ);
             GameObject instance = Instantiate(wildebeestPrefab, position, Quaternion.identity, transform);
 
@@ -400,6 +404,7 @@ public class WildeBeestHerdManager : MonoBehaviour
         curState = WildeBeestHerdState.Stop;
         isEnteringScared = false;
         OnAllScaredBeestsArrived();
+        ScaredLineReady?.Invoke();
     }
 
     private void OnAllScaredBeestsArrived()
@@ -459,7 +464,7 @@ public class WildeBeestHerdManager : MonoBehaviour
             return picked;
         }
 
-        return Random.value < 0.5f ? scaredTargetGroup1 : scaredTargetGroup2;
+        return UnityEngine.Random.value < 0.5f ? scaredTargetGroup1 : scaredTargetGroup2;
     }
 
     private static List<Transform> CollectTargets(Transform group)

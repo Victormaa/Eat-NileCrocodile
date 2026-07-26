@@ -2,14 +2,20 @@ using System.Collections;
 using UnityEngine;
 
 /// <summary>
-/// 天气瓶子（2D Sprite）：闲置轻微漂浮；调用 TriggerRain() 时快速震动并触发 RainHerdGoSequence.Play()。
-/// 点击/拖拽触发请另接；本脚本只提供动画与 Play 入口。
+/// 天气瓶子（2D Sprite）：闲置轻微漂浮；TriggerRain() 震动后调 RainHerdGoSequence.Play()。
+/// 解锁显示后可自动：角马前排到位（ScaredLineReady）时自动 TriggerRain。
 /// </summary>
 public class WeatherBottle : MonoBehaviour
 {
     [Header("引用")]
     [Tooltip("空则运行时 FindObjectOfType")]
     public RainHerdGoSequence rainSequence;
+    [Tooltip("空则从 rainSequence.herdManager 或 Find")]
+    public WildeBeestHerdManager herdManager;
+
+    [Header("自动触发")]
+    [Tooltip("瓶子可见时，角马前排到位自动震动并下雨")]
+    public bool autoTriggerOnScaredReady = true;
 
     [Header("闲置漂浮")]
     public float floatAmplitude = 0.08f;
@@ -26,13 +32,13 @@ public class WeatherBottle : MonoBehaviour
     private bool hasBasePos;
     private bool floating = true;
     private bool busy;
+    private bool subscribed;
     private Coroutine shakeRoutine;
 
     private void Awake()
     {
         CacheBasePos();
-        if (rainSequence == null)
-            rainSequence = FindObjectOfType<RainHerdGoSequence>();
+        ResolveRefs();
     }
 
     private void OnEnable()
@@ -40,10 +46,22 @@ public class WeatherBottle : MonoBehaviour
         CacheBasePos();
         floating = true;
         busy = false;
+        ResolveRefs();
+        SubscribeHerd();
+
+        // 升满瞬间若角马已站稳，立刻下一次雨
+        if (autoTriggerOnScaredReady
+            && herdManager != null
+            && herdManager.IsScaredLineReady
+            && (rainSequence == null || !rainSequence.IsPlaying))
+        {
+            TriggerRain();
+        }
     }
 
     private void OnDisable()
     {
+        UnsubscribeHerd();
         if (shakeRoutine != null)
         {
             StopCoroutine(shakeRoutine);
@@ -64,15 +82,24 @@ public class WeatherBottle : MonoBehaviour
     }
 
     /// <summary>
-    /// 预留入口：震动一下后调用 RainHerdGoSequence.Play()。
-    /// 以后点选/按钮可直接绑此方法。
+    /// 震动一下后调用 RainHerdGoSequence.Play()。
+    /// 点选或自动到位均可调用。
     /// </summary>
     public void TriggerRain()
     {
         if (busy) return;
+        if (rainSequence != null && rainSequence.IsPlaying) return;
+
         if (shakeRoutine != null)
             StopCoroutine(shakeRoutine);
         shakeRoutine = StartCoroutine(ShakeThenPlay());
+    }
+
+    private void HandleScaredLineReady()
+    {
+        if (!autoTriggerOnScaredReady) return;
+        if (!isActiveAndEnabled) return;
+        TriggerRain();
     }
 
     private IEnumerator ShakeThenPlay()
@@ -99,8 +126,7 @@ public class WeatherBottle : MonoBehaviour
 
         ResetToBasePos();
 
-        if (rainSequence == null)
-            rainSequence = FindObjectOfType<RainHerdGoSequence>();
+        ResolveRefs();
 
         if (rainSequence != null)
             rainSequence.Play();
@@ -110,6 +136,32 @@ public class WeatherBottle : MonoBehaviour
         shakeRoutine = null;
         busy = false;
         floating = true;
+    }
+
+    private void ResolveRefs()
+    {
+        if (rainSequence == null)
+            rainSequence = FindObjectOfType<RainHerdGoSequence>();
+
+        if (herdManager == null && rainSequence != null)
+            herdManager = rainSequence.herdManager;
+
+        if (herdManager == null)
+            herdManager = FindObjectOfType<WildeBeestHerdManager>();
+    }
+
+    private void SubscribeHerd()
+    {
+        if (subscribed || herdManager == null) return;
+        herdManager.ScaredLineReady += HandleScaredLineReady;
+        subscribed = true;
+    }
+
+    private void UnsubscribeHerd()
+    {
+        if (!subscribed || herdManager == null) return;
+        herdManager.ScaredLineReady -= HandleScaredLineReady;
+        subscribed = false;
     }
 
     private void CacheBasePos()
