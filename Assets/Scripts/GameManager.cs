@@ -144,19 +144,19 @@ public class GameManager : MonoBehaviour
     private void UpdateMoneyUI()
     {
         if (moneyValue_Text != null)
-            moneyValue_Text.text = "???: " + moneyValue.ToString("F2");
+            moneyValue_Text.text = "ˆ˘”„±“: " + moneyValue.ToString("F0");
     }
 
     private void UpdateCrocodileFatUI()
     {
         if (crocodileFat_Text != null)
-            crocodileFat_Text.text = "?????: " + crocodileFat.ToString("F0");
+            crocodileFat_Text.text = "ˆ˘”„±Ï: " + crocodileFat.ToString("F0");
     }
 
     private void UpdateCrocoFurUI()
     {
         if (crocoFur_Text != null)
-            crocoFur_Text.text = "?????: " + crocoFur.ToString("F0");
+            crocoFur_Text.text = "ˆ˘”„∆§: " + crocoFur.ToString("F0");
     }
 
     private void UpdateStealthLevelUI()
