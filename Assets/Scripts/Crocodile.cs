@@ -207,7 +207,7 @@ public class Crocodile : MonoBehaviour
         if (crocodileFatGainOnEat > 0f && GameManager.Instance != null)
         {
             var tempValue = crocodileFatGainOnEat;
-            if(UnityEngine.Random.value < 0.5f)
+            if(UnityEngine.Random.value < 0.4f)
             {
                 tempValue = crocodileFatGainOnEat * 2;
             }
