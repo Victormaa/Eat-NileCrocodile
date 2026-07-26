@@ -1,10 +1,11 @@
 using UnityEngine;
-
+using Sirenix.OdinInspector;
 /// <summary>
 /// 按指定键退出游戏（打包后 Quit；编辑器里停止 Play）。
 /// </summary>
 public class QuitOnKey : MonoBehaviour
 {
+    [DrawWithUnity]
     public KeyCode quitKey = KeyCode.Escape;
 
     private void Update()
