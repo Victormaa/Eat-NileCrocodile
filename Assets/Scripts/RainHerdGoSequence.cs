@@ -60,10 +60,17 @@ public class RainHerdGoSequence : MonoBehaviour
     /// <summary>真正开始下雨序列时触发（拒绝 / 已在播放时不触发）。</summary>
     public event Action PlaySucceeded;
 
+    /// <summary>雨 → GO → 出发协程是否正在跑。</summary>
+    public bool IsPlaying => runningRoutine != null;
+
+    /// <summary>可开始播放：未在播，且 Scared 前排已站稳。</summary>
+    public bool CanPlay =>
+        !IsPlaying && herdManager != null && herdManager.IsScaredLineReady;
+
     /// <summary>公开入口：播放完整雨 → GO → 出发序列。</summary>
     public void Play()
     {
-        if (runningRoutine != null)
+        if (IsPlaying)
         {
             return;
         }
@@ -78,7 +85,8 @@ public class RainHerdGoSequence : MonoBehaviour
         PlaySucceeded?.Invoke();
     }
 
-    private void PlayDenyFeedback()
+    /// <summary>拒绝反馈：音效 + 提示文案（按钮门禁也可直接调用）。</summary>
+    public void PlayDenyFeedback()
     {
         PlayOneShot(denySoundId, denySoundVolume);
         ShowDenyHint();
