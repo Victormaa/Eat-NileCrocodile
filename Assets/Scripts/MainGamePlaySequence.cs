@@ -123,6 +123,9 @@ public class MainGamePlaySequence : MonoBehaviour
             return;
         }
 
+        if (GameDayCountdown.Instance != null)
+            GameDayCountdown.Instance.StartCountdown();
+
         runningRoutine = StartCoroutine(RunSequence());
     }
 
