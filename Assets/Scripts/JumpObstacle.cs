@@ -8,7 +8,7 @@ public class JumpObstacle : MonoBehaviour
 {
     private void OnTriggerEnter2D(Collider2D other)
     {
-        WildeBeestBehavior wildebeest = other.GetComponent<WildeBeestBehavior>();
+            WildeBeestBehavior wildebeest = other.GetComponent<WildeBeestBehavior>();
         if (wildebeest == null)
         {
             wildebeest = other.GetComponentInParent<WildeBeestBehavior>();

@@ -2213,7 +2213,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   normalSpeed: 1
-  fastSpeed: 2
+  fastSpeed: 4
   holdKey: 32
 --- !u!1001 &384480814
 PrefabInstance:
