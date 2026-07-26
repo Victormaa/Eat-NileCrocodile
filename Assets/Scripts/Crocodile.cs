@@ -47,6 +47,10 @@ public class Crocodile : MonoBehaviour
     [UnityEngine.Serialization.FormerlySerializedAs("satietyGainOnEat")]
     public float crocodileFatGainOnEat = 1f;
 
+    [Header("产出飘字（可选）")]
+    [Tooltip("为空则同物体 GetComponent")]
+    public ResourceGainFeedback resourceGainFeedback;
+
     private bool isBusy;
     private WildeBeestBehavior currentPrey;
     private Vector3 homePosition;
@@ -200,6 +204,9 @@ public class Crocodile : MonoBehaviour
         if (crocodileFatGainOnEat > 0f && GameManager.Instance != null)
         {
             GameManager.Instance.AddCrocodileFat(crocodileFatGainOnEat);
+            if (resourceGainFeedback == null)
+                resourceGainFeedback = GetComponent<ResourceGainFeedback>();
+            resourceGainFeedback?.Show(UpgradeCostType.CrocodileFat, crocodileFatGainOnEat);
         }
 
         // 6. 还原鳄鱼外观（Y 轴插值回弹）

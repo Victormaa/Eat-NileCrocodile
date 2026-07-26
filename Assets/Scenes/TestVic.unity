@@ -3298,41 +3298,21 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 100006, guid: 7c3e9f1a2b4d4e6f8a0c1d2e3f4a5b6c, type: 3}
-      propertyPath: inputCosts.Array.size
-      value: 1
+    - target: {fileID: 100007, guid: 7c3e9f1a2b4d4e6f8a0c1d2e3f4a5b6c, type: 3}
+      propertyPath: spawnAnchor
+      value: 
+      objectReference: {fileID: 569154445}
+    - target: {fileID: 2504396371948928154, guid: 7c3e9f1a2b4d4e6f8a0c1d2e3f4a5b6c, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 177.21
       objectReference: {fileID: 0}
-    - target: {fileID: 100006, guid: 7c3e9f1a2b4d4e6f8a0c1d2e3f4a5b6c, type: 3}
-      propertyPath: inputCosts.Array.data[1].amount
-      value: 1
+    - target: {fileID: 2504396371948928154, guid: 7c3e9f1a2b4d4e6f8a0c1d2e3f4a5b6c, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 3.59
       objectReference: {fileID: 0}
-    - target: {fileID: 100006, guid: 7c3e9f1a2b4d4e6f8a0c1d2e3f4a5b6c, type: 3}
-      propertyPath: inputCosts.Array.data[1].costType
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 200004, guid: 7c3e9f1a2b4d4e6f8a0c1d2e3f4a5b6c, type: 3}
-      propertyPath: m_fontSize
-      value: 38.22
-      objectReference: {fileID: 0}
-    - target: {fileID: 200004, guid: 7c3e9f1a2b4d4e6f8a0c1d2e3f4a5b6c, type: 3}
-      propertyPath: m_margin.w
-      value: -19.607708
-      objectReference: {fileID: 0}
-    - target: {fileID: 200004, guid: 7c3e9f1a2b4d4e6f8a0c1d2e3f4a5b6c, type: 3}
-      propertyPath: m_fontSizeBase
-      value: 38.22
-      objectReference: {fileID: 0}
-    - target: {fileID: 300002, guid: 7c3e9f1a2b4d4e6f8a0c1d2e3f4a5b6c, type: 3}
+    - target: {fileID: 2504396371948928154, guid: 7c3e9f1a2b4d4e6f8a0c1d2e3f4a5b6c, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -60.3
-      objectReference: {fileID: 0}
-    - target: {fileID: 300004, guid: 7c3e9f1a2b4d4e6f8a0c1d2e3f4a5b6c, type: 3}
-      propertyPath: m_fontSize
-      value: 40.46
-      objectReference: {fileID: 0}
-    - target: {fileID: 300004, guid: 7c3e9f1a2b4d4e6f8a0c1d2e3f4a5b6c, type: 3}
-      propertyPath: m_fontSizeBase
-      value: 40.46
+      value: 33
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -3436,14 +3416,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 300004, guid: 8d4f0a2b3c5e4f7a9b1c2d3e4f5a6b7c, type: 3}
-      propertyPath: m_fontSize
-      value: 52.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 300004, guid: 8d4f0a2b3c5e4f7a9b1c2d3e4f5a6b7c, type: 3}
-      propertyPath: m_fontSizeBase
-      value: 52.5
-      objectReference: {fileID: 0}
+    - target: {fileID: 100007, guid: 8d4f0a2b3c5e4f7a9b1c2d3e4f5a6b7c, type: 3}
+      propertyPath: spawnAnchor
+      value: 
+      objectReference: {fileID: 556720003}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -3453,6 +3429,16 @@ PrefabInstance:
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 100002, guid: 8d4f0a2b3c5e4f7a9b1c2d3e4f5a6b7c, type: 3}
   m_PrefabInstance: {fileID: 556720001}
+  m_PrefabAsset: {fileID: 0}
+--- !u!224 &556720003 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 7434585249218119842, guid: 8d4f0a2b3c5e4f7a9b1c2d3e4f5a6b7c, type: 3}
+  m_PrefabInstance: {fileID: 556720001}
+  m_PrefabAsset: {fileID: 0}
+--- !u!224 &569154445 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 2504396371948928154, guid: 7c3e9f1a2b4d4e6f8a0c1d2e3f4a5b6c, type: 3}
+  m_PrefabInstance: {fileID: 556710001}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &586882773
 GameObject:

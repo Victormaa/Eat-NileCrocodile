@@ -19,14 +19,25 @@ public class ResourceOutputStep
 }
 
 /// <summary>
-/// 资源转换：由 MultiClickTrigger.onTriggered 调用 TryConvert。
-/// 先扣 inputCosts，再按当前升级等级从 outputSteps 取产出；不够则失败、不产出。
+/// 资源转换：建造（UpgradeLevel 达标）后可自动按间隔 TryConvert；
+/// 也可由 MultiClickTrigger.onTriggered 手动调用。
+/// 先扣 inputCosts，再按当前升级等级从 outputSteps 取产出。
 /// </summary>
 public class ResourceConverter : MonoBehaviour
 {
     [Header("升级来源")]
     [Tooltip("用于读取 UpgradeLevel；为空则同物体 GetComponent")]
     public MultiClickTrigger clickTrigger;
+
+    [Header("建造后自动产出")]
+    [Tooltip("UpgradeLevel 达到门槛后，按间隔自动 TryConvert")]
+    public bool autoProduceAfterBuilt = true;
+    [Tooltip("自动产出间隔（秒）")]
+    public float autoInterval = 2.5f;
+    [Tooltip("UpgradeLevel >= 该值视为已建造，开始自动产")]
+    public int builtUpgradeLevel = 1;
+    [Tooltip("加工按钮根物体；自动模式下保持隐藏")]
+    public GameObject interactButtonRoot;
 
     [Header("每次转换消耗")]
     [Tooltip("通常一项：CrocodileFat；可填多项 = 同时扣多种资源")]
@@ -40,14 +51,53 @@ public class ResourceConverter : MonoBehaviour
     [Tooltip("outputSteps 为空时使用")]
     public ResourceOutputEntry[] outputs;
 
+    [Header("产出飘字（可选）")]
+    [Tooltip("为空则同物体 GetComponent")]
+    public ResourceGainFeedback gainFeedback;
+
     [Header("结果回调（可选）")]
     public UnityEvent onConvertSuccess;
     public UnityEvent onConvertFailed;
+
+    private float autoTimer;
+    private bool listeningUpgrade;
+
+    public bool IsBuilt =>
+        clickTrigger != null && clickTrigger.UpgradeLevel >= builtUpgradeLevel;
 
     void Awake()
     {
         if (clickTrigger == null)
             clickTrigger = GetComponent<MultiClickTrigger>();
+        if (gainFeedback == null)
+            gainFeedback = GetComponent<ResourceGainFeedback>();
+    }
+
+    void OnEnable()
+    {
+        BindUpgradeListener();
+        RefreshInteractButton();
+    }
+
+    void OnDisable()
+    {
+        UnbindUpgradeListener();
+    }
+
+    void Update()
+    {
+        if (!autoProduceAfterBuilt || !IsBuilt)
+            return;
+
+        if (autoInterval <= 0f)
+            return;
+
+        autoTimer += Time.deltaTime;
+        if (autoTimer < autoInterval)
+            return;
+
+        autoTimer = 0f;
+        TryConvert();
     }
 
     /// <summary>UnityEvent 入口（无返回值）。</summary>
@@ -56,7 +106,7 @@ public class ResourceConverter : MonoBehaviour
         TryConvert();
     }
 
-    /// <summary>绑到 MultiClickTrigger.onTriggered：够资源则扣料加货，否则失败反馈。</summary>
+    /// <summary>够资源则扣料加货，否则失败反馈。</summary>
     public bool TryConvert()
     {
         if (GameManager.Instance == null)
@@ -78,12 +128,22 @@ public class ResourceConverter : MonoBehaviour
             return false;
         }
 
-        ApplyOutputs();
+        ResourceOutputEntry[] produced = GetCurrentOutputs();
+        ApplyOutputs(produced);
+        gainFeedback?.Show(produced);
         onConvertSuccess?.Invoke();
         return true;
     }
 
-    /// <summary>当前等级对应的产出表（供调试 / 验证用）。</summary>
+    /// <summary>升级成功时由 MultiClickTrigger.onUpgradeSuccess 调用，或内部监听。</summary>
+    public void OnUpgradeSuccess()
+    {
+        RefreshInteractButton();
+        if (IsBuilt)
+            autoTimer = 0f;
+    }
+
+    /// <summary>当前等级对应的产出表（供调试用）。</summary>
     public ResourceOutputEntry[] GetCurrentOutputs()
     {
         if (outputSteps != null && outputSteps.Length > 0)
@@ -95,6 +155,34 @@ public class ResourceConverter : MonoBehaviour
         }
 
         return outputs;
+    }
+
+    public void RefreshInteractButton()
+    {
+        if (interactButtonRoot == null)
+            return;
+
+        // 自动产出开启时不需要加工按钮；关闭自动时仅已建造才显示。
+        bool show = !autoProduceAfterBuilt && IsBuilt;
+        interactButtonRoot.SetActive(show);
+    }
+
+    private void BindUpgradeListener()
+    {
+        if (listeningUpgrade || clickTrigger == null)
+            return;
+
+        clickTrigger.onUpgradeSuccess.AddListener(OnUpgradeSuccess);
+        listeningUpgrade = true;
+    }
+
+    private void UnbindUpgradeListener()
+    {
+        if (!listeningUpgrade || clickTrigger == null)
+            return;
+
+        clickTrigger.onUpgradeSuccess.RemoveListener(OnUpgradeSuccess);
+        listeningUpgrade = false;
     }
 
     private bool CanAffordInputs()
@@ -117,9 +205,8 @@ public class ResourceConverter : MonoBehaviour
         return true;
     }
 
-    private void ApplyOutputs()
+    private void ApplyOutputs(ResourceOutputEntry[] active)
     {
-        ResourceOutputEntry[] active = GetCurrentOutputs();
         if (active == null) return;
 
         for (int i = 0; i < active.Length; i++)

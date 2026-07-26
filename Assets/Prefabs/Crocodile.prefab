@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 6912556185555835060}
   - component: {fileID: 8500158509843933468}
   - component: {fileID: 4604100082430596936}
+  - component: {fileID: 8500158509843933470}
   m_Layer: 0
   m_Name: Crocodile
   m_TagString: Crocodile
@@ -193,6 +194,31 @@ MonoBehaviour:
   shrinkSoundId: WildeBeestEaten
   shrinkSoundVolume: 1
   satietyGainOnEat: 1
+  resourceGainFeedback: {fileID: 8500158509843933470}
+--- !u!114 &8500158509843933470
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 266413411520188233}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f2b3c4d5e6f74899a1b2c3d4e5f6a7b8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  popupPrefab: {fileID: 110005, guid: a3b4c5d6e7f8490ab1c2d3e4f5a6b7c8, type: 3}
+  spawnAnchor: {fileID: 0}
+  worldAnchor: {fileID: 9145836705296859486}
+  spawnParent: {fileID: 0}
+  spawnOffset: {x: 0, y: 40}
+  randomJitter: {x: 12, y: 8}
+  moneyIcon: {fileID: 21300000, guid: 8fdb1acd17e317c4292c7c03b2fa1c5d, type: 3}
+  crocodileFatIcon: {fileID: 21300000, guid: 4288215f2831c624a9a90b7e1178c4ab, type: 3}
+  crocoFurIcon: {fileID: 21300000, guid: 54482b01f8d56b9499dbc497b8e2a757, type: 3}
+  amountFormat: '+{0}'
+  amountNumberFormat: 0.#
+  staggerDelay: 0.12
 --- !u!95 &4604100082430596936
 Animator:
   serializedVersion: 5
