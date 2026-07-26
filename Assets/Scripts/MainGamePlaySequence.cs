@@ -426,6 +426,56 @@ public class MainGamePlaySequence : MonoBehaviour
                 stepType = MainGamePlayStepType.UnlockObjects,
                 objectsToShow = Array.Empty<GameObject>(),
             },
+            new MainGamePlayStep
+            {
+                stepType = MainGamePlayStepType.ShowTip,
+                tipMessage = "提升一下抓捕速度吧，这样nile就可以自己抓到角马了",
+                tipDuration = 3f,
+            },
+            new MainGamePlayStep
+            {
+                stepType = MainGamePlayStepType.ShowTip,
+                tipMessage = "也许吃到第18只角马，Nile们会很开心",
+                tipDuration = 2.5f,
+            },
+            new MainGamePlayStep
+            {
+                stepType = MainGamePlayStepType.WaitEatenCount,
+                requiredEaten = 18,
+            },
+            new MainGamePlayStep
+            {
+                stepType = MainGamePlayStepType.UnlockObjects,
+                objectsToShow = Array.Empty<GameObject>(),
+            },
+            new MainGamePlayStep
+            {
+                stepType = MainGamePlayStepType.ShowTip,
+                tipMessage = "隐藏能力的提高会让捕获更简单",
+                tipDuration = 2f,
+            },
+            new MainGamePlayStep
+            {
+                stepType = MainGamePlayStepType.ShowTip,
+                tipMessage = "也许吃到第35只角马吧，留给我们的时间不多了",
+                tipDuration = 2.5f,
+            },
+            new MainGamePlayStep
+            {
+                stepType = MainGamePlayStepType.WaitEatenCount,
+                requiredEaten = 35,
+            },
+            new MainGamePlayStep
+            {
+                stepType = MainGamePlayStepType.UnlockObjects,
+                objectsToShow = Array.Empty<GameObject>(),
+            },
+            new MainGamePlayStep
+            {
+                stepType = MainGamePlayStepType.ShowTip,
+                tipMessage = "我们可以建造一家鳄鱼餐厅了，鳄鱼餐厅会把鳄鱼皮留下，鳄鱼皮是好东西呀~",
+                tipDuration = 2.5f,
+            },
         };
     }
 }

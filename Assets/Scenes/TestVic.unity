@@ -1823,6 +1823,7 @@ Transform:
   - {fileID: 1848118434}
   - {fileID: 139006079}
   - {fileID: 910001002}
+  - {fileID: 363713069}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &344743900
@@ -2070,6 +2071,53 @@ Transform:
   - {fileID: 3991664993011111004}
   m_Father: {fileID: 951809680}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &363713068
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 363713069}
+  - component: {fileID: 363713070}
+  m_Layer: 0
+  m_Name: GameSpeedController
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &363713069
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 363713068}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 336801207}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &363713070
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 363713068}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ff79dc7642a81444f9281eac3e791274, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  normalSpeed: 1
+  fastSpeed: 4
+  toggleKey: 32
 --- !u!1001 &384480814
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4565,6 +4613,62 @@ MonoBehaviour:
     requiredEaten: 1
     objectsToShow:
     - {fileID: 910001005}
+  - stepType: 0
+    tipMessage: "\u63D0\u5347\u4E00\u4E0B\u6293\u6355\u901F\u5EA6\u5427\uFF0C\u8FD9\u6837nile\u5C31\u53EF\u4EE5\u81EA\u5DF1\u6293\u5230\u89D2\u9A6C\u4E86"
+    tipDuration: 3
+    waitSeconds: 1
+    requiredEaten: 1
+    objectsToShow: []
+  - stepType: 0
+    tipMessage: "\u4E5F\u8BB8\u5403\u5230\u7B2C18\u53EA\u89D2\u9A6C\uFF0CNile\u4EEC\u4F1A\u5F88\u5F00\u5FC3"
+    tipDuration: 2.5
+    waitSeconds: 1
+    requiredEaten: 1
+    objectsToShow: []
+  - stepType: 2
+    tipMessage: 
+    tipDuration: 2.5
+    waitSeconds: 1
+    requiredEaten: 18
+    objectsToShow: []
+  - stepType: 4
+    tipMessage: 
+    tipDuration: 2.5
+    waitSeconds: 1
+    requiredEaten: 1
+    objectsToShow:
+    - {fileID: 910001010}
+  - stepType: 0
+    tipMessage: "\u9690\u85CF\u80FD\u529B\u7684\u63D0\u9AD8\u4F1A\u8BA9\u6355\u83B7\u66F4\u7B80\u5355"
+    tipDuration: 2
+    waitSeconds: 1
+    requiredEaten: 1
+    objectsToShow: []
+  - stepType: 0
+    tipMessage: "\u4E5F\u8BB8\u5403\u5230\u7B2C35\u53EA\u89D2\u9A6C\u5427\uFF0C\u7559\u7ED9\u6211\u4EEC\u7684\u65F6\u95F4\u4E0D\u591A\u4E86"
+    tipDuration: 2.5
+    waitSeconds: 1
+    requiredEaten: 1
+    objectsToShow: []
+  - stepType: 2
+    tipMessage: 
+    tipDuration: 2.5
+    waitSeconds: 1
+    requiredEaten: 35
+    objectsToShow: []
+  - stepType: 4
+    tipMessage: 
+    tipDuration: 2.5
+    waitSeconds: 1
+    requiredEaten: 1
+    objectsToShow:
+    - {fileID: 910001007}
+  - stepType: 0
+    tipMessage: "\u6211\u4EEC\u53EF\u4EE5\u5EFA\u9020\u4E00\u5BB6\u9CC4\u9C7C\u9910\u5385\u4E86\uFF0C\u9CC4\u9C7C\u9910\u5385\u4F1A\u628A\u9CC4\u9C7C\u76AE\u7559\u4E0B\uFF0C\u9CC4\u9C7C\u76AE\u662F\u597D\u4E1C\u897F\u5440~"
+    tipDuration: 2.5
+    waitSeconds: 1
+    requiredEaten: 1
+    objectsToShow: []
 --- !u!1 &910001005 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 398382625778064501, guid: c23092a01b346a647b90513a02a266c2, type: 3}
