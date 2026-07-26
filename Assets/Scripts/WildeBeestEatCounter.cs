@@ -1,4 +1,5 @@
 using System;
+using TMPro;
 using UnityEngine;
 
 /// <summary>
@@ -25,6 +26,11 @@ public class WildeBeestEatCounter : MonoBehaviour
     [SerializeField]
     private int count;
 
+    [Header("显示（可选）")]
+    public TMP_Text countText;
+    [Tooltip("例如 Eaten: {0}")]
+    public string countFormat = "{0}";
+
     /// <summary>吃掉数量变化时回调，参数为当前累计数量。</summary>
     public event Action<int> OnEatenChanged;
 
@@ -40,6 +46,11 @@ public class WildeBeestEatCounter : MonoBehaviour
         instance = this;
     }
 
+    private void Start()
+    {
+        RefreshCountUI();
+    }
+
     private void OnDestroy()
     {
         if (instance == this)
@@ -52,6 +63,13 @@ public class WildeBeestEatCounter : MonoBehaviour
     public void RegisterEat()
     {
         count++;
+        RefreshCountUI();
         OnEatenChanged?.Invoke(count);
+    }
+
+    public void RefreshCountUI()
+    {
+        if (countText == null) return;
+        countText.text = string.Format(countFormat, count);
     }
 }
