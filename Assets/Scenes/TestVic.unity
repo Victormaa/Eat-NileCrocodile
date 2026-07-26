@@ -1824,6 +1824,7 @@ Transform:
   - {fileID: 1848118434}
   - {fileID: 139006079}
   - {fileID: 910001002}
+  - {fileID: 1442343527}
   - {fileID: 363713069}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -4616,7 +4617,7 @@ MonoBehaviour:
   playOnStart: 1
   steps:
   - stepType: 0
-    tipMessage: "\u89D2\u9A6C\u4E0D\u4E0B\u6C34,\u6709\u9CC4\u9C7C,\u8BD5\u8BD5<link=swing>\u53EC\u5524\u4E91\u6735</link>\u597D\u4E86"
+    tipMessage: "\u89D2\u9A6C\u5BB3\u6015\u9CC4\u9C7C\u4E0D\u613F\u610F\u4E0B\u6C34,\u8BD5\u8BD5<link=swing>\u53EC\u5524\u96E8\u4E91</link>\u5F15\u5BFC\u5B83\u4EEC\u6E21\u6CB3\r\n(\u4E91\u96E8\u8981\u591A\u53EC\u5524\u51E0\u6B21\u624D\u4F1A\u51FA\u6765\u54E6!)"
     tipDuration: 2.5
     waitSeconds: 1
     requiredEaten: 1
@@ -4628,13 +4629,13 @@ MonoBehaviour:
     requiredEaten: 1
     objectsToShow: []
   - stepType: 0
-    tipMessage: "\u8FDC\u5904\u7684\u4E4C\u4E91\u4F1A\u8BA9\u89D2\u9A6C\u60F3\u5403\u7F8E\u98DF\u800C\u5F80\u524D\u8DD1"
-    tipDuration: 2.5
+    tipMessage: "\u4E0B\u7740\u96E8\u7684\u4E91\u6735\u4F1A\u8BA9\u5730\u4E0A\u7684\u8349\u957F\u7684\u66F4\u5FEB,\u5438\u5F15\u89D2\u9A6C\u5411\u5BF9\u5CB8\u8302\u5BC6\u7684\u8349\u5730\u8DD1\u53BB"
+    tipDuration: 5
     waitSeconds: 1
     requiredEaten: 1
     objectsToShow: []
   - stepType: 0
-    tipMessage: "\u8BA9Nile\u5148\u5403\u52305\u53EA\u89D2\u9A6C\u5427"
+    tipMessage: "\u8D81\u8FD9\u4E2A\u673A\u4F1A\u8BA9\u5C3C\u7F57\u9CC4\u5148\u5403\u591F5\u53EA\u89D2\u9A6C\u5427"
     tipDuration: 2.5
     waitSeconds: 1
     requiredEaten: 1
@@ -4646,7 +4647,7 @@ MonoBehaviour:
     requiredEaten: 1
     objectsToShow: []
   - stepType: 0
-    tipMessage: "\u89D2\u9A6C\u8DD1\u7684\u597D\u5FEB\uFF0C\u9CC4\u9C7C\u5403\u4E0D\u7740\uFF0C\u6211\u4EEC\u8BD5\u8BD5\u5E72\u6270\u4E00\u4E0B\u5B83\u4EEC"
+    tipMessage: "\u89D2\u9A6C\u4EEC\u770B\u5230\u5C3C\u7F57\u9CC4\u90FD\u4F1A\u52A0\u901F\u9003\u8DD1,\u8BD5\u7740\u7528\u9F20\u6807\u70B9\u51FB\u5B83\u4EEC\u8BA9\u5B83\u4EEC\u6162\u4E00\u70B9"
     tipDuration: 2.5
     waitSeconds: 1
     requiredEaten: 1
@@ -4665,13 +4666,13 @@ MonoBehaviour:
     objectsToShow:
     - {fileID: 910001005}
   - stepType: 0
-    tipMessage: "\u63D0\u5347\u4E00\u4E0B\u6293\u6355\u901F\u5EA6\u5427\uFF0C\u8FD9\u6837nile\u5C31\u53EF\u4EE5\u81EA\u5DF1\u6293\u5230\u89D2\u9A6C\u4E86"
-    tipDuration: 3
+    tipMessage: "\u592A\u68D2\u4E86!\u73B0\u5728\u5C3C\u7F57\u9CC4\u6709\u8DB3\u591F\u7684\u529B\u6C14\u6765\u63D0\u5347\u81EA\u5DF1\u7684\u80FD\u529B\u4E86!\u5148\u6765\u63D0\u5347\u4E00\u4E0B\u6293\u6355\u901F\u5EA6\u5427\r"
+    tipDuration: 5
     waitSeconds: 1
     requiredEaten: 1
     objectsToShow: []
   - stepType: 0
-    tipMessage: "\u4E5F\u8BB8\u5403\u5230\u7B2C18\u53EA\u89D2\u9A6C\uFF0CNile\u4EEC\u4F1A\u5F88\u5F00\u5FC3"
+    tipMessage: "\u5403\u591F18\u53EA\u89D2\u9A6C,\u5C3C\u7F57\u9CC4\u4EEC\u4F1A\u66F4\u5F00\u5FC3"
     tipDuration: 2.5
     waitSeconds: 1
     requiredEaten: 1
@@ -4690,13 +4691,14 @@ MonoBehaviour:
     objectsToShow:
     - {fileID: 910001010}
   - stepType: 0
-    tipMessage: "\u9690\u85CF\u80FD\u529B\u7684\u63D0\u9AD8\u4F1A\u8BA9\u6355\u83B7\u66F4\u7B80\u5355"
-    tipDuration: 2
+    tipMessage: "\u73B0\u5728\u6211\u4EEC\u53C8\u6709\u8DB3\u591F\u7684\u80FD\u529B\u6765\u628A\u5C3C\u7F57\u9CC4\u53D8\u5F97\u66F4\u806A\u660E\u4E00\u4E9B!
+      \r\n\u8BD5\u8BD5\u6765\u5347\u7EA7\u5C3C\u7F57\u9CC4\u7684\u9690\u85CF\u80FD\u529B,\u8BA9\u4ED6\u85CF\u8D77\u6765,\u7B49\u89D2\u9A6C\u6162\u6162\u8FC7\u6765\u518D\u4E00\u53E3\u5403\u6389\u5B83!"
+    tipDuration: 15
     waitSeconds: 1
     requiredEaten: 1
     objectsToShow: []
   - stepType: 0
-    tipMessage: "\u4E5F\u8BB8\u5403\u5230\u7B2C35\u53EA\u89D2\u9A6C\u5427\uFF0C\u7559\u7ED9\u6211\u4EEC\u7684\u65F6\u95F4\u4E0D\u591A\u4E86"
+    tipMessage: "\u5C3C\u7F57\u9CC4\u7EC8\u4E8E\u5403\u4E86\u4E2A\u534A\u9971!\u4F46\u8FD8\u662F\u4E0D\u591F,\u6216\u8BB8\u5F97\u5403\u523035\u53EA"
     tipDuration: 2.5
     waitSeconds: 1
     requiredEaten: 1
@@ -4715,8 +4717,8 @@ MonoBehaviour:
     objectsToShow:
     - {fileID: 910001007}
   - stepType: 0
-    tipMessage: "\u6211\u4EEC\u53EF\u4EE5\u5EFA\u9020\u4E00\u5BB6\u9CC4\u9C7C\u9910\u5385\u4E86\uFF0C\u9CC4\u9C7C\u9910\u5385\u4F1A\u628A\u9CC4\u9C7C\u76AE\u7559\u4E0B\uFF0C\u9CC4\u9C7C\u76AE\u662F\u597D\u4E1C\u897F\u5440~"
-    tipDuration: 2.5
+    tipMessage: "\u6211\u4EEC\u73B0\u5728\u53EF\u4EE5\u5EFA\u9020\u4E00\u5BB6\u9CC4\u9C7C\u9910\u5385,\u7ED9\u9910\u5385\u63D0\u4F9B\u9CC4\u9C7C\u8198,\u9910\u5385\u4F1A\u628A\u9CC4\u9C7C\u76AE\u7559\u4E0B\u7ED9\u6211\u4EEC\r\n\u9CC4\u9C7C\u76AE\u53EF\u662F\u597D\u4E1C\u897F\u5440\r"
+    tipDuration: 10
     waitSeconds: 1
     requiredEaten: 1
     objectsToShow: []
@@ -4734,14 +4736,13 @@ MonoBehaviour:
     requiredEaten: 1
     objectsToShow: []
   - stepType: 0
-    tipMessage: "\u6211\u4EEC\u6293\u7D27\u5347\u7EA7\u4E00\u4E0B\u5404\u9879\u5C5E\u6027\u5427~
-      \u65F6\u95F4\u4E0D\u591A\u4E86\uFF0C\u8FD8\u6709x\u5929\u4E86~"
-    tipDuration: 3
+    tipMessage: "\u6293\u7D27\u65F6\u95F4\u5347\u7EA7\u5C3C\u7F57\u9CC4\u7684\u80FD\u529B,\u8BA9\u4ED6\u80FD\u5FEB\u70B9\u5403\u9971!\u7559\u7ED9\u9CC4\u9C7C\u4EEC\u7684\u65F6\u95F4\u4E0D\u591A\u5566"
+    tipDuration: 5
     waitSeconds: 1
     requiredEaten: 1
     objectsToShow: []
   - stepType: 0
-    tipMessage: "\u6211\u4EEC\u8BD5\u8BD5\u770B\u80FD\u4E0D\u80FD\u6293\u523066\u53EA\u89D2\u9A6C\u5427!"
+    tipMessage: "\u6211\u4EEC\u8BD5\u8BD5\u770B\u80FD\u4E0D\u80FD\u5403\u591F66\u53EA\u89D2\u9A6C\u5427!"
     tipDuration: 3
     waitSeconds: 1
     requiredEaten: 1
@@ -4753,8 +4754,8 @@ MonoBehaviour:
     requiredEaten: 66
     objectsToShow: []
   - stepType: 0
-    tipMessage: "\u592A\u597D\u4E86\u6211\u4EEC\u597D\u50CF\u53EF\u4EE5\u5F00\u4E00\u4E2A\u76AE\u5305\u5DE5\u5382\u5728\u8FD9\u91CC\u4E86"
-    tipDuration: 3
+    tipMessage: "\u592A\u597D\u4E86!\u4E16\u754C\u8457\u540D\u7684\u7231\u9CC4\u4ED5\u8981\u5728\u8FD9\u91CC\u5F00\u76AE\u5305\u5DE5\u5382!\u53EF\u4EE5\u7ED9\u5C3C\u7F57\u9CC4\u4EEC\u5E26\u6765\u91D1\u5E01!\r\n\u91D1\u5E01\u53EF\u4EE5\u8BA9\u5C3C\u7F57\u9CC4\u5347\u7EA7\u7684\u66F4\u5FEB!"
+    tipDuration: 15
     waitSeconds: 1
     requiredEaten: 1
     objectsToShow: []
@@ -4774,8 +4775,8 @@ MonoBehaviour:
     requiredEaten: 1
     objectsToShow: []
   - stepType: 0
-    tipMessage: "\u592A\u597D\u4E86\uFF01\u6211\u4EEC\u6293\u7D27\u5347\u7EA7\u4E00\u5207\u542C\u8BF4\u6EE1\u7EA7\u9CC4\u9C7C\u662F\u4E00\u4E2A\u5927\u9B54\u738B\u5F62\u6001\u5462\uFF01"
-    tipDuration: 2
+    tipMessage: "\u5B8C\u7F8E!\u5C3C\u7F57\u9CC4\u9A6C\u4E0A\u8981\u5403\u9971\u4E86!\u73B0\u5728\u8BA9\u6211\u4EEC\u6293\u7D27\u65F6\u95F4\u5347\u7EA7\u5C3C\u7F57\u9CC4\u7684\u6240\u6709\u80FD\u529B!\u57F9\u517B\u4E00\u53EA\u8D85\u7EA7\u9CC4\u9C7C!"
+    tipDuration: 5
     waitSeconds: 1
     requiredEaten: 1
     objectsToShow: []
@@ -5170,7 +5171,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: -131.5, y: -61.679993}
+  m_AnchoredPosition: {x: -131.5, y: -61.67993}
   m_SizeDelta: {x: 263.01, y: 123.36}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &1048600562 stripped
@@ -6300,6 +6301,90 @@ MonoBehaviour:
   sortingOrderOffset: 0
   precision: 100
   includeChildren: 0
+--- !u!1 &1292322513
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1292322515}
+  - component: {fileID: 1292322514}
+  m_Layer: 0
+  m_Name: MainBackGround
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!212 &1292322514
+SpriteRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1292322513}
+  m_Enabled: 1
+  m_CastShadows: 0
+  m_ReceiveShadows: 0
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 0
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: -1
+  m_Sprite: {fileID: 21300000, guid: e810a9b3392dc514e91243c6295220aa, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_FlipX: 0
+  m_FlipY: 0
+  m_DrawMode: 0
+  m_Size: {x: 28.286074, y: 132.26}
+  m_AdaptiveModeThreshold: 0.5
+  m_SpriteTileMode: 0
+  m_WasSpriteAssigned: 1
+  m_MaskInteraction: 0
+  m_SpriteSortPoint: 0
+--- !u!4 &1292322515
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1292322513}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.21, y: 73.25, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1293708734
 GameObject:
   m_ObjectHideFlags: 0
@@ -6598,6 +6683,264 @@ MonoBehaviour:
   sortingOrderOffset: 0
   precision: 100
   includeChildren: 0
+--- !u!1 &1442343526
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1442343527}
+  - component: {fileID: 1442343529}
+  - component: {fileID: 1442343528}
+  m_Layer: 0
+  m_Name: MainGamePlaySequence_Eng
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!4 &1442343527
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1442343526}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 336801207}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1442343528
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1442343526}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8d5b2f3c0a4e5b7f9c1d2e3f4a5b6c7d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tipText: {fileID: 1234279361}
+  rainHerdGoSequence: {fileID: 139006081}
+  tipFadeInDuration: 0.25
+  tipFadeOutDuration: 0.25
+  tipFloatDistance: 30
+  initiallyHidden:
+  - {fileID: 160464816}
+  - {fileID: 1293708734}
+  - {fileID: 910001010}
+  - {fileID: 910001005}
+  - {fileID: 910001006}
+  - {fileID: 910001007}
+  - {fileID: 910001008}
+  - {fileID: 910001009}
+  playOnStart: 1
+  steps:
+  - stepType: 0
+    tipMessage: "The wildebeests fear the crocodiles and refuse to enter the river.
+      Try <link=swing>Summon Rain Clouds</link> to guide them across!\n(You\u2019ll
+      need to summon rain clouds multiple times for them to appear!)"
+    tipDuration: 2.5
+    waitSeconds: 1
+    requiredEaten: 1
+    objectsToShow: []
+  - stepType: 3
+    tipMessage: 
+    tipDuration: 2.5
+    waitSeconds: 1
+    requiredEaten: 1
+    objectsToShow: []
+  - stepType: 0
+    tipMessage: Rain clouds make grass grow faster on land, luring wildebeests to
+      run toward the lush grass on the opposite bank.
+    tipDuration: 5
+    waitSeconds: 1
+    requiredEaten: 1
+    objectsToShow: []
+  - stepType: 0
+    tipMessage: "Seize this chance \u2014 let the Nile crocodiles feast on 5 wildebeests
+      first!"
+    tipDuration: 2.5
+    waitSeconds: 1
+    requiredEaten: 1
+    objectsToShow: []
+  - stepType: 1
+    tipMessage: 
+    tipDuration: 2.5
+    waitSeconds: 5
+    requiredEaten: 1
+    objectsToShow: []
+  - stepType: 0
+    tipMessage: Wildebeests will dash away when spotting Nile crocodiles. Click them
+      with your mouse to slow them down!
+    tipDuration: 2.5
+    waitSeconds: 1
+    requiredEaten: 1
+    objectsToShow: []
+  - stepType: 2
+    tipMessage: 
+    tipDuration: 2.5
+    waitSeconds: 1
+    requiredEaten: 5
+    objectsToShow: []
+  - stepType: 4
+    tipMessage: 
+    tipDuration: 2.5
+    waitSeconds: 1
+    requiredEaten: 1
+    objectsToShow:
+    - {fileID: 910001005}
+  - stepType: 0
+    tipMessage: "Awesome! The Nile crocodile now has enough strength to upgrade its
+      abilities. Let\u2019s boost its capture speed first!"
+    tipDuration: 3
+    waitSeconds: 1
+    requiredEaten: 1
+    objectsToShow: []
+  - stepType: 0
+    tipMessage: "Feed the crocs 18 wildebeests, and they\u2019ll be much happier!"
+    tipDuration: 2.5
+    waitSeconds: 1
+    requiredEaten: 1
+    objectsToShow: []
+  - stepType: 2
+    tipMessage: 
+    tipDuration: 2.5
+    waitSeconds: 1
+    requiredEaten: 18
+    objectsToShow: []
+  - stepType: 4
+    tipMessage: 
+    tipDuration: 2.5
+    waitSeconds: 1
+    requiredEaten: 1
+    objectsToShow:
+    - {fileID: 910001010}
+  - stepType: 0
+    tipMessage: "We\u2019ve gained enough fullness to make the Nile crocodiles smarter!\nUnlock
+      the crocs\u2019 hidden ability: lie in ambush, wait for wildebeests to draw
+      near, then snap them up!"
+    tipDuration: 15
+    waitSeconds: 1
+    requiredEaten: 1
+    objectsToShow: []
+  - stepType: 0
+    tipMessage: "The Nile crocodiles are half full at last! But it\u2019s still not
+      enough \u2014 they need to eat 35 wildebeests."
+    tipDuration: 2.5
+    waitSeconds: 1
+    requiredEaten: 1
+    objectsToShow: []
+  - stepType: 2
+    tipMessage: 
+    tipDuration: 2.5
+    waitSeconds: 1
+    requiredEaten: 35
+    objectsToShow: []
+  - stepType: 4
+    tipMessage: 
+    tipDuration: 2.5
+    waitSeconds: 1
+    requiredEaten: 1
+    objectsToShow:
+    - {fileID: 910001007}
+  - stepType: 0
+    tipMessage: 'Now we can build a Crocodile Restaurant. Supply croc fat to the
+      restaurant, and it will leave crocodile skins for us.
+
+      Crocodile skins
+      are incredibly valuable!'
+    tipDuration: 5
+    waitSeconds: 1
+    requiredEaten: 1
+    objectsToShow: []
+  - stepType: 4
+    tipMessage: 
+    tipDuration: 2.5
+    waitSeconds: 1
+    requiredEaten: 1
+    objectsToShow:
+    - {fileID: 160464816}
+  - stepType: 1
+    tipMessage: 
+    tipDuration: 2.5
+    waitSeconds: 3
+    requiredEaten: 1
+    objectsToShow: []
+  - stepType: 0
+    tipMessage: "Hurry to upgrade the Nile crocodiles\u2019 abilities so they can
+      get full soon! Time is running out for the crocs!"
+    tipDuration: 3
+    waitSeconds: 1
+    requiredEaten: 1
+    objectsToShow: []
+  - stepType: 0
+    tipMessage: "Let\u2019s aim to feed them 66 wildebeests!"
+    tipDuration: 3
+    waitSeconds: 1
+    requiredEaten: 1
+    objectsToShow: []
+  - stepType: 2
+    tipMessage: 
+    tipDuration: 2.5
+    waitSeconds: 1
+    requiredEaten: 66
+    objectsToShow: []
+  - stepType: 0
+    tipMessage: 'Great news! World-famous Ermes will build a leather factory here!
+      It will reward us with coins for the Nile crocodiles!
+
+      Use coins to build
+      fences, guiding more wildebeests straight toward the crocs!'
+    tipDuration: 10
+    waitSeconds: 1
+    requiredEaten: 1
+    objectsToShow: []
+  - stepType: 4
+    tipMessage: 
+    tipDuration: 2.5
+    waitSeconds: 1
+    requiredEaten: 1
+    objectsToShow:
+    - {fileID: 1293708734}
+    - {fileID: 910001008}
+    - {fileID: 910001006}
+  - stepType: 1
+    tipMessage: 
+    tipDuration: 2.5
+    waitSeconds: 2
+    requiredEaten: 1
+    objectsToShow: []
+  - stepType: 0
+    tipMessage: "Perfect! The Nile crocodiles are almost full! Let\u2019s rush to
+      max out all their abilities and raise an ultimate super crocodile!"
+    tipDuration: 5
+    waitSeconds: 1
+    requiredEaten: 1
+    objectsToShow: []
+--- !u!114 &1442343529
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1442343526}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7c4a1e2b9f3d4a6e8b0c1d2e3f4a5b6c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  count: 0
+  countText: {fileID: 344743902}
+  countFormat: '{0}'
 --- !u!1 &1445334198
 GameObject:
   m_ObjectHideFlags: 0
@@ -8771,7 +9114,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: 131.51, y: -61.679993}
+  m_AnchoredPosition: {x: 131.51, y: -61.67993}
   m_SizeDelta: {x: 263.01, y: 123.36}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1939644067
@@ -17454,3 +17797,4 @@ SceneRoots:
   - {fileID: 411628680692816621}
   - {fileID: 951809680}
   - {fileID: 105878120}
+  - {fileID: 1292322515}

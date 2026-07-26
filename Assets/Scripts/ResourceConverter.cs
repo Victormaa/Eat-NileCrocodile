@@ -19,8 +19,8 @@ public class ResourceOutputStep
 }
 
 /// <summary>
-/// 资源转换：建造（UpgradeLevel 达标）后可自动按间隔 TryConvert；
-/// 也可由 MultiClickTrigger.onTriggered 手动调用。
+/// 资源转换：建造（UpgradeLevel 达标）后由加工按钮手动触发。
+/// 绑 MultiClickTrigger.onTriggered → ConvertOnce。
 /// 先扣 inputCosts，再按当前升级等级从 outputSteps 取产出。
 /// </summary>
 public class ResourceConverter : MonoBehaviour
@@ -29,14 +29,10 @@ public class ResourceConverter : MonoBehaviour
     [Tooltip("用于读取 UpgradeLevel；为空则同物体 GetComponent")]
     public MultiClickTrigger clickTrigger;
 
-    [Header("建造后自动产出")]
-    [Tooltip("UpgradeLevel 达到门槛后，按间隔自动 TryConvert")]
-    public bool autoProduceAfterBuilt = true;
-    [Tooltip("自动产出间隔（秒）")]
-    public float autoInterval = 2.5f;
-    [Tooltip("UpgradeLevel >= 该值视为已建造，开始自动产")]
+    [Header("建造门槛")]
+    [Tooltip("UpgradeLevel >= 该值视为已建造，显示加工按钮")]
     public int builtUpgradeLevel = 1;
-    [Tooltip("加工按钮根物体；自动模式下保持隐藏")]
+    [Tooltip("加工按钮根物体；未建造时隐藏")]
     public GameObject interactButtonRoot;
 
     [Header("每次转换消耗")]
@@ -59,7 +55,6 @@ public class ResourceConverter : MonoBehaviour
     public UnityEvent onConvertSuccess;
     public UnityEvent onConvertFailed;
 
-    private float autoTimer;
     private bool listeningUpgrade;
 
     public bool IsBuilt =>
@@ -82,22 +77,6 @@ public class ResourceConverter : MonoBehaviour
     void OnDisable()
     {
         UnbindUpgradeListener();
-    }
-
-    void Update()
-    {
-        if (!autoProduceAfterBuilt || !IsBuilt)
-            return;
-
-        if (autoInterval <= 0f)
-            return;
-
-        autoTimer += Time.deltaTime;
-        if (autoTimer < autoInterval)
-            return;
-
-        autoTimer = 0f;
-        TryConvert();
     }
 
     /// <summary>UnityEvent 入口（无返回值）。</summary>
@@ -139,8 +118,6 @@ public class ResourceConverter : MonoBehaviour
     public void OnUpgradeSuccess()
     {
         RefreshInteractButton();
-        if (IsBuilt)
-            autoTimer = 0f;
     }
 
     /// <summary>当前等级对应的产出表（供调试用）。</summary>
@@ -162,9 +139,7 @@ public class ResourceConverter : MonoBehaviour
         if (interactButtonRoot == null)
             return;
 
-        // 自动产出开启时不需要加工按钮；关闭自动时仅已建造才显示。
-        bool show = !autoProduceAfterBuilt && IsBuilt;
-        interactButtonRoot.SetActive(show);
+        interactButtonRoot.SetActive(IsBuilt);
     }
 
     private void BindUpgradeListener()
