@@ -5446,7 +5446,7 @@ CanvasGroup:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 920001050}
   m_Enabled: 1
-  m_Alpha: 0
+  m_Alpha: 1
   m_Interactable: 0
   m_BlocksRaycasts: 0
   m_IgnoreParentGroups: 0
@@ -5461,6 +5461,7 @@ GameObject:
   - component: {fileID: 920001061}
   - component: {fileID: 920001062}
   - component: {fileID: 920001063}
+  - component: {fileID: 920001064}
   m_Layer: 5
   m_Name: StoryText
   m_TagString: Untagged
@@ -5482,10 +5483,10 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 150946223}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 3.6401367, y: -101.870056}
-  m_SizeDelta: {x: -880.3799, y: -916.76}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 1343.62, y: 511.32}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &920001062
 CanvasRenderer:
@@ -5584,6 +5585,18 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!225 &920001064
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 920001060}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &920001100
 GameObject:
   m_ObjectHideFlags: 0
@@ -5631,6 +5644,7 @@ MonoBehaviour:
   introCamera: {fileID: 519420031}
   titleGroup: {fileID: 920001012}
   storyGroup: {fileID: 920001052}
+  textGroup: {fileID: 920001064}
   mainGameUiGroup: {fileID: 208759922}
   mainGamePlaySequence: {fileID: 910001004}
   storyText: {fileID: 920001063}
