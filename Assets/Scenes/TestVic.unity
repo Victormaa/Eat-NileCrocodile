@@ -428,7 +428,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8500158509843933468, guid: d4253149e34ac8a4b947433cc71a75e1, type: 3}
       propertyPath: maxCatchableSpeed
-      value: 1.4
+      value: 2.8
       objectReference: {fileID: 0}
     - target: {fileID: 9145836705296859486, guid: d4253149e34ac8a4b947433cc71a75e1, type: 3}
       propertyPath: m_LocalPosition.x
@@ -5636,17 +5636,21 @@ MonoBehaviour:
   storyText: {fileID: 920001063}
   startPromptText: {fileID: 0}
   storyLines:
-  - text: "\u5F88\u4E45\u5F88\u4E45\u4EE5\u524D\uFF0C\u5C3C\u7F57\u6CB3\u7554\u7684\u9CC4\u9C7C\u4EEC\u6B63\u5728\u7B49\u5F85\u8FC1\u5F99\u7684\u89D2\u9A6C\u2026\u2026"
-    holdDuration: 2.5
-  - text: "\u96E8\u5B63\u5C06\u81F3\uFF0C\u5B83\u4EEC\u5FC5\u987B\u6293\u7D27\u65F6\u95F4\u6355\u730E\u3002"
-    holdDuration: 2.5
-  - text: "\u800C\u4F60\uFF0C\u5C31\u662F\u90A3\u6761\u540D\u53EB Nile \u7684\u5C0F\u9CC4\u9C7C\u3002"
-    holdDuration: 2.5
+  - text: "\u5728\u975E\u6D32\u7684\u4E1C\u975E\u5927\u8349\u539F\u8179\u5730,\u6709\u4E00\u6761\u9A6C\u62C9\u6CB3"
+    holdDuration: 3.5
+  - text: "\u9A6C\u62C9\u6CB3\u91CC\u751F\u6D3B\u7740\u4E00\u7FA4\u5C3C\u7F57\u9CC4"
+    holdDuration: 3.5
+  - text: "\u5C3C\u7F57\u9CC4\u770B\u4F3C\u51F6\u731B,\u5B9E\u5219\u4E00\u5E74\u670990%\u7684\u65F6\u95F4\u90FD\u662F\u5403\u4E0D\u9971\u7684"
+    holdDuration: 3.5
+  - text: "\u53EA\u6709\u5728\u6BCF\u5E747-8\u6708,\u89D2\u9A6C\u5927\u8FC1\u5F99\u7684\u65F6\u5019,\u624D\u80FD\u9971\u9910\u4E00\u987F\n(\u53EA\u670960\u5929\u7684\u65F6\u95F4\u5403\u9971)"
+    holdDuration: 3.5
+  - text: "\u73B0\u5728\u521A\u597D\u662F\u89D2\u9A6C\u8FC1\u5F99\u7684\u65F6\u5019,\u4E3A\u4E86\u8BA9\u66F4\u591A\u7684\u5C3C\u7F57\u9CC4\u5B58\u6D3B\u4E0B\u53BB,\u8BA9\u6211\u4EEC\u4E00\u8D77\u6765\u5E2E\u52A9\u5B83\u4EEC\u5427!"
+    holdDuration: 4
   storyLineFadeInDuration: 0.35
   storyLineFadeOutDuration: 0.35
   startPromptMessage: "\u6309\u4EFB\u610F\u952E\u5F00\u59CB\u6E38\u620F"
   cameraEndPosition: {x: 0, y: 0, z: -10}
-  cameraSlowDuration: 28
+  cameraSlowDuration: 50
   cameraSnapDuration: 2.2
   beforeSnapSoundId: SnapSound
   beforeSnapSoundVolume: 1
@@ -15699,7 +15703,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8500158509843933468, guid: d4253149e34ac8a4b947433cc71a75e1, type: 3}
       propertyPath: maxCatchableSpeed
-      value: 1.4
+      value: 2.8
       objectReference: {fileID: 0}
     - target: {fileID: 9145836705296859486, guid: d4253149e34ac8a4b947433cc71a75e1, type: 3}
       propertyPath: m_LocalPosition.x

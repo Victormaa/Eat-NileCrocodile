@@ -55,17 +55,45 @@ public class WildeBeestBehavior : MonoBehaviour
     public float scaredShakeAmount = 0.15f;
     public float scaredShakeFrequency = 40f;
 
+    [Header("Click Stun")]
+    public float clickStunDuration = 0.8f;
+    public float clickSlowDuration = 1.5f;
+    public float clickSlowSpeed = 1.0f;
+    public float clickStunShakeAmount = 0.12f;
+    public float clickStunShakeFrequency = 40f;
+    public float clickCooldown = 0.3f;
+
     public bool CanMove => canMove;
     public bool IsCaught => isCaught;
-    public float CurrentSpeed => currentSpeed;
+    public float CurrentSpeed
+    {
+        get
+        {
+            if (isClickStunned) return 0f;
+            if (isClickSlowing) return clickSlowSpeed;
+            return currentSpeed;
+        }
+    }
     public bool DespawnOnExit => despawnOnExit;
 
     private bool despawnOnExit;
     private float exitBoundaryX = 14f;
 
+    private bool clickStunEnabled;
+    private bool isClickStunned;
+    private bool isClickSlowing;
+    private bool clickEffectRunning;
+    private float clickCooldownRemaining;
+    private Coroutine clickStunRoutine;
+
     public void SetCanMove(bool value)
     {
         canMove = value;
+    }
+
+    public void SetClickStunEnabled(bool enabled)
+    {
+        clickStunEnabled = enabled;
     }
 
     public void SetDespawnOnExit(bool value, float boundaryX = 12f)
@@ -85,6 +113,80 @@ public class WildeBeestBehavior : MonoBehaviour
         canMove = false;
         isJumping = false;
         jumpTimer = 0f;
+        CancelClickStunEffect();
+    }
+
+    public void TryStunFromClick()
+    {
+        if (!clickStunEnabled) return;
+        if (!canMove || isCaught || isJumping) return;
+        if (clickEffectRunning || isClickStunned || isClickSlowing) return;
+        if (clickCooldownRemaining > 0f) return;
+
+        clickStunRoutine = StartCoroutine(ClickStunThenSlowRoutine());
+    }
+
+    private IEnumerator ClickStunThenSlowRoutine()
+    {
+        clickEffectRunning = true;
+        isClickStunned = true;
+        isClickSlowing = false;
+        canMove = false;
+
+        Vector3 origin = transform.position;
+        float elapsed = 0f;
+        while (elapsed < clickStunDuration)
+        {
+            if (isCaught) yield break;
+
+            elapsed += Time.deltaTime;
+            float damper = 1f - Mathf.Clamp01(elapsed / clickStunDuration);
+            float ox = Mathf.Sin(elapsed * clickStunShakeFrequency) * clickStunShakeAmount * damper;
+            float oy = Mathf.Cos(elapsed * clickStunShakeFrequency * 1.3f) * clickStunShakeAmount * damper;
+            transform.position = origin + new Vector3(ox, oy, 0f);
+            yield return null;
+        }
+
+        transform.position = origin;
+        isClickStunned = false;
+
+        if (isCaught) yield break;
+
+        // 慢行：仍可被抓
+        isClickSlowing = true;
+        currentSpeed = clickSlowSpeed;
+        if (clickStunEnabled)
+        {
+            canMove = true;
+        }
+
+        elapsed = 0f;
+        while (elapsed < clickSlowDuration)
+        {
+            if (isCaught) yield break;
+            elapsed += Time.deltaTime;
+            currentSpeed = clickSlowSpeed;
+            yield return null;
+        }
+
+        isClickSlowing = false;
+        currentSpeed = baseSpeed;
+        clickCooldownRemaining = clickCooldown;
+        clickEffectRunning = false;
+        clickStunRoutine = null;
+    }
+
+    private void CancelClickStunEffect()
+    {
+        if (clickStunRoutine != null)
+        {
+            StopCoroutine(clickStunRoutine);
+            clickStunRoutine = null;
+        }
+
+        isClickStunned = false;
+        isClickSlowing = false;
+        clickEffectRunning = false;
     }
 
     /// <summary>
@@ -160,6 +262,11 @@ public class WildeBeestBehavior : MonoBehaviour
 
     void Update()
     {
+        if (clickCooldownRemaining > 0f)
+        {
+            clickCooldownRemaining -= Time.deltaTime;
+        }
+
         if (isCaught || !canMove) return;
 
         // Jump takes priority over normal movement
@@ -201,19 +308,21 @@ public class WildeBeestBehavior : MonoBehaviour
         }
         else
         {
-            // Periodic speed jitter
-            float verticalDelta = Mathf.Sin(Time.time * waveFrequency + waveOffset) * waveAmplitude * Time.deltaTime;
-
-            speedChangeTimer += Time.deltaTime;
-            if (speedChangeTimer > nextSpeedChangeTime)
+            // 慢行阶段锁死慢速，不吃随机变速
+            if (!isClickSlowing)
             {
-                speedChangeTimer = 0f;
-                nextSpeedChangeTime = Random.Range(1f, 3f);
-                currentSpeed = baseSpeed + Random.Range(-speedVariation, speedVariation);
+                speedChangeTimer += Time.deltaTime;
+                if (speedChangeTimer > nextSpeedChangeTime)
+                {
+                    speedChangeTimer = 0f;
+                    nextSpeedChangeTime = Random.Range(1f, 3f);
+                    currentSpeed = baseSpeed + Random.Range(-speedVariation, speedVariation);
+                }
             }
-
-            float horizontalDelta = currentSpeed * Time.deltaTime;
-
+            else
+            {
+                currentSpeed = clickSlowSpeed;
+            }
 
             Vector3 moveDelta = CalculateBaseMovement(); // Forward + vertical wave
 
@@ -223,7 +332,7 @@ public class WildeBeestBehavior : MonoBehaviour
             transform.position += moveDelta * Time.deltaTime;
         }
 
-        if (!isJumping && Random.value < 0.0003f)   // Rare idle hop
+        if (!isJumping && !isClickSlowing && Random.value < 0.0003f)   // Rare idle hop
         {
             // Random short hop while roaming
             StartJump(Random.Range(1f, 2f), Random.Range(0.3f, 1.6f));

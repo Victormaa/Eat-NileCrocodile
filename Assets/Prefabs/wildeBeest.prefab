@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 5805809272349234659}
   - component: {fileID: 4618092489668691343}
   - component: {fileID: 3382180870323604537}
+  - component: {fileID: 4026645176392610420}
   m_Layer: 0
   m_Name: wildeBeest
   m_TagString: Untagged
@@ -118,6 +119,12 @@ MonoBehaviour:
   scaredReactionDuration: 0.5
   scaredShakeAmount: 0.15
   scaredShakeFrequency: 40
+  clickStunDuration: 0.8
+  clickSlowDuration: 1.5
+  clickSlowSpeed: 1
+  clickStunShakeAmount: 0.12
+  clickStunShakeFrequency: 40
+  clickCooldown: 0.3
 --- !u!61 &4618092489668691343
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -150,7 +157,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0.22}
+  m_Offset: {x: -0.1559636, y: 0.2833602}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0}
@@ -161,7 +168,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.77, y: 0.47}
+  m_Size: {x: 1.0819272, y: 0.5967204}
   m_EdgeRadius: 0
 --- !u!114 &3382180870323604537
 MonoBehaviour:
@@ -178,3 +185,16 @@ MonoBehaviour:
   sortingOrderOffset: 0
   precision: 100
   includeChildren: 0
+--- !u!114 &4026645176392610420
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2685479817272183499}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1b0f6046294bcb545861a04217953dc7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  baseSortOrder: 0

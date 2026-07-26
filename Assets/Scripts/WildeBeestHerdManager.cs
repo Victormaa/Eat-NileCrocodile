@@ -106,6 +106,7 @@ public class WildeBeestHerdManager : MonoBehaviour
         }
 
         CancelAutoEnterScared();
+        SetHerdClickStunEnabled(false);
 
         if (scaredEmoteRoutine != null)
         {
@@ -145,6 +146,7 @@ public class WildeBeestHerdManager : MonoBehaviour
             }
 
             behavior.SetCanMove(false);
+            behavior.SetClickStunEnabled(false);
             herd.Add(behavior);
             scaredFront.Add(behavior);
 
@@ -263,6 +265,7 @@ public class WildeBeestHerdManager : MonoBehaviour
         if (isEnteringScared) return;
 
         curState = WildeBeestHerdState.MovingOn;
+        SetHerdClickStunEnabled(true);
         StartHerdMovement();
         ScheduleAutoEnterScared();
     }
@@ -272,8 +275,21 @@ public class WildeBeestHerdManager : MonoBehaviour
         if (isEnteringScared) return;
 
         curState = WildeBeestHerdState.Stop;
+        SetHerdClickStunEnabled(false);
         StopHerdMovement();
         CancelAutoEnterScared();
+    }
+
+    private void SetHerdClickStunEnabled(bool enabled)
+    {
+        PruneHerdLists();
+        for (int i = 0; i < herd.Count; i++)
+        {
+            if (herd[i] != null)
+            {
+                herd[i].SetClickStunEnabled(enabled);
+            }
+        }
     }
 
     private void ScheduleAutoEnterScared()
@@ -375,6 +391,7 @@ public class WildeBeestHerdManager : MonoBehaviour
         for (int i = 0; i < scaredFront.Count; i++)
         {
             if (scaredFront[i] == null) continue;
+            scaredFront[i].SetClickStunEnabled(false);
             scaredFront[i].SetCanMove(false);
 
             WildeBeestMoveToTarget mover = scaredFront[i].GetComponent<WildeBeestMoveToTarget>();
