@@ -4672,6 +4672,65 @@ MonoBehaviour:
     waitSeconds: 1
     requiredEaten: 1
     objectsToShow: []
+  - stepType: 4
+    tipMessage: 
+    tipDuration: 2.5
+    waitSeconds: 1
+    requiredEaten: 1
+    objectsToShow:
+    - {fileID: 160464816}
+  - stepType: 1
+    tipMessage: 
+    tipDuration: 2.5
+    waitSeconds: 3
+    requiredEaten: 1
+    objectsToShow: []
+  - stepType: 0
+    tipMessage: "\u6211\u4EEC\u6293\u7D27\u5347\u7EA7\u4E00\u4E0B\u5404\u9879\u5C5E\u6027\u5427~
+      \u65F6\u95F4\u4E0D\u591A\u4E86\uFF0C\u8FD8\u6709x\u5929\u4E86~"
+    tipDuration: 3
+    waitSeconds: 1
+    requiredEaten: 1
+    objectsToShow: []
+  - stepType: 0
+    tipMessage: "\u6211\u4EEC\u8BD5\u8BD5\u770B\u80FD\u4E0D\u80FD\u6293\u523066\u53EA\u89D2\u9A6C\u5427!"
+    tipDuration: 3
+    waitSeconds: 1
+    requiredEaten: 1
+    objectsToShow: []
+  - stepType: 2
+    tipMessage: 
+    tipDuration: 2.5
+    waitSeconds: 1
+    requiredEaten: 66
+    objectsToShow: []
+  - stepType: 0
+    tipMessage: "\u592A\u597D\u4E86\u6211\u4EEC\u597D\u50CF\u53EF\u4EE5\u5F00\u4E00\u4E2A\u76AE\u5305\u5DE5\u5382\u5728\u8FD9\u91CC\u4E86"
+    tipDuration: 3
+    waitSeconds: 1
+    requiredEaten: 1
+    objectsToShow: []
+  - stepType: 4
+    tipMessage: 
+    tipDuration: 2.5
+    waitSeconds: 1
+    requiredEaten: 1
+    objectsToShow:
+    - {fileID: 1293708734}
+    - {fileID: 910001008}
+    - {fileID: 910001006}
+  - stepType: 1
+    tipMessage: 
+    tipDuration: 2.5
+    waitSeconds: 2
+    requiredEaten: 1
+    objectsToShow: []
+  - stepType: 0
+    tipMessage: "\u592A\u597D\u4E86\uFF01\u6211\u4EEC\u6293\u7D27\u5347\u7EA7\u4E00\u5207\u542C\u8BF4\u6EE1\u7EA7\u9CC4\u9C7C\u662F\u4E00\u4E2A\u5927\u9B54\u738B\u5F62\u6001\u5462\uFF01"
+    tipDuration: 2
+    waitSeconds: 1
+    requiredEaten: 1
+    objectsToShow: []
 --- !u!1 &910001005 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 398382625778064501, guid: c23092a01b346a647b90513a02a266c2, type: 3}
@@ -8274,9 +8333,9 @@ MonoBehaviour:
   stealthLevel_Text: {fileID: 0}
   wildeBeestCount: 0
   timer: 0
-  moneyValue: 999
-  crocodileFat: 999
-  crocoFur: 999
+  moneyValue: 0
+  crocodileFat: 0
+  crocoFur: 0
   stealthLevel: 0
   stealthUpgradeCount: 0
   maxStealthLevel: 10

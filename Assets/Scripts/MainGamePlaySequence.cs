@@ -476,6 +476,55 @@ public class MainGamePlaySequence : MonoBehaviour
                 tipMessage = "我们可以建造一家鳄鱼餐厅了，鳄鱼餐厅会把鳄鱼皮留下，鳄鱼皮是好东西呀~",
                 tipDuration = 2.5f,
             },
+            new MainGamePlayStep
+            {
+                stepType = MainGamePlayStepType.UnlockObjects,
+                objectsToShow = Array.Empty<GameObject>(),
+            },
+            new MainGamePlayStep
+            {
+                stepType = MainGamePlayStepType.WaitSeconds,
+                waitSeconds = 3f,
+            },
+            new MainGamePlayStep
+            {
+                stepType = MainGamePlayStepType.ShowTip,
+                tipMessage = "我们抓紧升级一下各项属性吧~ 时间不多了，还有x天了~",
+                tipDuration = 3f,
+            },
+            new MainGamePlayStep
+            {
+                stepType = MainGamePlayStepType.ShowTip,
+                tipMessage = "我们试试看能不能抓到66只角马吧!",
+                tipDuration = 3f,
+            },
+            new MainGamePlayStep
+            {
+                stepType = MainGamePlayStepType.WaitEatenCount,
+                requiredEaten = 66,
+            },
+            new MainGamePlayStep
+            {
+                stepType = MainGamePlayStepType.ShowTip,
+                tipMessage = "太好了我们好像可以开一个皮包工厂在这里了",
+                tipDuration = 3f,
+            },
+            new MainGamePlayStep
+            {
+                stepType = MainGamePlayStepType.UnlockObjects,
+                objectsToShow = Array.Empty<GameObject>(),
+            },
+            new MainGamePlayStep
+            {
+                stepType = MainGamePlayStepType.WaitSeconds,
+                waitSeconds = 2f,
+            },
+            new MainGamePlayStep
+            {
+                stepType = MainGamePlayStepType.ShowTip,
+                tipMessage = "太好了！我们抓紧升级一切听说满级鳄鱼是一个大魔王形态呢！",
+                tipDuration = 2f,
+            },
         };
     }
 }
