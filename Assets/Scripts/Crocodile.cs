@@ -206,7 +206,13 @@ public class Crocodile : MonoBehaviour
 
         if (crocodileFatGainOnEat > 0f && GameManager.Instance != null)
         {
-            GameManager.Instance.AddCrocodileFat(crocodileFatGainOnEat);
+            var tempValue = crocodileFatGainOnEat;
+            if(UnityEngine.Random.value < 0.5f)
+            {
+                tempValue = crocodileFatGainOnEat * 2;
+            }
+
+            GameManager.Instance.AddCrocodileFat(tempValue);
             if (resourceGainFeedback == null)
                 resourceGainFeedback = GetComponent<ResourceGainFeedback>();
             resourceGainFeedback?.Show(UpgradeCostType.CrocodileFat, crocodileFatGainOnEat);

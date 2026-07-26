@@ -123,7 +123,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.06352067, y: 0.5768735}
+  m_Offset: {x: -0.004510045, y: 0.5156461}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0}
@@ -134,7 +134,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 2.6776857, y: 1.1536225}
+  m_Size: {x: 2.9225957, y: 1.7386858}
   m_EdgeRadius: 0
 --- !u!50 &6912556185555835060
 Rigidbody2D:
@@ -192,7 +192,7 @@ MonoBehaviour:
   shrinkParticles: {fileID: 0}
   shrinkSoundId: WildeBeestEaten
   shrinkSoundVolume: 0.4
-  crocodileFatGainOnEat: 1
+  crocodileFatGainOnEat: 2
   resourceGainFeedback: {fileID: 8500158509843933470}
 --- !u!95 &4604100082430596936
 Animator:
