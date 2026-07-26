@@ -91,7 +91,13 @@ public class GameManager : MonoBehaviour
             return;
         }
         instance = this;
-        DontDestroyOnLoad(gameObject);
+        // 单场景整关重载：不要 DontDestroyOnLoad，否则重开后数值残留、UI 引用失效
+    }
+
+    private void OnDestroy()
+    {
+        if (instance == this)
+            instance = null;
     }
 
     private void Start()
