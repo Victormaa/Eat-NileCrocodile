@@ -97,9 +97,10 @@ public class Crocodile : MonoBehaviour
         approachSpeed = globalApproachSpeed;
         returnDelay = globalReturnDelay;
 
-        // temp: returnDelay 越接近 0.1，returnSpeed 越快（1.2 → 12）
-        float t = Mathf.Clamp01(Mathf.InverseLerp(1.5f, 0.1f, returnDelay));
-        returnSpeed = Mathf.Lerp(1.2f, 12f, t);
+        float returnT = Mathf.Clamp01(Mathf.InverseLerp(1.5f, 0.1f, returnDelay));
+        returnSpeed = Mathf.Lerp(1.2f, 12f, returnT);
+        float catchT = Mathf.Clamp01(Mathf.InverseLerp(3f, 17f, approachSpeed));
+        maxCatchableSpeed = Mathf.Lerp(1.2f, 3.4f, catchT);
     }
 
     /// <summary>根据当前 stealthValue 切换 Normal / HalfHide / WholeHide。</summary>
