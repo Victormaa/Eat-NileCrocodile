@@ -426,6 +426,10 @@ PrefabInstance:
       propertyPath: m_LocalPosition.y
       value: 1.084
       objectReference: {fileID: 0}
+    - target: {fileID: 8500158509843933468, guid: d4253149e34ac8a4b947433cc71a75e1, type: 3}
+      propertyPath: maxCatchableSpeed
+      value: 1.4
+      objectReference: {fileID: 0}
     - target: {fileID: 9145836705296859486, guid: d4253149e34ac8a4b947433cc71a75e1, type: 3}
       propertyPath: m_LocalPosition.x
       value: -1.89
@@ -11513,7 +11517,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d4e5f6a7b8c90d1e2f3a4b5c6d7e8f90, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  realDurationMinutes: 0.2
+  realDurationMinutes: 8
   totalDays: 60
   dayText: {fileID: 1931430370}
   dayFormat: ' {0}'
@@ -15692,6 +15696,10 @@ PrefabInstance:
     - target: {fileID: 266413411520188233, guid: d4253149e34ac8a4b947433cc71a75e1, type: 3}
       propertyPath: m_Name
       value: Crocodile
+      objectReference: {fileID: 0}
+    - target: {fileID: 8500158509843933468, guid: d4253149e34ac8a4b947433cc71a75e1, type: 3}
+      propertyPath: maxCatchableSpeed
+      value: 1.4
       objectReference: {fileID: 0}
     - target: {fileID: 9145836705296859486, guid: d4253149e34ac8a4b947433cc71a75e1, type: 3}
       propertyPath: m_LocalPosition.x
