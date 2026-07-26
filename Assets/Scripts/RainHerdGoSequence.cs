@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using TMPro;
 using UnityEngine;
@@ -56,6 +57,9 @@ public class RainHerdGoSequence : MonoBehaviour
     private bool hasDenyHintBasePos;
     private Color denyHintBaseColor;
 
+    /// <summary>真正开始下雨序列时触发（拒绝 / 已在播放时不触发）。</summary>
+    public event Action PlaySucceeded;
+
     /// <summary>公开入口：播放完整雨 → GO → 出发序列。</summary>
     public void Play()
     {
@@ -71,6 +75,7 @@ public class RainHerdGoSequence : MonoBehaviour
         }
 
         runningRoutine = StartCoroutine(PlaySequence());
+        PlaySucceeded?.Invoke();
     }
 
     private void PlayDenyFeedback()

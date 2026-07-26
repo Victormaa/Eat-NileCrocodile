@@ -201,6 +201,11 @@ public class Crocodile : MonoBehaviour
         }
         currentPrey = null;
 
+        if (WildeBeestEatCounter.Instance != null)
+        {
+            WildeBeestEatCounter.Instance.RegisterEat();
+        }
+
         if (crocodileFatGainOnEat > 0f && GameManager.Instance != null)
         {
             GameManager.Instance.AddCrocodileFat(crocodileFatGainOnEat);
