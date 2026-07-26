@@ -18,7 +18,7 @@ public enum UpgradeCostType
 
 public class GameManager : MonoBehaviour
 {
-    // ---------- UI 引用 ----------
+    // ---------- UI ???? ----------
     public TMP_Text debugTimer;
     public TMP_Text moneyValue_Text;
     [FormerlySerializedAs("satiety_Text")]
@@ -26,38 +26,38 @@ public class GameManager : MonoBehaviour
     public TMP_Text crocoFur_Text;
     public TMP_Text stealthLevel_Text;
 
-    // ---------- 数值字段 ----------
+    // ---------- ?????? ----------
     public float wildeBeestCount;
     public float timer;
     public float moneyValue;
 
-    [Header("鳄鱼膘 / 鳄鱼皮 / 隐蔽升级")]
-    [Tooltip("鳄鱼膘：吃角马时获得，可用于升级")]
+    [Header("????? / ????? / ????????")]
+    [Tooltip("?????????????????????????")]
     public float crocodileFat;
-    [Tooltip("鳄鱼皮：可用于升级的消耗资源")]
+    [Tooltip("??????????????????????????")]
     public float crocoFur;
-    [Tooltip("全局隐蔽数值，所有鳄鱼共享，用于外观")]
+    [Tooltip("???????????????????????????????")]
     public int stealthLevel;
-    [Tooltip("隐蔽已成功升级次数（用作 StatUpgradeButton 步骤下标）")]
+    [Tooltip("?????????????????????? StatUpgradeButton ?????±?")]
     public int stealthUpgradeCount;
-    [Tooltip("隐蔽数值上限；<=0 表示不限制")]
+    [Tooltip("????????????<=0 ?????????")]
     public int maxStealthLevel = 10;
 
-    [Header("抓取速度 / 冷却")]
-    [Tooltip("全局鳄鱼扑向猎物的速度")]
+    [Header("????? / ???")]
+    [Tooltip("???????????????????")]
     public float catchApproachSpeed = 12f;
-    [Tooltip("抓取速度已升级次数")]
+    [Tooltip("???????????????")]
     public int catchSpeedUpgradeCount;
-    [Tooltip("扑速上限；<=0 表示不限制")]
+    [Tooltip("?????????<=0 ?????????")]
     public float maxCatchApproachSpeed = 30f;
-    [Tooltip("全局吃完后回位前等待（秒）")]
+    [Tooltip("????????λ????????")]
     public float catchReturnDelay = 1f;
-    [Tooltip("抓取冷却已升级次数")]
+    [Tooltip("???????????????")]
     public int catchCoolDownUpgradeCount;
-    [Tooltip("回位等待下限（秒）")]
+    [Tooltip("??λ??????????")]
     public float minCatchReturnDelay = 0f;
 
-    // ---------- 单例 ----------
+    // ---------- ???? ----------
     private static GameManager instance;
     public static GameManager Instance
     {
@@ -67,7 +67,7 @@ public class GameManager : MonoBehaviour
             {
                 instance = FindObjectOfType<GameManager>();
                 if (instance == null)
-                    Debug.LogError("场景里没有 GameManager 实例。");
+                    Debug.LogError("????????? GameManager ?????");
             }
             return instance;
         }
@@ -83,6 +83,18 @@ public class GameManager : MonoBehaviour
     public float CatchReturnDelay => catchReturnDelay;
     public int CatchCoolDownUpgradeCount => catchCoolDownUpgradeCount;
 
+    [Header("满级外观（BadCroco）")]
+    [Tooltip("与对应 StatUpgradeButton 的 upgradeSteps 数量对齐")]
+    public int requiredStealthUpgrades = 10;
+    public int requiredCatchSpeedUpgrades = 10;
+    public int requiredCatchCoolDownUpgrades = 10;
+
+    /// <summary>三项升级按钮都升满（按升级次数，与按钮满级一致）。</summary>
+    public bool IsFullyUpgraded =>
+        stealthUpgradeCount >= requiredStealthUpgrades
+        && catchSpeedUpgradeCount >= requiredCatchSpeedUpgrades
+        && catchCoolDownUpgradeCount >= requiredCatchCoolDownUpgrades;
+
     private void Awake()
     {
         if (instance != null && instance != this)
@@ -91,7 +103,7 @@ public class GameManager : MonoBehaviour
             return;
         }
         instance = this;
-        // 单场景整关重载：不要 DontDestroyOnLoad，否则重开后数值残留、UI 引用失效
+        // ?????????????????? DontDestroyOnLoad????????????????????UI ?????Ч
     }
 
     private void OnDestroy()
@@ -113,7 +125,7 @@ public class GameManager : MonoBehaviour
         UpdateTimerUI();
     }
 
-    // ---------- UI 更新方法 ----------
+    // ---------- UI ???·??? ----------
     public void UpdateAllUI()
     {
         UpdateTimerUI();
@@ -132,19 +144,19 @@ public class GameManager : MonoBehaviour
     private void UpdateMoneyUI()
     {
         if (moneyValue_Text != null)
-            moneyValue_Text.text = "金钱: " + moneyValue.ToString("F2");
+            moneyValue_Text.text = "???: " + moneyValue.ToString("F2");
     }
 
     private void UpdateCrocodileFatUI()
     {
         if (crocodileFat_Text != null)
-            crocodileFat_Text.text = "鳄鱼膘: " + crocodileFat.ToString("F0");
+            crocodileFat_Text.text = "?????: " + crocodileFat.ToString("F0");
     }
 
     private void UpdateCrocoFurUI()
     {
         if (crocoFur_Text != null)
-            crocoFur_Text.text = "鳄鱼皮: " + crocoFur.ToString("F0");
+            crocoFur_Text.text = "?????: " + crocoFur.ToString("F0");
     }
 
     private void UpdateStealthLevelUI()
@@ -174,14 +186,14 @@ public class GameManager : MonoBehaviour
     }
 
     /// <summary>
-    /// 隐蔽升级：按 costs 扣多种资源，成功则 stealthLevel += RoundToInt(valueIncrease)。
+    /// ???????????? costs ??????????????? stealthLevel += RoundToInt(valueIncrease)??
     /// </summary>
     public UpgradeResult TryUpgradeStealth(MultiClickCostEntry[] costs, float valueIncrease)
     {
         int add = Mathf.RoundToInt(valueIncrease);
         if (add <= 0)
         {
-            Debug.LogWarning("TryUpgradeStealth: valueIncrease 取整后 <= 0，忽略本次升级。");
+            Debug.LogWarning("TryUpgradeStealth: valueIncrease ????? <= 0???????????????");
             return UpgradeResult.NotEnoughResource;
         }
 
@@ -208,13 +220,13 @@ public class GameManager : MonoBehaviour
     }
 
     /// <summary>
-    /// 抓取速度升级：增加全局 catchApproachSpeed，并同步所有鳄鱼。
+    /// ?????????????????? catchApproachSpeed???????????????
     /// </summary>
     public UpgradeResult TryUpgradeCatchSpeed(MultiClickCostEntry[] costs, float valueIncrease)
     {
         if (valueIncrease <= 0f)
         {
-            Debug.LogWarning("TryUpgradeCatchSpeed: valueIncrease <= 0，忽略本次升级。");
+            Debug.LogWarning("TryUpgradeCatchSpeed: valueIncrease <= 0???????????????");
             return UpgradeResult.NotEnoughResource;
         }
 
@@ -240,13 +252,13 @@ public class GameManager : MonoBehaviour
     }
 
     /// <summary>
-    /// 抓取冷却升级：减少全局 catchReturnDelay（不低于 minCatchReturnDelay），并同步所有鳄鱼。
+    /// ?????????????????? catchReturnDelay???????? minCatchReturnDelay?????????????????
     /// </summary>
     public UpgradeResult TryUpgradeCatchCoolDown(MultiClickCostEntry[] costs, float valueIncrease)
     {
         if (valueIncrease <= 0f)
         {
-            Debug.LogWarning("TryUpgradeCatchCoolDown: valueIncrease <= 0，忽略本次升级。");
+            Debug.LogWarning("TryUpgradeCatchCoolDown: valueIncrease <= 0???????????????");
             return UpgradeResult.NotEnoughResource;
         }
 
@@ -266,7 +278,7 @@ public class GameManager : MonoBehaviour
         return UpgradeResult.Success;
     }
 
-    /// <summary>只检查资源是否足够，不扣除。</summary>
+    /// <summary>?????????????????????</summary>
     public bool CanAfford(UpgradeCostType costType, float amount)
     {
         if (amount <= 0f) return true;
@@ -284,7 +296,7 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    /// <summary>按 costType 扣除升级消耗；不够则返回 false。</summary>
+    /// <summary>?? costType ??????????????????? false??</summary>
     public bool TrySpendUpgradeCost(float cost, UpgradeCostType costType)
     {
         if (!CanAfford(costType, cost)) return false;
@@ -312,7 +324,7 @@ public class GameManager : MonoBehaviour
     }
 
     /// <summary>
-    /// 一次性扣除多项资源：先全部检查，再逐项扣除；任一不够则整单失败、不扣任何资源。
+    /// ???????????????????????飬????????????????????????????????κ??????
     /// </summary>
     public bool TrySpendUpgradeCosts(MultiClickCostEntry[] costs)
     {
@@ -339,7 +351,7 @@ public class GameManager : MonoBehaviour
 
             if (!TrySpendUpgradeCost(entry.amount, entry.costType))
             {
-                Debug.LogError("TrySpendUpgradeCosts: 扣费中途失败，资源状态可能不一致。");
+                Debug.LogError("TrySpendUpgradeCosts: ????????????????????????");
                 return false;
             }
         }
@@ -347,7 +359,7 @@ public class GameManager : MonoBehaviour
         return true;
     }
 
-    /// <summary>按当前 stealthLevel 刷新场景里所有鳄鱼。</summary>
+    /// <summary>????? stealthLevel ????????????????</summary>
     public void RefreshAllCrocodileStealth()
     {
         Crocodile[] crocs = FindObjectsOfType<Crocodile>();
@@ -360,7 +372,7 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    /// <summary>按全局抓取速度/冷却刷新场景里所有鳄鱼。</summary>
+    /// <summary>??????????/???????????????????</summary>
     public void RefreshAllCrocodilesCatchStats()
     {
         Crocodile[] crocs = FindObjectsOfType<Crocodile>();

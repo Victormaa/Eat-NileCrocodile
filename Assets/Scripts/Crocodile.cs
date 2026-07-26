@@ -6,6 +6,7 @@ public enum CrocoVisualState
     Normal = 0,
     HalfHide = 1,
     WholeHide = 2,
+    Bad = 3,
 }
 
 public class Crocodile : MonoBehaviour
@@ -13,6 +14,7 @@ public class Crocodile : MonoBehaviour
     public static readonly string AnimNormal = "NormalCroco";
     public static readonly string AnimHalfHide = "HalfHideCroco";
     public static readonly string AnimWholeHide = "WholeHideCroco";
+    public static readonly string AnimBad = "BadCroco";
 
     [Header("抓取")]
     public float maxCatchableSpeed = 3.0f;
@@ -99,9 +101,11 @@ public class Crocodile : MonoBehaviour
         returnSpeed = Mathf.Lerp(1.2f, 12f, returnT);
         float catchT = Mathf.Clamp01(Mathf.InverseLerp(3f, 17f, approachSpeed));
         maxCatchableSpeed = Mathf.Lerp(1.2f, 3.4f, catchT);
+
+        ApplyVisualFromStealthValue();
     }
 
-    /// <summary>根据当前 stealthValue 切换 Normal / HalfHide / WholeHide。</summary>
+    /// <summary>根据满级状态 / stealthValue 切换外观。</summary>
     public void ApplyVisualFromStealthValue()
     {
         CrocoVisualState state = ResolveVisualState(stealthValue);
@@ -110,6 +114,9 @@ public class Crocodile : MonoBehaviour
 
     public CrocoVisualState ResolveVisualState(float value)
     {
+        if (GameManager.Instance != null && GameManager.Instance.IsFullyUpgraded)
+            return CrocoVisualState.Bad;
+
         if (value >= wholeHideThreshold) return CrocoVisualState.WholeHide;
         if (value >= halfHideThreshold) return CrocoVisualState.HalfHide;
         return CrocoVisualState.Normal;
@@ -123,6 +130,7 @@ public class Crocodile : MonoBehaviour
         {
             string animName = state switch
             {
+                CrocoVisualState.Bad => AnimBad,
                 CrocoVisualState.HalfHide => AnimHalfHide,
                 CrocoVisualState.WholeHide => AnimWholeHide,
                 _ => AnimNormal,
