@@ -124,6 +124,7 @@ public class GameIntroSequence : MonoBehaviour
         if (storyText != null)
         {
             storyText.text = string.Empty;
+            SetTextAlpha(storyText, 0f);
         }
     }
 
@@ -223,8 +224,10 @@ public class GameIntroSequence : MonoBehaviour
             yield break;
         }
 
+        // 暗底常亮；只淡文字，避免 CanvasGroup 把背景一起闪掉
         storyGroup.gameObject.SetActive(true);
-        SetGroup(storyGroup, 0f, interactable: false, blocksRaycasts: false);
+        SetGroup(storyGroup, 1f, interactable: false, blocksRaycasts: false);
+        SetTextAlpha(storyText, 0f);
 
         for (int i = 0; i < storyLines.Length; i++)
         {
@@ -235,14 +238,14 @@ public class GameIntroSequence : MonoBehaviour
             }
 
             storyText.text = line.text;
-            yield return FadeGroup(storyGroup, 1f, storyLineFadeInDuration);
+            yield return FadeText(storyText, 1f, storyLineFadeInDuration);
 
             if (line.holdDuration > 0f)
             {
                 yield return new WaitForSeconds(line.holdDuration);
             }
 
-            yield return FadeGroup(storyGroup, 0f, storyLineFadeOutDuration);
+            yield return FadeText(storyText, 0f, storyLineFadeOutDuration);
         }
     }
 
@@ -270,6 +273,44 @@ public class GameIntroSequence : MonoBehaviour
         }
 
         group.alpha = targetAlpha;
+    }
+
+    private static IEnumerator FadeText(TMP_Text text, float targetAlpha, float duration)
+    {
+        if (text == null)
+        {
+            yield break;
+        }
+
+        Color c = text.color;
+        float start = c.a;
+        if (duration <= 0f)
+        {
+            c.a = targetAlpha;
+            text.color = c;
+            yield break;
+        }
+
+        float elapsed = 0f;
+        while (elapsed < duration)
+        {
+            elapsed += Time.deltaTime;
+            float t = Mathf.Clamp01(elapsed / duration);
+            c.a = Mathf.LerpUnclamped(start, targetAlpha, t);
+            text.color = c;
+            yield return null;
+        }
+
+        c.a = targetAlpha;
+        text.color = c;
+    }
+
+    private static void SetTextAlpha(TMP_Text text, float alpha)
+    {
+        if (text == null) return;
+        Color c = text.color;
+        c.a = alpha;
+        text.color = c;
     }
 
     private IEnumerator MoveCamera(Vector3 from, Vector3 to, float duration)

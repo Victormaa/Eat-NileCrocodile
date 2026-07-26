@@ -5446,7 +5446,7 @@ CanvasGroup:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 920001050}
   m_Enabled: 1
-  m_Alpha: 1
+  m_Alpha: 0
   m_Interactable: 0
   m_BlocksRaycasts: 0
   m_IgnoreParentGroups: 0
@@ -5644,7 +5644,6 @@ MonoBehaviour:
   introCamera: {fileID: 519420031}
   titleGroup: {fileID: 920001012}
   storyGroup: {fileID: 920001052}
-  textGroup: {fileID: 920001064}
   mainGameUiGroup: {fileID: 208759922}
   mainGamePlaySequence: {fileID: 910001004}
   storyText: {fileID: 920001063}
