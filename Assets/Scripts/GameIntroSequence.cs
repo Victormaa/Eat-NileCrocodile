@@ -1,10 +1,21 @@
+using System;
 using System.Collections;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
+
+[Serializable]
+public class IntroStoryLine
+{
+    [TextArea(1, 4)]
+    public string text;
+    [Tooltip("完全可见后停留多久")]
+    public float holdDuration = 2.5f;
+}
+
 /// <summary>
-/// 开场导演：主标题 → 任意键开始 → 标题淡出 + 摄像机慢移 + 文案淡入 →
-/// 文案完成后快移到 (0,0,-10) → 停顿 → 淡入主游戏 UI → 启动 MainGamePlaySequence。
+/// 开场导演：主标题 → 任意键开始 → 标题淡出 + 摄像机慢移 + 多分句文案 →
+/// 文案全部结束后播音效并快移到 (0,0,-10) → 停顿 → 淡入主游戏 UI → 启动 MainGamePlaySequence。
 /// </summary>
 public class GameIntroSequence : MonoBehaviour
 {
@@ -19,20 +30,43 @@ public class GameIntroSequence : MonoBehaviour
     public TMP_Text startPromptText;
 
     [Header("文案")]
-    [TextArea(2, 6)]
-    public string storyMessage = "很久很久以前，尼罗河畔的鳄鱼们正在等待迁徙的角马……";
+    public IntroStoryLine[] storyLines =
+    {
+        new IntroStoryLine
+        {
+            text = "很久很久以前，尼罗河畔的鳄鱼们正在等待迁徙的角马……",
+            holdDuration = 2.5f,
+        },
+        new IntroStoryLine
+        {
+            text = "雨季将至，它们必须抓紧时间捕猎。",
+            holdDuration = 2.5f,
+        },
+        new IntroStoryLine
+        {
+            text = "而你，就是那条名叫 Nile 的小鳄鱼。",
+            holdDuration = 2.5f,
+        },
+    };
+    public float storyLineFadeInDuration = 0.35f;
+    public float storyLineFadeOutDuration = 0.35f;
     public string startPromptMessage = "按任意键开始游戏";
 
     [Header("摄像机")]
     public Vector3 cameraEndPosition = new Vector3(0f, 0f, -10f);
-    [Tooltip("慢移总时长（可被文案淡入结束打断）")]
+    [Tooltip("慢移总时长（可被文案全部播完打断）")]
     public float cameraSlowDuration = 8f;
-    [Tooltip("文案淡入结束后的快移时长")]
+    [Tooltip("文案全部结束后的快移时长")]
     public float cameraSnapDuration = 0.12f;
+
+    [Header("移动前音效")]
+    [Tooltip("需与 Resources/Audios/SFXs 中 clip 名一致；空则跳过")]
+    public string beforeSnapSoundId;
+    public float beforeSnapSoundVolume = 1f;
+    public UnityEvent onBeforeCameraSnap;
 
     [Header("淡入淡出")]
     public float titleFadeOutDuration = 1f;
-    public float storyFadeInDuration = 3f;
     public float holdAfterSnap = 1f;
     public float mainUiFadeInDuration = 1f;
 
@@ -50,11 +84,6 @@ public class GameIntroSequence : MonoBehaviour
             introCamera = Camera.main;
         }
 
-        if (storyText != null && !string.IsNullOrEmpty(storyMessage))
-        {
-            storyText.text = storyMessage;
-        }
-
         if (startPromptText != null && !string.IsNullOrEmpty(startPromptMessage))
         {
             startPromptText.text = startPromptMessage;
@@ -70,7 +99,6 @@ public class GameIntroSequence : MonoBehaviour
             return;
         }
 
-        // 任意键盘 / 鼠标按键
         if (Input.anyKeyDown)
         {
             OnStartGame();
@@ -91,6 +119,11 @@ public class GameIntroSequence : MonoBehaviour
         if (storyGroup != null)
         {
             storyGroup.gameObject.SetActive(true);
+        }
+
+        if (storyText != null)
+        {
+            storyText.text = string.Empty;
         }
     }
 
@@ -117,7 +150,6 @@ public class GameIntroSequence : MonoBehaviour
             ? introCamera.transform.position
             : new Vector3(0f, 122f, -10f);
 
-        // 标题淡出（不等待）
         if (titleGroup != null)
         {
             titleGroup.interactable = false;
@@ -125,7 +157,6 @@ public class GameIntroSequence : MonoBehaviour
             StartCoroutine(FadeGroup(titleGroup, 0f, titleFadeOutDuration));
         }
 
-        // 摄像机慢移（可被打断）
         if (introCamera != null && cameraSlowDuration > 0f)
         {
             cameraSlowRoutine = StartCoroutine(
@@ -133,19 +164,17 @@ public class GameIntroSequence : MonoBehaviour
             );
         }
 
-        // 等待文案淡入完成
-        if (storyGroup != null)
-        {
-            storyGroup.gameObject.SetActive(true);
-            yield return FadeGroup(storyGroup, 1f, storyFadeInDuration);
-        }
+        // 多分句全部播完后再快移
+        yield return PlayAllStoryLines();
 
-        // 停慢移，快移到终点
         if (cameraSlowRoutine != null)
         {
             StopCoroutine(cameraSlowRoutine);
             cameraSlowRoutine = null;
         }
+
+        onBeforeCameraSnap?.Invoke();
+        PlayOneShot(beforeSnapSoundId, beforeSnapSoundVolume);
 
         if (introCamera != null)
         {
@@ -161,7 +190,6 @@ public class GameIntroSequence : MonoBehaviour
             yield return new WaitForSeconds(holdAfterSnap);
         }
 
-        // 淡入主游戏 UI
         if (mainGameUiGroup != null)
         {
             yield return FadeGroup(mainGameUiGroup, 1f, mainUiFadeInDuration);
@@ -169,7 +197,6 @@ public class GameIntroSequence : MonoBehaviour
             mainGameUiGroup.blocksRaycasts = true;
         }
 
-        // 收起开场 UI
         if (titleGroup != null)
         {
             titleGroup.gameObject.SetActive(false);
@@ -187,6 +214,36 @@ public class GameIntroSequence : MonoBehaviour
 
         onIntroFinished?.Invoke();
         runningRoutine = null;
+    }
+
+    private IEnumerator PlayAllStoryLines()
+    {
+        if (storyGroup == null || storyText == null || storyLines == null || storyLines.Length == 0)
+        {
+            yield break;
+        }
+
+        storyGroup.gameObject.SetActive(true);
+        SetGroup(storyGroup, 0f, interactable: false, blocksRaycasts: false);
+
+        for (int i = 0; i < storyLines.Length; i++)
+        {
+            IntroStoryLine line = storyLines[i];
+            if (line == null || string.IsNullOrEmpty(line.text))
+            {
+                continue;
+            }
+
+            storyText.text = line.text;
+            yield return FadeGroup(storyGroup, 1f, storyLineFadeInDuration);
+
+            if (line.holdDuration > 0f)
+            {
+                yield return new WaitForSeconds(line.holdDuration);
+            }
+
+            yield return FadeGroup(storyGroup, 0f, storyLineFadeOutDuration);
+        }
     }
 
     private IEnumerator FadeGroup(CanvasGroup group, float targetAlpha, float duration)
@@ -252,5 +309,13 @@ public class GameIntroSequence : MonoBehaviour
         group.alpha = alpha;
         group.interactable = interactable;
         group.blocksRaycasts = blocksRaycasts;
+    }
+
+    private static void PlayOneShot(string soundId, float volume)
+    {
+        if (string.IsNullOrEmpty(soundId)) return;
+        if (AudioController.Instance == null) return;
+
+        AudioController.Instance.PlaySound2D(soundId, volume: volume);
     }
 }

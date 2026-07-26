@@ -5554,13 +5554,25 @@ MonoBehaviour:
   mainGamePlaySequence: {fileID: 910001004}
   storyText: {fileID: 920001063}
   startPromptText: {fileID: 0}
-  storyMessage: "\u5F88\u4E45\u5F88\u4E45\u4EE5\u524D\uFF0C\u5C3C\u7F57\u6CB3\u7554\u7684\u9CC4\u9C7C\u4EEC\u6B63\u5728\u7B49\u5F85\u8FC1\u5F99\u7684\u89D2\u9A6C\u2026\u2026"
+  storyLines:
+  - text: "\u5F88\u4E45\u5F88\u4E45\u4EE5\u524D\uFF0C\u5C3C\u7F57\u6CB3\u7554\u7684\u9CC4\u9C7C\u4EEC\u6B63\u5728\u7B49\u5F85\u8FC1\u5F99\u7684\u89D2\u9A6C\u2026\u2026"
+    holdDuration: 2.5
+  - text: "\u96E8\u5B63\u5C06\u81F3\uFF0C\u5B83\u4EEC\u5FC5\u987B\u6293\u7D27\u65F6\u95F4\u6355\u730E\u3002"
+    holdDuration: 2.5
+  - text: "\u800C\u4F60\uFF0C\u5C31\u662F\u90A3\u6761\u540D\u53EB Nile \u7684\u5C0F\u9CC4\u9C7C\u3002"
+    holdDuration: 2.5
+  storyLineFadeInDuration: 0.35
+  storyLineFadeOutDuration: 0.35
   startPromptMessage: "\u6309\u4EFB\u610F\u952E\u5F00\u59CB\u6E38\u620F"
   cameraEndPosition: {x: 0, y: 0, z: -10}
-  cameraSlowDuration: 8
-  cameraSnapDuration: 0.12
+  cameraSlowDuration: 28
+  cameraSnapDuration: 2.2
+  beforeSnapSoundId: SnapSound
+  beforeSnapSoundVolume: 1
+  onBeforeCameraSnap:
+    m_PersistentCalls:
+      m_Calls: []
   titleFadeOutDuration: 1
-  storyFadeInDuration: 3
   holdAfterSnap: 1
   mainUiFadeInDuration: 1
   onIntroFinished:
