@@ -3799,6 +3799,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 100005, guid: 7c3e9f1a2b4d4e6f8a0c1d2e3f4a5b6c, type: 3}
+      propertyPath: upgradeSteps.Array.data[0].triggerCountAfterUpgrade
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 100006, guid: 7c3e9f1a2b4d4e6f8a0c1d2e3f4a5b6c, type: 3}
       propertyPath: inputCosts.Array.data[0].amount
       value: 1
@@ -3938,8 +3942,12 @@ PrefabInstance:
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 100005, guid: 8d4f0a2b3c5e4f7a9b1c2d3e4f5a6b7c, type: 3}
+      propertyPath: upgradeSteps.Array.data[0].triggerCountAfterUpgrade
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 100005, guid: 8d4f0a2b3c5e4f7a9b1c2d3e4f5a6b7c, type: 3}
       propertyPath: upgradeSteps.Array.data[2].triggerCountAfterUpgrade
-      value: 5
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 100005, guid: 8d4f0a2b3c5e4f7a9b1c2d3e4f5a6b7c, type: 3}
       propertyPath: upgradeSteps.Array.data[2].costs.Array.data[0].amount
