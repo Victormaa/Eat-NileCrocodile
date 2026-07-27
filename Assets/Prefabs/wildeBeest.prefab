@@ -11,9 +11,11 @@ GameObject:
   - component: {fileID: 3991664994770974418}
   - component: {fileID: 8864823357931555673}
   - component: {fileID: 5805809272349234659}
+  - component: {fileID: 7684092427326359311}
   - component: {fileID: 4618092489668691343}
   - component: {fileID: 3382180870323604537}
   - component: {fileID: 4026645176392610420}
+  - component: {fileID: 1437042346833042815}
   m_Layer: 0
   m_Name: wildeBeest
   m_TagString: Untagged
@@ -125,6 +127,51 @@ MonoBehaviour:
   clickStunShakeAmount: 0.12
   clickStunShakeFrequency: 40
   clickCooldown: 0.3
+--- !u!61 &7684092427326359311
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2685479817272183499}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0.28668797, y: 1.4616354}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0}
+    oldSize: {x: 1.684, y: 1.89}
+    newSize: {x: 1.684, y: 1.89}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 0.85977197, y: 0.52225924}
+  m_EdgeRadius: 0
 --- !u!61 &4618092489668691343
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -157,7 +204,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.1559636, y: 0.2833602}
+  m_Offset: {x: -0.1559636, y: 0.30725086}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0}
@@ -168,7 +215,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1.0819272, y: 0.5967204}
+  m_Size: {x: 1.0819272, y: 0.5728297}
   m_EdgeRadius: 0
 --- !u!114 &3382180870323604537
 MonoBehaviour:
@@ -199,3 +246,38 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   baseSortOrder: 0
   sortPrecision: 100
+--- !u!70 &1437042346833042815
+CapsuleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2685479817272183499}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: -0.026879802, y: 0.9061782}
+  m_Size: {x: 1.4540046, y: 0.55809826}
+  m_Direction: 1

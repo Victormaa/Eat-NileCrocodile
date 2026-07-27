@@ -15,6 +15,8 @@ GameObject:
   - component: {fileID: 6130591619932466845}
   - component: {fileID: 4777143561036448168}
   - component: {fileID: 4026645176392610421}
+  - component: {fileID: 1476832449121039899}
+  - component: {fileID: 665409858217261118}
   m_Layer: 0
   m_Name: wildeBeest_HeadScared
   m_TagString: Untagged
@@ -121,6 +123,12 @@ MonoBehaviour:
   scaredReactionDuration: 0.5
   scaredShakeAmount: 0.15
   scaredShakeFrequency: 40
+  clickStunDuration: 0.8
+  clickSlowDuration: 1.5
+  clickSlowSpeed: 1
+  clickStunShakeAmount: 0.12
+  clickStunShakeFrequency: 40
+  clickCooldown: 0.3
 --- !u!61 &4846617453183254323
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -153,7 +161,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0.22}
+  m_Offset: {x: -0.1559636, y: 0.30725086}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0}
@@ -164,7 +172,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.77, y: 0.47}
+  m_Size: {x: 1.0819272, y: 0.5728297}
   m_EdgeRadius: 0
 --- !u!114 &6130591619932466845
 MonoBehaviour:
@@ -209,6 +217,86 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   baseSortOrder: 0
   sortPrecision: 100
+--- !u!61 &1476832449121039899
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4979724798864432048}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0.28668797, y: 1.4616354}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0}
+    oldSize: {x: 1.684, y: 1.89}
+    newSize: {x: 1.684, y: 1.89}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 0.85977197, y: 0.52225924}
+  m_EdgeRadius: 0
+--- !u!70 &665409858217261118
+CapsuleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4979724798864432048}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: -0.026879802, y: 0.9061782}
+  m_Size: {x: 1.4540046, y: 0.55809826}
+  m_Direction: 1
 --- !u!1 &6625704875143164805
 GameObject:
   m_ObjectHideFlags: 0
