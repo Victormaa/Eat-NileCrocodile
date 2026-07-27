@@ -5291,16 +5291,17 @@ MonoBehaviour:
     waitSeconds: 1
     requiredEaten: 5
     objectsToShow: []
-  - stepType: 4
-    tipMessage: 
-    tipDuration: 2.5
+  - stepType: 0
+    tipMessage: "\u592A\u68D2\u4E86!\u73B0\u5728\u5C3C\u7F57\u9CC4\u6709\u8DB3\u591F\u7684\u529B\u6C14\u6765\u63D0\u5347\u81EA\u5DF1\u7684\u80FD\u529B\u4E86!\u5148\u6765\u63D0\u5347\u4E00\u4E0B\u6293\u6355\u901F\u5EA6\u5427\n"
+    tipDuration: 3.5
     waitSeconds: 1
     requiredEaten: 1
     objectsToShow:
     - {fileID: 910001005}
-  - stepType: 0
-    tipMessage: "\u592A\u68D2\u4E86!\u73B0\u5728\u5C3C\u7F57\u9CC4\u6709\u8DB3\u591F\u7684\u529B\u6C14\u6765\u63D0\u5347\u81EA\u5DF1\u7684\u80FD\u529B\u4E86!\u5148\u6765\u63D0\u5347\u4E00\u4E0B\u6293\u6355\u901F\u5EA6\u5427\r"
-    tipDuration: 5
+  - stepType: 4
+    tipMessage: "\u63D0\u5347\u6293\u6355\u901F\u5EA6\u53EF\u4EE5\u8BA9\u5C3C\u7F57\u9CC4\u66F4\u5FEB\u6293\u5230\u89D2\u9A6C,
+      \u4E4B\u540E\u9CC4\u9C7C\u4EEC\u5C31\u80FD\u81EA\u5DF1\u6293\u4E86\u5662"
+    tipDuration: 2.5
     waitSeconds: 1
     requiredEaten: 1
     objectsToShow: []
@@ -5354,18 +5355,18 @@ MonoBehaviour:
     tipDuration: 10
     waitSeconds: 1
     requiredEaten: 1
-    objectsToShow: []
+    objectsToShow:
+    - {fileID: 160464816}
   - stepType: 4
     tipMessage: 
     tipDuration: 2.5
     waitSeconds: 1
     requiredEaten: 1
-    objectsToShow:
-    - {fileID: 160464816}
-  - stepType: 1
+    objectsToShow: []
+  - stepType: 4
     tipMessage: 
     tipDuration: 2.5
-    waitSeconds: 3
+    waitSeconds: 1
     requiredEaten: 1
     objectsToShow: []
   - stepType: 0
@@ -5391,16 +5392,16 @@ MonoBehaviour:
     tipDuration: 15
     waitSeconds: 1
     requiredEaten: 1
-    objectsToShow: []
+    objectsToShow:
+    - {fileID: 1293708734}
+    - {fileID: 910001008}
+    - {fileID: 910001006}
   - stepType: 4
     tipMessage: 
     tipDuration: 2.5
     waitSeconds: 1
     requiredEaten: 1
-    objectsToShow:
-    - {fileID: 1293708734}
-    - {fileID: 910001008}
-    - {fileID: 910001006}
+    objectsToShow: []
   - stepType: 1
     tipMessage: 
     tipDuration: 2.5
@@ -5408,7 +5409,7 @@ MonoBehaviour:
     requiredEaten: 1
     objectsToShow: []
   - stepType: 0
-    tipMessage: "\u5B8C\u7F8E!\u5C3C\u7F57\u9CC4\u9A6C\u4E0A\u8981\u5403\u9971\u4E86!\u73B0\u5728\u8BA9\u6211\u4EEC\u6293\u7D27\u65F6\u95F4\u5347\u7EA7\u5C3C\u7F57\u9CC4\u7684\u6240\u6709\u80FD\u529B!\u57F9\u517B\u4E00\u53EA\u8D85\u7EA7\u9CC4\u9C7C!"
+    tipMessage: "\u5B8C\u7F8E!\u5C3C\u7F57\u9CC4\u9A6C\u4E0A\u8981\u5403\u9971\u4E86!\u73B0\u5728\u8BA9\u6211\u4EEC\u6293\u7D27\u65F6\u95F4\u5347\u7EA7\u5C3C\u7F57\u9CC4\u7684\u6240\u6709\u80FD\u529B!\u57F9\u517B\u4E00\u53EA\u7EDF\u6CBB\u9A6C\u62C9\u6CB3\u7684\u8D85\u7EA7\u9CC4\u9C7C\u5427!!!!"
     tipDuration: 5
     waitSeconds: 1
     requiredEaten: 1
