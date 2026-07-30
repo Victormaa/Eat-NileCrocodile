@@ -5196,7 +5196,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &910001002
 Transform:
   m_ObjectHideFlags: 0
@@ -5237,7 +5237,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 910001001}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8d5b2f3c0a4e5b7f9c1d2e3f4a5b6c7d, type: 3}
   m_Name: 
@@ -5319,7 +5319,7 @@ MonoBehaviour:
     waitSeconds: 1
     requiredEaten: 1
     objectsToShow: []
-  - stepType: 4
+  - stepType: 0
     tipMessage: "\u63D0\u5347\u6293\u6355\u901F\u5EA6\u53EF\u4EE5\u8BA9\u5C3C\u7F57\u9CC4\u66F4\u5FEB\u6293\u5230\u89D2\u9A6C,
       \u4E4B\u540E\u9CC4\u9C7C\u4EEC\u5C31\u80FD\u81EA\u5DF1\u6293\u4E86\u5662"
     tipDuration: 2.5
@@ -5378,13 +5378,13 @@ MonoBehaviour:
     waitSeconds: 1
     requiredEaten: 1
     objectsToShow: []
-  - stepType: 4
+  - stepType: 1
     tipMessage: 
     tipDuration: 2.5
     waitSeconds: 1
     requiredEaten: 1
     objectsToShow: []
-  - stepType: 4
+  - stepType: 1
     tipMessage: 
     tipDuration: 2.5
     waitSeconds: 1
@@ -6070,6 +6070,7 @@ MonoBehaviour:
   storyGroup: {fileID: 920001052}
   mainGameUiGroup: {fileID: 208759922}
   mainGamePlaySequence: {fileID: 910001004}
+  sequence: {fileID: 950001104}
   storyText: {fileID: 920001063}
   startPromptText: {fileID: 0}
   storyLines:
@@ -7389,6 +7390,7 @@ GameObject:
   - component: {fileID: 950001102}
   - component: {fileID: 950001103}
   - component: {fileID: 950001104}
+  - component: {fileID: 950001105}
   m_Layer: 0
   m_Name: CompositeGamePlaySequence
   m_TagString: Untagged
@@ -7483,6 +7485,24 @@ MonoBehaviour:
   - {fileID: 910001009}
   playOnStart: 0
   startDayCountdownOnPlay: 1
+--- !u!114 &950001105
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 950001100}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7c4a1e2b9f3d4a6e8b0c1d2e3f4a5b6c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  count: 0
+  countText: {fileID: 344743902}
+  countFormat: '{0}'
+  bounceScale: 1.5
+  bounceUpPixels: 10
+  bounceDuration: 0.22
 --- !u!1 &951809679
 GameObject:
   m_ObjectHideFlags: 0

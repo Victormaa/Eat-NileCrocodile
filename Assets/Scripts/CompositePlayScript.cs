@@ -1,3 +1,4 @@
+using Sirenix.OdinInspector;
 using UnityEngine;
 
 /// <summary>
@@ -11,5 +12,11 @@ using UnityEngine;
 public class CompositePlayScript : ScriptableObject
 {
     [Tooltip("按顺序执行的复合步")]
+    [ListDrawerSettings(
+        ListElementLabelName = "SummaryLabel",
+        ShowFoldout = false,
+        DefaultExpandedState = true,
+        ShowPaging = false,
+        DraggableItems = true)]
     public CompositePlayStep[] steps;
 }

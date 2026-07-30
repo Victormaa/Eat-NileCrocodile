@@ -24,7 +24,10 @@ public class GameIntroSequence : MonoBehaviour
     public CanvasGroup titleGroup;
     public CanvasGroup storyGroup;
     public CanvasGroup mainGameUiGroup;
+
     public MainGamePlaySequence mainGamePlaySequence;
+    public CompositeGamePlaySequence sequence;
+
     public TMP_Text storyText;
     [Tooltip("显示「按任意键开始游戏」的提示文字")]
     public TMP_Text startPromptText;
@@ -211,6 +214,11 @@ public class GameIntroSequence : MonoBehaviour
         if (mainGamePlaySequence != null)
         {
             mainGamePlaySequence.Play();
+        }
+
+        if(sequence!= null)
+        {
+            sequence.Play();
         }
 
         onIntroFinished?.Invoke();

@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
@@ -8,6 +9,48 @@ using UnityEngine;
 [Serializable]
 public class CompositePlayStep
 {
+    /// <summary>Inspector 折叠标题（Odin ListElementLabelName）；不序列化。</summary>
+    public string SummaryLabel
+    {
+        get
+        {
+            var parts = new List<string>(3);
+
+            if (unlockIds != null && unlockIds.Length > 0)
+            {
+                var ids = new List<string>(unlockIds.Length);
+                for (int i = 0; i < unlockIds.Length; i++)
+                {
+                    if (!string.IsNullOrEmpty(unlockIds[i]))
+                        ids.Add(unlockIds[i]);
+                }
+
+                if (ids.Count > 0)
+                    parts.Add("Unlock:" + string.Join(",", ids));
+            }
+
+            if (!string.IsNullOrEmpty(tipMessage))
+            {
+                string t = tipMessage.Replace('\n', ' ').Replace('\r', ' ').Trim();
+                if (t.Length > 36)
+                    t = t.Substring(0, 36) + "…";
+                parts.Add("\"" + t + "\"");
+            }
+
+            if (waitSeconds > 0f)
+                parts.Add($"Wait {waitSeconds:0.##}s");
+            else if (!string.IsNullOrEmpty(waitPassEventId))
+            {
+                string w = waitPassEventId;
+                if (w == "EatenReached")
+                    w += $"≥{waitPassRequiredEaten}";
+                parts.Add("Pass:" + w);
+            }
+
+            return parts.Count > 0 ? string.Join(" · ", parts) : "(空步骤)";
+        }
+    }
+
     [Header("即时动作（可同时）")]
     [Tooltip("解锁 ID 列表；在 Sequence 的 Unlock Bindings 里映射到场景物体；空则跳过")]
     public string[] unlockIds;
