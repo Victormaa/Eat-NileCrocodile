@@ -16,7 +16,7 @@ public enum MainGamePlayStepType
 [Serializable]
 public class MainGamePlayStep
 {
-    [DrawWithUnity]
+    //[DrawWithUnity]
     public MainGamePlayStepType stepType = MainGamePlayStepType.ShowTip;
 
     [TextArea]
