@@ -2194,11 +2194,12 @@ Transform:
   m_Children:
   - {fileID: 1848118434}
   - {fileID: 139006079}
-  - {fileID: 910001002}
   - {fileID: 1442343527}
   - {fileID: 363713069}
   - {fileID: 920001101}
   - {fileID: 930001101}
+  - {fileID: 910001002}
+  - {fileID: 950001101}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &344743900
@@ -7376,6 +7377,112 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b0fcc5f615d61894b8cd7231462cfc0b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &950001100
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 950001101}
+  - component: {fileID: 950001102}
+  - component: {fileID: 950001103}
+  - component: {fileID: 950001104}
+  m_Layer: 0
+  m_Name: CompositeGamePlaySequence
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &950001101
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 950001100}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 336801207}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &950001102
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 950001100}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c0a1b2c3d4e5f60718293a4b5c6d7e8f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &950001103
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 950001100}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c1a2b3c4d5e6f708293a4b5c6d7e8f90, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rainHerdGoSequence: {fileID: 139006081}
+  eventBus: {fileID: 950001102}
+  eventId: RainSuccess
+--- !u!114 &950001104
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 950001100}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c3a4b5c6d7e8f90a1b2c3d4e5f607182, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tipText: {fileID: 1234279361}
+  eventBus: {fileID: 950001102}
+  playScript: {fileID: 11400000, guid: e6f7a8b9c0d1e2f3a4b5c6d7e8f901ab, type: 2}
+  unlockBindings:
+  - unlockId: CatchSpeedUnlock
+    objects:
+    - {fileID: 910001005}
+  - unlockId: HideAbilityUnlock
+    objects:
+    - {fileID: 910001010}
+  - unlockId: ResterountUnlock
+    objects:
+    - {fileID: 160464816}
+    - {fileID: 910001007}
+  - unlockId: HermersUnlock
+    objects:
+    - {fileID: 910001006}
+    - {fileID: 910001008}
+    - {fileID: 1293708734}
+  tipFadeInDuration: 0.25
+  tipFadeOutDuration: 0.25
+  tipFloatDistance: 30
+  initiallyHidden:
+  - {fileID: 160464816}
+  - {fileID: 1293708734}
+  - {fileID: 910001010}
+  - {fileID: 910001005}
+  - {fileID: 910001006}
+  - {fileID: 910001007}
+  - {fileID: 910001008}
+  - {fileID: 910001009}
+  playOnStart: 0
+  startDayCountdownOnPlay: 1
 --- !u!1 &951809679
 GameObject:
   m_ObjectHideFlags: 0

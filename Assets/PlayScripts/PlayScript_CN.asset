@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c4a5b6c7d8e9f0a1b2c3d4e5f6071839, type: 3}
+  m_Name: PlayScript_CN
+  m_EditorClassIdentifier: 
+  steps:
+  - unlockIds: []
+    tipMessage: "\u89D2\u9A6C\u5BB3\u6015\u9CC4\u9C7C\u4E0D\u613F\u610F\u4E0B\u6C34,\u8BD5\u8BD5<link=swing>\u53EC\u5524\u96E8\u4E91</link>\u5F15\u5BFC\u5B83\u4EEC\u6E21\u6CB3\r\n(\u4E91\u96E8\u8981\u591A\u53EC\u5524\u51E0\u6B21\u624D\u4F1A\u51FA\u6765\u54E6!)"
+    tipDuration: 2.5
+    waitSeconds: 0
+    waitPassEventId: RainSuccess
+    waitPassRequiredEaten: 0
+  - unlockIds: []
+    tipMessage: "\u4E0B\u7740\u96E8\u7684\u4E91\u6735\u4F1A\u8BA9\u5730\u4E0A\u7684\u8349\u957F\u7684\u66F4\u5FEB,\u5438\u5F15\u89D2\u9A6C\u5411\u5BF9\u5CB8\u8302\u5BC6\u7684\u8349\u5730\u8DD1\u53BB"
+    tipDuration: 2.54
+    waitSeconds: 1
+    waitPassEventId: 
+    waitPassRequiredEaten: 0
