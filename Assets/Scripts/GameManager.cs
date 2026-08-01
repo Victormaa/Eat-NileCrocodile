@@ -18,7 +18,7 @@ public enum UpgradeCostType
 
 public class GameManager : MonoBehaviour
 {
-    // ---------- UI ???? ----------
+    // ---------- UI references ----------
     public TMP_Text debugTimer;
     public TMP_Text moneyValue_Text;
     [FormerlySerializedAs("satiety_Text")]
@@ -26,38 +26,38 @@ public class GameManager : MonoBehaviour
     public TMP_Text crocoFur_Text;
     public TMP_Text stealthLevel_Text;
 
-    // ---------- ?????? ----------
+    // ---------- Resource / timer fields ----------
     public float wildeBeestCount;
     public float timer;
     public float moneyValue;
 
-    [Header("????? / ????? / ????????")]
-    [Tooltip("?????????????????????????")]
+    [Header("Crocodile Fat / Fur / Stealth")]
+    [Tooltip("Crocodile fat: gained by eating wildebeest, spent on upgrades")]
     public float crocodileFat;
-    [Tooltip("??????????????????????????")]
+    [Tooltip("Crocodile fur: resource spent on upgrades")]
     public float crocoFur;
-    [Tooltip("???????????????????????????????")]
+    [Tooltip("Global stealth value shared by all crocodiles (drives visuals)")]
     public int stealthLevel;
-    [Tooltip("?????????????????????? StatUpgradeButton ?????±?")]
+    [Tooltip("How many times stealth was upgraded (StatUpgradeButton step index)")]
     public int stealthUpgradeCount;
-    [Tooltip("????????????<=0 ?????????")]
+    [Tooltip("Stealth level cap; <=0 means unlimited")]
     public int maxStealthLevel = 10;
 
-    [Header("????? / ???")]
-    [Tooltip("???????????????????")]
+    [Header("Catch Speed / Cooldown")]
+    [Tooltip("Global speed when crocodiles lunge at prey")]
     public float catchApproachSpeed = 12f;
-    [Tooltip("???????????????")]
+    [Tooltip("How many times catch speed was upgraded")]
     public int catchSpeedUpgradeCount;
-    [Tooltip("?????????<=0 ?????????")]
+    [Tooltip("Catch approach speed cap; <=0 means unlimited")]
     public float maxCatchApproachSpeed = 30f;
-    [Tooltip("????????λ????????")]
+    [Tooltip("Global wait (seconds) after eating before returning home")]
     public float catchReturnDelay = 1f;
-    [Tooltip("???????????????")]
+    [Tooltip("How many times catch cooldown was upgraded")]
     public int catchCoolDownUpgradeCount;
-    [Tooltip("??λ??????????")]
+    [Tooltip("Minimum return wait (seconds)")]
     public float minCatchReturnDelay = 0f;
 
-    // ---------- ???? ----------
+    // ---------- Singleton ----------
     private static GameManager instance;
     public static GameManager Instance
     {
@@ -67,7 +67,7 @@ public class GameManager : MonoBehaviour
             {
                 instance = FindObjectOfType<GameManager>();
                 if (instance == null)
-                    Debug.LogError("????????? GameManager ?????");
+                    Debug.LogError("No GameManager instance found in the scene.");
             }
             return instance;
         }
@@ -83,13 +83,13 @@ public class GameManager : MonoBehaviour
     public float CatchReturnDelay => catchReturnDelay;
     public int CatchCoolDownUpgradeCount => catchCoolDownUpgradeCount;
 
-    [Header("满级外观（BadCroco）")]
-    [Tooltip("与对应 StatUpgradeButton 的 upgradeSteps 数量对齐")]
+    [Header("Max-level look (BadCroco)")]
+    [Tooltip("Match each StatUpgradeButton upgradeSteps count")]
     public int requiredStealthUpgrades = 10;
     public int requiredCatchSpeedUpgrades = 10;
     public int requiredCatchCoolDownUpgrades = 10;
 
-    /// <summary>三项升级按钮都升满（按升级次数，与按钮满级一致）。</summary>
+    /// <summary>All three upgrade tracks are maxed (by upgrade count, same as button max).</summary>
     public bool IsFullyUpgraded =>
         stealthUpgradeCount >= requiredStealthUpgrades
         && catchSpeedUpgradeCount >= requiredCatchSpeedUpgrades
@@ -103,7 +103,7 @@ public class GameManager : MonoBehaviour
             return;
         }
         instance = this;
-        // ?????????????????? DontDestroyOnLoad????????????????????UI ?????Ч
+        // Intentionally not using DontDestroyOnLoad so scene UI references stay valid.
     }
 
     private void OnDestroy()
@@ -125,7 +125,7 @@ public class GameManager : MonoBehaviour
         UpdateTimerUI();
     }
 
-    // ---------- UI ???·??? ----------
+    // ---------- UI refresh ----------
     public void UpdateAllUI()
     {
         UpdateTimerUI();
@@ -186,14 +186,14 @@ public class GameManager : MonoBehaviour
     }
 
     /// <summary>
-    /// ???????????? costs ??????????????? stealthLevel += RoundToInt(valueIncrease)??
+    /// Stealth upgrade: spend costs, then stealthLevel += RoundToInt(valueIncrease).
     /// </summary>
     public UpgradeResult TryUpgradeStealth(MultiClickCostEntry[] costs, float valueIncrease)
     {
         int add = Mathf.RoundToInt(valueIncrease);
         if (add <= 0)
         {
-            Debug.LogWarning("TryUpgradeStealth: valueIncrease ????? <= 0???????????????");
+            Debug.LogWarning("TryUpgradeStealth: valueIncrease rounds to <= 0, ignoring upgrade.");
             return UpgradeResult.NotEnoughResource;
         }
 
@@ -220,13 +220,13 @@ public class GameManager : MonoBehaviour
     }
 
     /// <summary>
-    /// ?????????????????? catchApproachSpeed???????????????
+    /// Catch-speed upgrade: increase global catchApproachSpeed and sync all crocodiles.
     /// </summary>
     public UpgradeResult TryUpgradeCatchSpeed(MultiClickCostEntry[] costs, float valueIncrease)
     {
         if (valueIncrease <= 0f)
         {
-            Debug.LogWarning("TryUpgradeCatchSpeed: valueIncrease <= 0???????????????");
+            Debug.LogWarning("TryUpgradeCatchSpeed: valueIncrease <= 0, ignoring upgrade.");
             return UpgradeResult.NotEnoughResource;
         }
 
@@ -252,13 +252,13 @@ public class GameManager : MonoBehaviour
     }
 
     /// <summary>
-    /// ?????????????????? catchReturnDelay???????? minCatchReturnDelay?????????????????
+    /// Catch-cooldown upgrade: reduce catchReturnDelay (not below minCatchReturnDelay) and sync crocodiles.
     /// </summary>
     public UpgradeResult TryUpgradeCatchCoolDown(MultiClickCostEntry[] costs, float valueIncrease)
     {
         if (valueIncrease <= 0f)
         {
-            Debug.LogWarning("TryUpgradeCatchCoolDown: valueIncrease <= 0???????????????");
+            Debug.LogWarning("TryUpgradeCatchCoolDown: valueIncrease <= 0, ignoring upgrade.");
             return UpgradeResult.NotEnoughResource;
         }
 
@@ -278,7 +278,7 @@ public class GameManager : MonoBehaviour
         return UpgradeResult.Success;
     }
 
-    /// <summary>?????????????????????</summary>
+    /// <summary>Check if there are enough resources; does not spend.</summary>
     public bool CanAfford(UpgradeCostType costType, float amount)
     {
         if (amount <= 0f) return true;
@@ -296,7 +296,7 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    /// <summary>?? costType ??????????????????? false??</summary>
+    /// <summary>Spend one upgrade cost by type; returns false if not enough.</summary>
     public bool TrySpendUpgradeCost(float cost, UpgradeCostType costType)
     {
         if (!CanAfford(costType, cost)) return false;
@@ -324,7 +324,7 @@ public class GameManager : MonoBehaviour
     }
 
     /// <summary>
-    /// ???????????????????????飬????????????????????????????????κ??????
+    /// Spend multiple costs atomically: check all first, then deduct; fail spends nothing.
     /// </summary>
     public bool TrySpendUpgradeCosts(MultiClickCostEntry[] costs)
     {
@@ -351,7 +351,7 @@ public class GameManager : MonoBehaviour
 
             if (!TrySpendUpgradeCost(entry.amount, entry.costType))
             {
-                Debug.LogError("TrySpendUpgradeCosts: ????????????????????????");
+                Debug.LogError("TrySpendUpgradeCosts: mid-spend failed; resources may be inconsistent.");
                 return false;
             }
         }
@@ -359,7 +359,7 @@ public class GameManager : MonoBehaviour
         return true;
     }
 
-    /// <summary>????? stealthLevel ????????????????</summary>
+    /// <summary>Refresh all crocodiles from the current stealthLevel.</summary>
     public void RefreshAllCrocodileStealth()
     {
         Crocodile[] crocs = FindObjectsOfType<Crocodile>();
@@ -372,7 +372,7 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    /// <summary>??????????/???????????????????</summary>
+    /// <summary>Refresh all crocodiles from global catch speed / return delay.</summary>
     public void RefreshAllCrocodilesCatchStats()
     {
         Crocodile[] crocs = FindObjectsOfType<Crocodile>();

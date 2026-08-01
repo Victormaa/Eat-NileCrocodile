@@ -59,6 +59,9 @@ public class Crocodile : MonoBehaviour
     private Vector3 homeScale;
     private Animator animator;
     private CrocoVisualState currentVisualState;
+    private Collider2D catchCollider;
+    private readonly Collider2D[] overlapHits = new Collider2D[16];
+    private ContactFilter2D catchFilter;
 
     public CrocoVisualState CurrentVisualState => currentVisualState;
     public float StealthValue => stealthValue;
@@ -68,6 +71,9 @@ public class Crocodile : MonoBehaviour
         homePosition = transform.position;
         homeScale = transform.localScale;
         animator = GetComponent<Animator>();
+        catchCollider = GetComponent<Collider2D>();
+        catchFilter.NoFilter();
+        catchFilter.useTriggers = true;
 
         int level = GameManager.Instance != null ? GameManager.Instance.StealthLevel : 0;
         RefreshFromGlobalStealth(level);
@@ -79,6 +85,11 @@ public class Crocodile : MonoBehaviour
                 GameManager.Instance.CatchReturnDelay
             );
         }
+    }
+
+    void FixedUpdate()
+    {
+        TryAcquirePrey();
     }
 
     /// <summary>
@@ -139,25 +150,53 @@ public class Crocodile : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// 刚进入范围：仅处理「速度过快 → 惊吓跳」。抓取改由空间查询负责。
+    /// </summary>
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (isBusy) return;
 
-        WildeBeestBehavior wildebeest = other.GetComponent<WildeBeestBehavior>();
-        if (wildebeest == null)
-        {
-            wildebeest = other.GetComponentInParent<WildeBeestBehavior>();
-        }
-
+        WildeBeestBehavior wildebeest = ResolveWildebeest(other);
         if (wildebeest == null || wildebeest.IsCaught) return;
 
         if (wildebeest.CurrentSpeed > maxCatchableSpeed)
         {
             wildebeest.TryEscapeJumpFromCrocodile();
+        }
+    }
+
+    /// <summary>
+    /// 空闲时用 Overlap 扫抓取 Collider 范围；站在鳄鱼身上且够慢也会被抓。
+    /// </summary>
+    private void TryAcquirePrey()
+    {
+        if (isBusy || catchCollider == null || !catchCollider.enabled)
+            return;
+
+        int count = Physics2D.OverlapCollider(catchCollider, catchFilter, overlapHits);
+        for (int i = 0; i < count; i++)
+        {
+            Collider2D hit = overlapHits[i];
+            if (hit == null || hit == catchCollider) continue;
+
+            WildeBeestBehavior wildebeest = ResolveWildebeest(hit);
+            if (wildebeest == null || wildebeest.IsCaught) continue;
+            if (wildebeest.CurrentSpeed > maxCatchableSpeed) continue;
+
+            BeginCatch(wildebeest);
             return;
         }
+    }
 
-        BeginCatch(wildebeest);
+    private static WildeBeestBehavior ResolveWildebeest(Collider2D other)
+    {
+        if (other == null) return null;
+
+        WildeBeestBehavior wildebeest = other.GetComponent<WildeBeestBehavior>();
+        if (wildebeest == null)
+            wildebeest = other.GetComponentInParent<WildeBeestBehavior>();
+        return wildebeest;
     }
 
     private void BeginCatch(WildeBeestBehavior wildebeest)
