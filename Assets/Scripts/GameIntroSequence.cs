@@ -102,7 +102,7 @@ public class GameIntroSequence : MonoBehaviour
             return;
         }
 
-        if (Input.anyKeyDown)
+        if (Input.GetKeyDown(KeyCode.Space))
         {
             OnStartGame();
         }
